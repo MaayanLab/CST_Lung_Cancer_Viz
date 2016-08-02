@@ -7858,10 +7858,12 @@ var Clustergrammer =
 
 	  var inp_row_data = ini_inp_row_data.row_data;
 
-	  // remove zero values from
-	  var row_values = _.filter(inp_row_data, function (num) {
-	    return num.value != 0;
-	  });
+	  // // remove zero values from
+	  // var row_values = _.filter(inp_row_data, function(num){
+	  //   return num.value !=0;
+	  // });
+
+	  var row_values = inp_row_data;
 
 	  // bind data to tiles
 	  var cur_row_tiles = d3.select(row_selection).selectAll('.tile').data(row_values, function (d) {
@@ -8253,10 +8255,12 @@ var Clustergrammer =
 
 	  var inp_row_data = ini_inp_row_data.row_data;
 
-	  // remove zero values to make visualization faster
-	  var row_data = _.filter(inp_row_data, function (num) {
-	    return num.value !== 0;
-	  });
+	  // // remove zero values to make visualization faster
+	  // var row_data = _.filter(inp_row_data, function(num) {
+	  //   return num.value !== 0;
+	  // });
+
+	  var row_data = inp_row_data;
 
 	  // update tiles
 	  ////////////////////////////////////////////
@@ -8276,10 +8280,24 @@ var Clustergrammer =
 	    mouseout_tile(params, this, tip);
 	  });
 
-	  tile.style('fill-opacity', 0).transition().delay(delays.enter).duration(duration).style('fill-opacity', function (d) {
+	  tile.style('fill-opacity', 0).transition().delay(delays.enter).duration(duration)
+	  // .style('fill-opacity', function(d) {
+	  //   // calculate output opacity using the opacity scale
+	  //   var output_opacity = params.matrix.opacity_scale(Math.abs(d.value));
+	  //   return output_opacity;
+	  // });
+	  .style('fill-opacity', function (d) {
 	    // calculate output opacity using the opacity scale
-	    var output_opacity = params.matrix.opacity_scale(Math.abs(d.value));
-	    return output_opacity;
+
+	    var inst_opacity;
+	    if (d.value_orig === 'NaN') {
+	      console.log('found NaN while making tiles');
+	      inst_opacity = 0.25;
+	    } else {
+	      inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
+	    }
+
+	    return inst_opacity;
 	  });
 
 	  tile.attr('transform', function (d) {
