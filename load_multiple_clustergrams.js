@@ -138,6 +138,8 @@ function load_viz_data(inst_name){
 
   function unblock(){
     $.unblockUI();
+    d3.selectAll('.row_label_group text').style('font-family','"Courier new"')
+    d3.selectAll('.col_label_text').style('font-family','"Courier new"')
   }
 
   function resize_container(){
