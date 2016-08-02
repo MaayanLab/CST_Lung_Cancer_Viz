@@ -2833,7 +2833,7 @@ var Clustergrammer =
 	    var inst_opacity;
 	    if (d.value_orig === 'NaN') {
 	      console.log('found NaN while making tiles');
-	      inst_opacity = 0.5;
+	      inst_opacity = 0.25;
 	    } else {
 	      inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
 	    }
@@ -8519,10 +8519,24 @@ var Clustergrammer =
 
 	      params.matrix.opacity_scale.domain([0, scaled_max]);
 
-	      d3.selectAll(params.root + ' .tile').style('fill-opacity', function (d) {
+	      d3.selectAll(params.root + ' .tile')
+	      // .style('fill-opacity', function(d) {
+	      //   // calculate output opacity using the opacity scale
+	      //   var output_opacity = params.matrix.opacity_scale(Math.abs(d.value));
+	      //   return output_opacity;
+	      // });
+	      .style('fill-opacity', function (d) {
 	        // calculate output opacity using the opacity scale
-	        var output_opacity = params.matrix.opacity_scale(Math.abs(d.value));
-	        return output_opacity;
+
+	        var inst_opacity;
+	        if (d.value_orig === 'NaN') {
+	          console.log('found NaN while making tiles');
+	          inst_opacity = 0.25;
+	        } else {
+	          inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
+	        }
+
+	        return inst_opacity;
 	      });
 	    }
 	  });

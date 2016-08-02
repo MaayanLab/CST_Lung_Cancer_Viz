@@ -1,6 +1,7 @@
 def viz_json(net, dendro=True):
   ''' make the dictionary for the clustergram.js visualization '''
   import calc_clust
+  import numpy as np
 
   all_dist = calc_clust.group_cutoffs()
 
@@ -70,6 +71,15 @@ def viz_json(net, dendro=True):
 
       if 'mat_orig' in net.dat:
         inst_dict['value_orig'] = net.dat['mat_orig'][i, j]
+
+        # print(inst_dict['value_orig'])
+        # print(np.isnan(inst_dict['value_orig']))
+        # print('\n')
+
+        if np.isnan(inst_dict['value_orig']):
+          print('found NaN')
+          inst_dict['value_orig'] = 'NaN'
+
 
       if 'mat_info' in net.dat:
         inst_dict['info'] = net.dat['mat_info'][str((i, j))]
