@@ -6,10 +6,10 @@ net = Network()
 
 # choose tsv file
 ####################
+inst_name = 'Tyrosine'
 # net.load_file('txt/phos_ratios_all_treat_no_geld_ST.txt')
 net.load_file('txt/phos_ratios_all_treat_no_geld_Tyrosine.txt')
 
-inst_name = 'Tyrosine'
 
 net.swap_nan_for_zero()
 
