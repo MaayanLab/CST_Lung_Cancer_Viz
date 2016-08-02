@@ -52,11 +52,11 @@ var Clustergrammer =
 	var make_viz = __webpack_require__(48);
 	var resize_viz = __webpack_require__(86);
 	var play_demo = __webpack_require__(111);
-	var ini_demo = __webpack_require__(149);
+	var ini_demo = __webpack_require__(150);
 	var update_viz_with_view = __webpack_require__(123);
-	var filter_viz_using_nodes = __webpack_require__(152);
-	var filter_viz_using_names = __webpack_require__(153);
-	var update_cats = __webpack_require__(154);
+	var filter_viz_using_nodes = __webpack_require__(153);
+	var filter_viz_using_names = __webpack_require__(154);
+	var update_cats = __webpack_require__(155);
 
 	/* clustergrammer 1.0
 	 * Nick Fernandez, Ma'ayan Lab, Icahn School of Medicine at Mount Sinai
@@ -81,7 +81,7 @@ var Clustergrammer =
 	  cgm.config = config;
 
 	  if (cgm.params.use_sidebar) {
-	    var make_sidebar = __webpack_require__(155);
+	    var make_sidebar = __webpack_require__(156);
 	    make_sidebar(cgm);
 	  }
 
@@ -1664,7 +1664,7 @@ var Clustergrammer =
 	  var matrix = [];
 	  var ini_object;
 
-	  var keep_orig;
+	  var keep_orig = false;
 	  if (utils.has(network_data.links[0], 'value_orig')) {
 	    keep_orig = true;
 	  } else {
@@ -2593,7 +2593,9 @@ var Clustergrammer =
 	    var tooltip_string;
 
 	    if (params.keep_orig) {
-	      var orig_value = String(d.value_orig.toFixed(3));
+	      // var orig_value = String(d.value_orig.toFixed(3));
+	      var orig_value = String(d.value_orig);
+	      console.log(d);
 	      tooltip_string = '<p>' + d.row_name + ' and ' + d.col_name + '</p>' + '<p> normalized value: ' + inst_value + '</p>' + '<div> original value: ' + orig_value + '</div>';
 	    } else {
 	      tooltip_string = '<p>' + d.row_name + ' and ' + d.col_name + '</p>' + '<div> value: ' + inst_value + '</div>';
@@ -2794,9 +2796,12 @@ var Clustergrammer =
 	  var inp_row_data = ini_inp_row_data.row_data;
 
 	  // value: remove zero values to make visualization faster
-	  var row_values = _.filter(inp_row_data, function (num) {
-	    return num.value !== 0;
-	  });
+	  // var row_values = _.filter(inp_row_data, function(num) {
+	  //   return num.value !== 0;
+	  // });
+
+	  // tmp display values with zero value
+	  var row_values = inp_row_data;
 
 	  // generate tiles in the current row
 	  var tile = d3.select(row_selection).selectAll('rect').data(row_values, function (d) {
@@ -2804,7 +2809,16 @@ var Clustergrammer =
 	  }).enter().append('rect').attr('class', 'tile row_tile').attr('width', params.viz.rect_width).attr('height', params.viz.rect_height)
 	  // switch the color based on up/dn value
 	  .style('fill', function (d) {
-	    return d.value > 0 ? params.matrix.tile_colors[0] : params.matrix.tile_colors[1];
+
+	    var inst_fill;
+	    if (d.value_orig === 'NaN') {
+	      console.log('found NaN while making tiles');
+	      inst_fill = '#000000';
+	    } else {
+	      inst_fill = d.value > 0 ? params.matrix.tile_colors[0] : params.matrix.tile_colors[1];
+	    }
+
+	    return inst_fill;
 	  }).on('mouseover', function () {
 	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	      args[_key] = arguments[_key];
@@ -2815,8 +2829,16 @@ var Clustergrammer =
 	    mouseout_tile(params, this, tip);
 	  }).style('fill-opacity', function (d) {
 	    // calculate output opacity using the opacity scale
-	    var output_opacity = params.matrix.opacity_scale(Math.abs(d.value));
-	    return output_opacity;
+
+	    var inst_opacity;
+	    if (d.value_orig === 'NaN') {
+	      console.log('found NaN while making tiles');
+	      inst_opacity = 0.5;
+	    } else {
+	      inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
+	    }
+
+	    return inst_opacity;
 	  }).attr('transform', function (d) {
 	    var x_pos = params.viz.x_scale(d.pos_x) + 0.5 * params.viz.border_width;
 	    var y_pos = 0.5 * params.viz.border_width / params.viz.zoom_switch;
@@ -3459,7 +3481,7 @@ var Clustergrammer =
 	    }
 	    // }
 	  });
-	
+
 	  make_row_tooltips(params);
 
 	  // append rectangle behind text
@@ -6853,12 +6875,12 @@ var Clustergrammer =
 	var play_reorder_buttons = __webpack_require__(119);
 	var play_search = __webpack_require__(121);
 	var play_filter = __webpack_require__(122);
-	var quick_cluster = __webpack_require__(143);
-	var play_groups = __webpack_require__(144);
-	var play_categories = __webpack_require__(145);
-	var play_conclusion = __webpack_require__(146);
-	var toggle_play_button = __webpack_require__(147);
-	var play_menu_button = __webpack_require__(148);
+	var quick_cluster = __webpack_require__(144);
+	var play_groups = __webpack_require__(145);
+	var play_categories = __webpack_require__(146);
+	var play_conclusion = __webpack_require__(147);
+	var toggle_play_button = __webpack_require__(148);
+	var play_menu_button = __webpack_require__(149);
 
 	module.exports = function play_demo() {
 
@@ -7379,7 +7401,7 @@ var Clustergrammer =
 	var ini_doubleclick = __webpack_require__(87);
 	var update_reorder_buttons = __webpack_require__(142);
 	var make_row_cat_super_labels = __webpack_require__(81);
-	var modify_row_node_cats = __webpack_require__(173);
+	var modify_row_node_cats = __webpack_require__(143);
 
 	module.exports = function update_viz_with_network(cgm, new_network_data) {
 
@@ -8596,6 +8618,67 @@ var Clustergrammer =
 
 /***/ },
 /* 143 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function modify_row_node_cats(cat_data, inst_nodes) {
+	  var cat_type_num = 0;
+	  var inst_index = 0;
+	  var inst_cat_title;
+	  var inst_cats;
+	  var inst_members;
+	  var inst_name;
+	  var inst_category;
+	  var inst_cat_name;
+	  var inst_full_cat;
+	  var inst_cat_num;
+
+	  // loop through row nodes
+	  //////////////////////////
+	  _.each(inst_nodes, function (inst_node) {
+
+	    inst_name = inst_node.name;
+	    cat_type_num = 0;
+
+	    _.each(cat_data, function (inst_cat_data) {
+
+	      inst_cat_title = inst_cat_data.cat_title;
+	      inst_cats = inst_cat_data.cats;
+
+	      // initialize with no category
+	      inst_category = 'false';
+	      inst_index = -1;
+
+	      inst_cat_num = 0;
+	      // loop through each category in the category-type
+	      _.each(inst_cats, function (inst_cat) {
+
+	        inst_cat_name = inst_cat.cat_name;
+	        inst_members = inst_cat.members;
+
+	        // add category if node is a member
+	        if (_.contains(inst_members, inst_name)) {
+
+	          inst_category = inst_cat_name;
+	          inst_index = inst_cat_num;
+	        }
+
+	        inst_cat_num = inst_cat_num + 1;
+	      });
+
+	      inst_full_cat = inst_cat_title + ': ' + inst_category;
+
+	      inst_node['cat-' + String(cat_type_num)] = inst_full_cat;
+	      inst_node['cat_' + String(cat_type_num) + '_index'] = inst_index;
+
+	      cat_type_num = cat_type_num + 1;
+	    });
+	  });
+		};
+
+/***/ },
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8655,7 +8738,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 144 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8698,7 +8781,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 145 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8752,13 +8835,13 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 146 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var demo_text = __webpack_require__(114);
-	var toggle_play_button = __webpack_require__(147);
+	var toggle_play_button = __webpack_require__(148);
 
 	module.exports = function play_conclusion() {
 
@@ -8793,7 +8876,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 147 */
+/* 148 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -8810,7 +8893,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 148 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8891,13 +8974,13 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 149 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var make_play_button = __webpack_require__(150);
-	var make_demo_text_containers = __webpack_require__(151);
+	var make_play_button = __webpack_require__(151);
+	var make_demo_text_containers = __webpack_require__(152);
 
 	module.exports = function ini_demo() {
 
@@ -8911,7 +8994,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 150 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8955,7 +9038,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 151 */
+/* 152 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -8996,7 +9079,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 152 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9011,7 +9094,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 153 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9066,7 +9149,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 154 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9074,7 +9157,7 @@ var Clustergrammer =
 	var make_row_cat = __webpack_require__(108);
 	var calc_viz_params = __webpack_require__(15);
 	var resize_viz = __webpack_require__(86);
-	var modify_row_node_cats = __webpack_require__(173);
+	var modify_row_node_cats = __webpack_require__(143);
 
 	module.exports = function update_cats(cgm, cat_data) {
 
@@ -9091,20 +9174,20 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 155 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var ini_sidebar = __webpack_require__(139);
-	var set_up_filters = __webpack_require__(156);
-	var set_up_dendro_sliders = __webpack_require__(163);
-	var set_up_search = __webpack_require__(164);
-	var set_up_reorder = __webpack_require__(165);
-	var set_sidebar_ini_view = __webpack_require__(166);
-	var make_icons = __webpack_require__(167);
-	var make_modals = __webpack_require__(170);
-	var set_up_opacity_slider = __webpack_require__(172);
+	var set_up_filters = __webpack_require__(157);
+	var set_up_dendro_sliders = __webpack_require__(164);
+	var set_up_search = __webpack_require__(165);
+	var set_up_reorder = __webpack_require__(166);
+	var set_sidebar_ini_view = __webpack_require__(167);
+	var make_icons = __webpack_require__(168);
+	var make_modals = __webpack_require__(171);
+	var set_up_opacity_slider = __webpack_require__(173);
 
 	/* Represents sidebar with controls.
 	 */
@@ -9177,13 +9260,13 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 156 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var make_slider_filter = __webpack_require__(157);
-	var make_button_filter = __webpack_require__(162);
+	var make_slider_filter = __webpack_require__(158);
+	var make_button_filter = __webpack_require__(163);
 
 	module.exports = function set_up_filters(cgm, filter_type) {
 
@@ -9199,13 +9282,13 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 157 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var make_filter_title = __webpack_require__(158);
-	var run_filter_slider = __webpack_require__(159);
+	var make_filter_title = __webpack_require__(159);
+	var run_filter_slider = __webpack_require__(160);
 	var get_filter_default_state = __webpack_require__(5);
 	var get_subset_views = __webpack_require__(12);
 
@@ -9253,7 +9336,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 158 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9313,14 +9396,14 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 159 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var update_viz_with_view = __webpack_require__(123);
-	var reset_other_filter_sliders = __webpack_require__(160);
-	var get_current_orders = __webpack_require__(161);
+	var reset_other_filter_sliders = __webpack_require__(161);
+	var get_current_orders = __webpack_require__(162);
 	var make_requested_view = __webpack_require__(14);
 
 	module.exports = function run_filter_slider(cgm, filter_type, available_views) {
@@ -9350,12 +9433,12 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 160 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var make_filter_title = __webpack_require__(158);
+	var make_filter_title = __webpack_require__(159);
 
 	module.exports = function reset_other_filter_sliders(params, filter_type, inst_state) {
 
@@ -9402,7 +9485,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9433,7 +9516,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9491,7 +9574,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9521,7 +9604,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9538,7 +9621,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9648,12 +9731,12 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var make_filter_title = __webpack_require__(158);
+	var make_filter_title = __webpack_require__(159);
 
 	module.exports = function set_sidebar_ini_view(params) {
 
@@ -9694,13 +9777,13 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var save_svg_png = __webpack_require__(168);
-	var file_saver = __webpack_require__(169);
+	var save_svg_png = __webpack_require__(169);
+	var file_saver = __webpack_require__(170);
 
 	module.exports = function make_icons(params, sidebar) {
 
@@ -9757,7 +9840,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -9963,7 +10046,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 169 */
+/* 170 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9973,7 +10056,7 @@ var Clustergrammer =
 	  /* FileSaver.js
 	   * A saveAs() FileSaver implementation.
 	   * 2013-01-23
-	   * 
+	   *
 	   * By Eli Grey, http://eligrey.com
 	   * License: X11/MIT
 	   *   See LICENSE.md
@@ -10180,12 +10263,12 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 170 */
+/* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var make_modal_skeleton = __webpack_require__(171);
+	var make_modal_skeleton = __webpack_require__(172);
 
 	module.exports = function ini_modals(params) {
 
@@ -10218,7 +10301,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 171 */
+/* 172 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -10243,7 +10326,7 @@ var Clustergrammer =
 		};
 
 /***/ },
-/* 172 */
+/* 173 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -10258,67 +10341,6 @@ var Clustergrammer =
 
 	  $(params.root + ' .opacity_slider').slider({
 	    value: 1.0
-	  });
-		};
-
-/***/ },
-/* 173 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = function modify_row_node_cats(cat_data, inst_nodes) {
-	  var cat_type_num = 0;
-	  var inst_index = 0;
-	  var inst_cat_title;
-	  var inst_cats;
-	  var inst_members;
-	  var inst_name;
-	  var inst_category;
-	  var inst_cat_name;
-	  var inst_full_cat;
-	  var inst_cat_num;
-
-	  // loop through row nodes
-	  //////////////////////////
-	  _.each(inst_nodes, function (inst_node) {
-
-	    inst_name = inst_node.name;
-	    cat_type_num = 0;
-
-	    _.each(cat_data, function (inst_cat_data) {
-
-	      inst_cat_title = inst_cat_data.cat_title;
-	      inst_cats = inst_cat_data.cats;
-
-	      // initialize with no category
-	      inst_category = 'false';
-	      inst_index = -1;
-
-	      inst_cat_num = 0;
-	      // loop through each category in the category-type
-	      _.each(inst_cats, function (inst_cat) {
-
-	        inst_cat_name = inst_cat.cat_name;
-	        inst_members = inst_cat.members;
-
-	        // add category if node is a member
-	        if (_.contains(inst_members, inst_name)) {
-
-	          inst_category = inst_cat_name;
-	          inst_index = inst_cat_num;
-	        }
-
-	        inst_cat_num = inst_cat_num + 1;
-	      });
-
-	      inst_full_cat = inst_cat_title + ': ' + inst_category;
-
-	      inst_node['cat-' + String(cat_type_num)] = inst_full_cat;
-	      inst_node['cat_' + String(cat_type_num) + '_index'] = inst_index;
-
-	      cat_type_num = cat_type_num + 1;
-	    });
 	  });
 		};
 

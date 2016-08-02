@@ -57,23 +57,24 @@ def viz_json(net, dendro=True):
 
   for i in range(len(net.dat['nodes']['row'])):
     for j in range(len(net.dat['nodes']['col'])):
-      if abs(net.dat['mat'][i, j]) > 0:
-        inst_dict = {}
-        inst_dict['source'] = i
-        inst_dict['target'] = j
-        inst_dict['value'] = net.dat['mat'][i, j]
 
-        if 'mat_up' in net.dat:
-          inst_dict['value_up'] = net.dat['mat_up'][i, j]
-          inst_dict['value_dn'] = net.dat['mat_dn'][i, j]
+      # if abs(net.dat['mat'][i, j]) > 0:
+      inst_dict = {}
+      inst_dict['source'] = i
+      inst_dict['target'] = j
+      inst_dict['value'] = net.dat['mat'][i, j]
 
-        if 'mat_orig' in net.dat:
-          inst_dict['value_orig'] = net.dat['mat_orig'][i, j]
+      if 'mat_up' in net.dat:
+        inst_dict['value_up'] = net.dat['mat_up'][i, j]
+        inst_dict['value_dn'] = net.dat['mat_dn'][i, j]
 
-        if 'mat_info' in net.dat:
-          inst_dict['info'] = net.dat['mat_info'][str((i, j))]
+      if 'mat_orig' in net.dat:
+        inst_dict['value_orig'] = net.dat['mat_orig'][i, j]
 
-        if 'mat_hl' in net.dat:
-          inst_dict['highlight'] = net.dat['mat_hl'][i, j]
+      if 'mat_info' in net.dat:
+        inst_dict['info'] = net.dat['mat_info'][str((i, j))]
 
-        net.viz['links'].append(inst_dict)
+      if 'mat_hl' in net.dat:
+        inst_dict['highlight'] = net.dat['mat_hl'][i, j]
+
+      net.viz['links'].append(inst_dict)

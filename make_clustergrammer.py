@@ -13,6 +13,10 @@ net.load_file('txt/phos_ratios_all_treat_no_geld_Tyrosine.txt')
 
 net.swap_nan_for_zero()
 
+# net.normalize(axis='row', norm_type='zscore', keep_orig=True)
+
+print(net.dat.keys())
+
 views = ['N_row_sum', 'N_row_var']
 
 net.make_clust(dist_type='cos',views=views , dendro=True,
