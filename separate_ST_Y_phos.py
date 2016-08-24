@@ -34,12 +34,11 @@ def separate_ST_Y():
 
       split_line = inst_line.strip().split('\t')
 
-      inst_ptm = split_line[0].split('_')
+      inst_ptm = split_line[0].split('_')[1]
 
-      # print(len(inst_ptm))
+      print(inst_ptm)
 
-      if len(inst_ptm) < 2:
-        print(inst_ptm)
+
 
       # print(split_line[0])
       # print(inst_ptm)
