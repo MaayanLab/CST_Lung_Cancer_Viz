@@ -14,6 +14,9 @@ def make_tuple_version_of_lung_CL_phos():
   net.write_matrix_to_tsv ('txt/lung_CL_phos_ratios.tsv')
 
 def separate_ST_Y():
+  '''
+  make two new files with only ST or Y phosphorylations
+  '''
   # open lung cell line ratio phos
   f = open('txt/lung_CL_phos_ratios.tsv')
   lines = f.readlines()
@@ -36,13 +39,13 @@ def separate_ST_Y():
 
       inst_ptm = split_line[0].split('_')[1]
 
-      print(inst_ptm)
+      inst_AA = inst_ptm[0]
 
+      if inst_AA == 'S' or inst_AA == 'T':
+        fw_st.write(inst_line)
 
-
-      # print(split_line[0])
-      # print(inst_ptm)
-
+      if inst_AA == 'Y':
+        fw_y.write(inst_line)
 
   fw_st.close()
   fw_y.close()
