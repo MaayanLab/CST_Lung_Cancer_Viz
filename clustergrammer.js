@@ -4466,7 +4466,7 @@ var Clustergrammer =
 
 	module.exports = function make_tooltips(params) {
 
-	  d3.selectAll('.row_tip').remove();
+	  d3.selectAll(params.root + ' .row_tip').remove();
 	  if (params.labels.show_label_tooltips) {
 
 	    // d3-tooltip
