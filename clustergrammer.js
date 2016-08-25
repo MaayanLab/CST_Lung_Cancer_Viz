@@ -2811,8 +2811,10 @@ var Clustergrammer =
 	  .style('fill', function (d) {
 
 	    var inst_fill;
+	    console.log(d.value_orig)
+
 	    if (d.value_orig === 'NaN') {
-	      // console.log('found NaN while making tiles');
+	      console.log('found NaN while making tiles');
 	      inst_fill = '#000000';
 	    } else {
 	      inst_fill = d.value > 0 ? params.matrix.tile_colors[0] : params.matrix.tile_colors[1];
