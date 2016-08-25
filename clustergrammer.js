@@ -5133,12 +5133,16 @@ var Clustergrammer =
 
 	module.exports = function make_row_cat_super_labels(cgm) {
 
+		console.log('making super labels')
+
+		// debugger
+
 	  var params = cgm.params;
 
 	  var viz = params.viz;
 	  var extra_x_room = 2.75;
 
-	  if (d3.select('.row_cat_label_container').empty()) {
+	  if (d3.select(params.root+' .row_cat_label_container').empty()) {
 	    d3.select(cgm.params.viz.viz_svg).append('g').classed('row_cat_label_container', true);
 	  }
 
@@ -8740,7 +8744,10 @@ var Clustergrammer =
 	  //////////////////////////
 	  _.each(inst_nodes, function (inst_node) {
 
-	    inst_name = inst_node.name;
+
+	  	// console.log('fixing Enrichr for psites')
+	    inst_name = inst_node.name.split(' ')[0];
+	  	// console.log(inst_name)
 	    cat_type_num = 0;
 
 	    remove_node_cats(inst_node);
