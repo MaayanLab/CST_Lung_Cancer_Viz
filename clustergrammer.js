@@ -2812,7 +2812,7 @@ var Clustergrammer =
 
 	    var inst_fill;
 	    if (d.value_orig === 'NaN') {
-	      console.log('found NaN while making tiles');
+	      // console.log('found NaN while making tiles');
 	      inst_fill = '#000000';
 	    } else {
 	      inst_fill = d.value > 0 ? params.matrix.tile_colors[0] : params.matrix.tile_colors[1];
@@ -2832,8 +2832,8 @@ var Clustergrammer =
 
 	    var inst_opacity;
 	    if (d.value_orig === 'NaN') {
-	      console.log('found NaN while making tiles');
-	      inst_opacity = 0.25;
+	      // console.log('found NaN while making tiles');
+	      inst_opacity = 0.175;
 	    } else {
 	      inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
 	    }
@@ -8291,7 +8291,7 @@ var Clustergrammer =
 
 	    var inst_opacity;
 	    if (d.value_orig === 'NaN') {
-	      console.log('found NaN while making tiles');
+	      // console.log('found NaN while making tiles');
 	      inst_opacity = 0.25;
 	    } else {
 	      inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
@@ -8548,7 +8548,7 @@ var Clustergrammer =
 
 	        var inst_opacity;
 	        if (d.value_orig === 'NaN') {
-	          console.log('found NaN while making tiles');
+	          // console.log('found NaN while making tiles');
 	          inst_opacity = 0.25;
 	        } else {
 	          inst_opacity = params.matrix.opacity_scale(Math.abs(d.value));
