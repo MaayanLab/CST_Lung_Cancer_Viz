@@ -8,22 +8,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <!-- <base href='/clustergrammer/'> -->
 
-    <title>Clustergrammer.js</title>
+    <title>Clustergrammer</title>
 
-    <link rel="shortcut icon" href="img/graham_cracker.ico"  type="image/x-icon">
+    <link rel="shortcut icon" href="static/icons/graham_cracker.ico"  type="image/x-icon">
 
-    <link href="lib/css/bootstrap.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <link href="lib/css/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/css/jquery-ui.css">
     <link rel="stylesheet" href="lib/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/custom_multiple_clust.css">
+
+    <style>
+      #input_form {display: none}
+    </style>
 
 </head>
 
 <body>
 
-  <div id='container-id-1'>
-      <h1 class='wait_message'>Please wait ...</h1>
+  <div id="wrap" class='toggled container'>
+
+    <div class='row page_title' id='clustergram_title'>
+      CST Lung Cancer Post-translational Modification Analysis
+    </div>
+
+    <div class='viz_description' id='clustergram_desc'>
+      <p>Lung cancer is a complex disease that is known to be regulated at the level of post-translational modification, e.g. phosphorylation by driver kinases. Researchers at Cell Signaling Technology used SILAC mass spectrometry to measuure phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines comapred to non-cancerous tissue. Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia. </p>
+    </div>
+
+    <div class='viz_description' id='clustergram_desc'>
+      <p>Below we use the web-based visualization tool, Clustergrammer, to overview this data. The lung cancer cell lines are shown as columns and prior knowledge, e.g. histological categorization, is shown as categories. Post-translational-modifications (PTMs) and expressed genes are shown as rows. </p>
+    </div>
+
+    <div class='row viz_title' id='clustergram_title'>
+      Lung Cancer Phosphorylation
+    </div>
+
+    <div class="row" >
+      <div id='container-id-1' class='clustergrammer_container'>
+          <div class='wait_message'>Please wait ...</div>
+      </div>
+    </div>
+
+    <div class='viz_description' id='clustergram_desc'>
+      <p>Above is a clustergram/heatmap visualization of your input matrix. The rows and columns have been hierarchically clustered, using the Scipy library in Python, using cosine distance and average linkage. Red/blue cells in the matrix represent positive/negative values in your matrix. The visualization interactive (zoomable, reorderable, filterable) and shareable - the current URL is permanent and shareable.</p>
+    </div>
+
+
+    <div class='row viz_title' id='col_sim_title'>
+      Lung Cancer Gene Expression
+    </div>
+
+    <div class="row" >
+      <div id='container-id-2' class='clustergrammer_container sim_mat_container'>
+          <div class='wait_message'>Please wait ...</div>
+      </div>
+    </div>
+
+    <div class='viz_description' id='col_sim_desc'>
+      <p>Above is a similarity matrix of the columns in your input matrix. The cells in the matrix represent the similarity between columns, where red/blue represent positive/negative similarity (measured as 1 - cosine-distance). Similarity matrices offer a more detailed view of the similarities and differences between rows/columms, e.g. blue cells indicate data points that behave 'oppositely' and this can not be easily seen in a clustergram/heatmap view.</p>
+    </div>
+
+
+
+    <div class='row viz_title' id='row_sim_title'>
+      Row Similarity Matrix
+    </div>
+
+    <div class="row" >
+      <div id='container-id-3' class='clustergrammer_container sim_mat_container'>
+          <div class='wait_message'>Please wait ...</div>
+      </div>
+    </div>
+
+    <div class='viz_description' id='row_sim_desc'>
+      <p>Above is a similarity matrix of the rows in your input matrix. The cells in the matrix represent the similarity between rows, where red/blue represent positive/negative similarity (measured as 1 - cosine-distance). </p>
+    </div>
+
+
+  </div>
+
+  <div id='footer'>
+    <div class="row" >
+      <div id='footer_text_container' class="col-xs-12 footer_section">
+        <div class="text-muted footer_text">Clustergrammer is being developed by the <a class='blue_links' target="_blank"  href="http://icahn.mssm.edu/research/labs/maayan-laboratory">Ma'ayan Lab</a> at the <a class='blue_links' target="_blank"   href="http://icahn.mssm.edu/">Icahn School of Medicine at Mount Sinai</a>  for the <a target="_blank" href="http://lincs-dcic.org/">BD2K-LINCS DCIC</a> and the <a target="_blank" href="http://commonfund.nih.gov/idg/overview">KMC-IDG</a>  </div>
+        <!-- DCIC, BD2K, KMC, and GitHub -->
+        <div class="text-muted footer_text">
+        and is an open source project available on GitHub: <a class='blue_links' target="_blank"  href="https://github.com/MaayanLab/clustergrammer">Clustergrammer</a> and <a class='blue_links' target="_blank"  href="https://github.com/cornhundred/clustergrammer.js">Clustergrammer.js</a>
+
+        </div>
+
+      </div>
+    </div>
   </div>
 
 
@@ -31,16 +109,19 @@
   <script src="lib/js/d3.js"></script>
   <script src="lib/js/jquery-1.11.2.min.js"></script>
   <script src="lib/js/jquery-ui.js"></script>
-  <script src="lib/js/underscore-min.js"></script>
   <script src="lib/js/bootstrap.min.js"></script>
+  <script src="lib/js/underscore-min.js"></script>
   <script src="lib/js/blockUI.js"></script>
 
   <!-- Clustergrammer JS -->
   <script src='clustergrammer.js'></script>
-  <!-- <script src='Enrichr_functions.js'></script> -->
-  <!-- <script src='gene_info.js'></script> -->
-  <script src='load_clustergram.js'></script>
+  <script src='load_multiple_clustergrams.js'></script>
+
+  <script type="text/javascript">
+
+    load_viz_data('lung_CL_phos_ratios_ST');
+
+  </script>
 
 </body>
 
-</html>
