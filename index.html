@@ -35,11 +35,11 @@
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
-      <p>Lung cancer is a complex disease that is known to be regulated at the level of post-translational modification, e.g. phosphorylation by driver kinases. Researchers at Cell Signaling Technology used SILAC mass spectrometry to measuure phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines comapred to non-cancerous tissue. Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia. </p>
+      <p>Lung cancer is a complex disease that is known to be regulated at the level of post-translational modification, e.g. phosphorylation by driver kinases. Researchers at Cell Signaling Technology used SILAC mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous tissue. Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia. </p>
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
-      <p>Below we use the web-based visualization tool, Clustergrammer, to overview this data. The lung cancer cell lines are shown as columns and prior knowledge, e.g. histological categorization, is shown as categories. Post-translational-modifications (PTMs) and expressed genes are shown as rows. </p>
+      <p>Below we use the web-based visualization tool, Clustergrammer, to overview this data. The lung cancer cell lines are shown as columns and prior knowledge, e.g. histological categorization, is shown as categories. Post-translational-modifications (PTMs) and expressed genes are shown as rows. The visualizations can be interatively explored and enrichment analysis can be performed using Enrichr.</p>
     </div>
 
     <div class='row viz_title' id='clustergram_title'>
@@ -53,7 +53,13 @@
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
-      <p>Above is a clustergram/heatmap visualization of your input matrix. The rows and columns have been hierarchically clustered, using the Scipy library in Python, using cosine distance and average linkage. Red/blue cells in the matrix represent positive/negative values in your matrix. The visualization interactive (zoomable, reorderable, filterable) and shareable - the current URL is permanent and shareable.</p>
+      <p> This is a clustergram visualization of differential phosphorylation from 42 lung cancer cell lines. The cell lines and phosphorylations have been hierarchically clustered using the Scipy library in Python, using cosine distance and average linkage. The data has been quantile normalized across the cell lines (to make cell-line distributions similar) and zscored across the rows to improve facilitate comparison of differential phosphorylation across the cell lines.
+      </p>
+    </div>
+
+    <div class='viz_description' id='clustergram_desc'>
+      <p>Cell lines have been assigned categories based on their histology and their grouping based on gene-expression data. Note that cell lines display similar clustering based on phosphorylation and gene-expression data.
+      </p>
     </div>
 
 
