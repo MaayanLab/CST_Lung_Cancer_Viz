@@ -14,7 +14,6 @@ class Network(object):
 
   def __init__(self):
     import initialize_net
-    print('************* custom version of clustergrammer.py ')
     initialize_net.main(self)
 
   def load_file(self, filename):
