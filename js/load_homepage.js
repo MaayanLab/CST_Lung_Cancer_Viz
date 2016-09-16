@@ -7,7 +7,7 @@ function load_viz_data(inst_name){
 
   resize_container();
 
-  function make_clust(make_sim_mats){
+  function make_clust(){
 
 
     var clust_name = 'homepage_phos.json'
@@ -18,15 +18,12 @@ function load_viz_data(inst_name){
       args.network_data = network_data;
       args.row_tip_callback = gene_info
 
-      cgm['clust'] = Clustergrammer(args);
-      d3.select(cgm['clust'].params.root+' .wait_message').remove();
-      cat_colors = cgm['clust'].params.viz.cat_colors;
+      cgm['phos'] = Clustergrammer(args);
+      d3.select(cgm['phos'].params.root+' .wait_message').remove();
+      cat_colors = cgm['phos'].params.viz.cat_colors;
 
       // enr_obj = Enrichr_request(cgm.clust);
       // enr_obj.enrichr_icon();
-
-      // make_sim_mats('col', cat_colors, unblock);
-      // make_sim_mats('row', cat_colors, unblock);
 
       $.unblockUI();
 
@@ -40,15 +37,12 @@ function load_viz_data(inst_name){
       args.network_data = network_data;
       args.row_tip_callback = gene_info
 
-      cgm['clust'] = Clustergrammer(args);
-      d3.select(cgm['clust'].params.root+' .wait_message').remove();
-      cat_colors = cgm['clust'].params.viz.cat_colors;
+      cgm['exp'] = Clustergrammer(args);
+      d3.select(cgm['exp'].params.root+' .wait_message').remove();
+      cat_colors = cgm['exp'].params.viz.cat_colors;
 
       // enr_obj = Enrichr_request(cgm.clust);
       // enr_obj.enrichr_icon();
-
-      // make_sim_mats('col', cat_colors, unblock);
-      // make_sim_mats('row', cat_colors, unblock);
 
       $.unblockUI();
 
@@ -83,7 +77,7 @@ function load_viz_data(inst_name){
       $(this).scrollTop(0);
   });
 
-  make_clust(make_sim_mats)
+  make_clust()
 
   d3.select(window).on('resize',function(){
     resize_container();
@@ -101,20 +95,6 @@ function load_viz_data(inst_name){
     var hide_clust = 900;
     var hide_col_sim = 1800;
     var inst_scroll = $(document).scrollTop();
-
-    // // load col sim mat
-    // if (inst_scroll > show_col_sim){
-    //   if (d3.select('#container-id-2 .viz_svg').empty()){
-    //     make_sim_mats('col', cat_colors)
-    //   }
-    // }
-
-    // // load row sim mat
-    // if (inst_scroll > show_row_sim){
-    //   if (d3.select('#container-id-3 .viz_svg').empty()){
-    //     make_sim_mats('row', cat_colors)
-    //   }
-    // }
 
     // hide clust
     if (inst_scroll > hide_clust){
@@ -137,34 +117,6 @@ function load_viz_data(inst_name){
   }
 
 
-
-
-  function make_sim_mats(inst_rc, cat_colors, unblock){
-
-    clust_name = inst_name+'_sim_'+inst_rc+'.json';
-    d3.json('json/'+clust_name, function(network_data){
-
-      var args = $.extend(true, {}, default_args);
-      args.cat_colors = {};
-      if (inst_rc === 'col'){
-        tmp_num = 2;
-        args.cat_colors.row = cat_colors.col;
-        args.cat_colors.col = cat_colors.col;
-      } else if (inst_rc === 'row'){
-        tmp_num = 3;
-        args.cat_colors.row = cat_colors.row;
-        args.cat_colors.col = cat_colors.row;
-      }
-
-      args.root = '#container-id-'+tmp_num;
-
-      args.network_data = network_data;
-      cgm[inst_rc] = Clustergrammer(args);
-      d3.select(cgm[inst_rc].params.root+' .wait_message').remove();
-      unblock();
-    });
-
-  }
 
   function unblock(){
     $.unblockUI();
