@@ -50,6 +50,9 @@ def main(net):
 
         hist = calc_hist_distances(dm, subset, inst_nodes)
 
+        print('-------------')
+        print(hist)
+        print('-------------')
 
         pval = 0
 
@@ -60,7 +63,6 @@ def main(net):
             if inst_mean >= hist['bins'][i]:
               pval = pval + hist['prob'][i]
 
-        print(net.dat['node_info'][inst_rc].keys())
         print('pval '+ str(pval)+'\n')
 
         net.dat['node_info'][inst_rc][pval_name][cat_name] = pval
