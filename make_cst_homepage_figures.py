@@ -2,14 +2,17 @@ def main():
 
   make_phos_homepage_viz()
 
-  make_exp_homepage_viz()
+  # make_exp_homepage_viz()
 
 def make_phos_homepage_viz():
 
   from clustergrammer import Network
   net = Network()
 
-  net.load_file('lung_cellline_3_1_16/lung_cellline_phospho/lung_cellline_TMT_phospho_combined_ratios.tsv')
+  filename = 'lung_cellline_3_1_16/lung_cellline_phospho/' + \
+    'lung_cellline_TMT_phospho_combined_ratios.tsv'
+
+  net.load_file(filename)
 
   # quantile normalize to normalize cell lines
   net.normalize(axis='col', norm_type='qn')
@@ -27,7 +30,7 @@ def make_phos_homepage_viz():
 
   views = ['N_row_sum','N_row_var']
   net.make_clust(dist_type='cos',views=views, dendro=True,
-                 sim_mat=True, calc_cat_pval=False)
+                 sim_mat=True, calc_cat_pval=True)
 
   net.write_json_to_file('viz', 'json/homepage_phos.json', 'indent')
 

@@ -1,26 +1,26 @@
-import numpy as np 
-import pandas as pd 
+import numpy as np
+import pandas as pd
 from copy import deepcopy
 
 def main(net):
-  ''' 
-  calculate pvalue of category closeness 
   '''
+  calculate pvalue of category closeness
+  '''
+  print('calculate pval of category closeness')
 
-  # calculate the distance between the data points within the same category and 
-  # compare to null distribution 
+  # calculate the distance between the data points within the same category and
+  # compare to null distribution
   for inst_rc in ['row', 'col']:
 
     inst_nodes = deepcopy(net.dat['nodes'][inst_rc])
 
     inst_index = deepcopy(net.dat['node_info'][inst_rc]['clust'])
 
-    # reorder based on clustered order 
+    # reorder based on clustered order
     inst_nodes = [ inst_nodes[i] for i in inst_index]
 
-    # make distance matrix dataframe 
+    # make distance matrix dataframe
     dm = dist_matrix_lattice(inst_nodes)
-
 
     node_infos = net.dat['node_info'][inst_rc].keys()
 
@@ -31,18 +31,25 @@ def main(net):
 
     for cat_dict in all_cats:
 
+      print('\ncat_dict: '+ str(cat_dict))
+
       tmp_dict = net.dat['node_info'][inst_rc][cat_dict]
 
       pval_name = cat_dict.replace('dict_','pval_')
       net.dat['node_info'][inst_rc][pval_name] = {}
-      
+
       for cat_name in tmp_dict:
-        
+
+        print('cat_name '+ str(cat_name))
+
         subset = tmp_dict[cat_name]
 
         inst_mean = calc_mean_dist_subset(dm, subset)
 
+        print('inst_mean: '+str(inst_mean))
+
         hist = calc_hist_distances(dm, subset, inst_nodes)
+
 
         pval = 0
 
@@ -53,12 +60,14 @@ def main(net):
             if inst_mean >= hist['bins'][i]:
               pval = pval + hist['prob'][i]
 
+        print(net.dat['node_info'][inst_rc].keys())
+        print('pval '+ str(pval)+'\n')
+
         net.dat['node_info'][inst_rc][pval_name][cat_name] = pval
 
-        # print(net.dat['node_info'][inst_rc].keys())
 
 
-def dist_matrix_lattice(names):  
+def dist_matrix_lattice(names):
   from scipy.spatial.distance import pdist, squareform
 
   lattice_size = len(names)
@@ -78,7 +87,7 @@ def dist_matrix_lattice(names):
 
 def calc_mean_dist_subset(dm, subset):
   return np.mean(dm[subset].ix[subset].values)
-  
+
 def calc_hist_distances(dm, subset, inst_nodes):
   np.random.seed(100)
 
