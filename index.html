@@ -35,7 +35,7 @@
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
-      <p>Lung cancer is a complex disease that is known to be regulated at the level of post-translational modification, e.g. phosphorylation by driver kinases. Researchers at Cell Signaling Technology used SILAC mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous tissue. Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia. </p>
+      <p>Lung cancer is a complex disease that is known to be regulated at the level of post-translational modification, e.g. phosphorylation by driver kinases. Researchers at Cell Signaling Technology used SILAC mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous tissue. Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia (CCLE). </p>
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
@@ -53,12 +53,12 @@
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
-      <p> This is a clustergram visualization of differential phosphorylation from 42 lung cancer cell lines. The cell lines and phosphorylations have been hierarchically clustered using the Scipy library in Python, using cosine distance and average linkage. The data has been quantile normalized across the cell lines (to make cell-line distributions similar) and zscored across the rows to improve facilitate comparison of differential phosphorylation across the cell lines.
+      <p> This is a clustergram visualization of differential phosphorylation from 42 lung cancer cell lines. The cell lines and phosphorylations have been hierarchically clustered using the Scipy library in Python using cosine distance and average linkage. The data has been quantile normalized across the cell lines (to make cell-line distributions similar) and zscored across the rows to improve facilitate comparison of differential phosphorylation across the cell lines.
       </p>
     </div>
 
     <div class='viz_description' id='clustergram_desc'>
-      <p>Cell lines have been assigned categories based on their histology and their grouping based on gene-expression data. Note that cell lines display similar clustering based on phosphorylation and gene-expression data.
+      <p>Cell lines have been assigned categories based on their histology and their grouping based on gene expression data (exp-group-1, etc.). Note that cell lines display similar clustering based on phosphorylation and gene-expression data.
       </p>
     </div>
 
@@ -74,7 +74,7 @@
     </div>
 
     <div class='viz_description' id='col_sim_desc'>
-      <p>Above is a similarity matrix of the columns in your input matrix. The cells in the matrix represent the similarity between columns, where red/blue represent positive/negative similarity (measured as 1 - cosine-distance). Similarity matrices offer a more detailed view of the similarities and differences between rows/columms, e.g. blue cells indicate data points that behave 'oppositely' and this can not be easily seen in a clustergram/heatmap view.</p>
+      <p>This is a clustergram visualization of differential gene expression data from 37 lung cancer cell lines obtained from the CCLE. The cell lines adn genes have been hiararchically clustered using the Scipy library in Python using cosine distance and average linkage. Gene expression data was z-score normalized across all 1047 cell lines in the CCLE and only genes that have a zscore greater than 3 in more than 4 cell lines are shown.</p>
     </div>
 
 
