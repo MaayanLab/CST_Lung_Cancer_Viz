@@ -68,8 +68,8 @@ function load_viz_data(inst_name){
   // define arguments object
   var default_args = {
     'show_tile_tooltips':true,
-    'about':'Zoom, scroll, and click buttons to interact with the clustergram.',
     'row_search_placeholder':'Gene',
+    'sidebar_icons': false,
     'col_label_scale':1.5
   };
 
