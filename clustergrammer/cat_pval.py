@@ -6,8 +6,6 @@ def main(net):
   '''
   calculate pvalue of category closeness
   '''
-  print('calculate pval of category closeness')
-
   # calculate the distance between the data points within the same category and
   # compare to null distribution
   for inst_rc in ['row', 'col']:
@@ -31,8 +29,6 @@ def main(net):
 
     for cat_dict in all_cats:
 
-      print('\ncat_dict: '+ str(cat_dict))
-
       tmp_dict = net.dat['node_info'][inst_rc][cat_dict]
 
       pval_name = cat_dict.replace('dict_','pval_')
@@ -40,19 +36,11 @@ def main(net):
 
       for cat_name in tmp_dict:
 
-        print('cat_name '+ str(cat_name))
-
         subset = tmp_dict[cat_name]
 
-        inst_mean = calc_mean_dist_subset(dm, subset)
-
-        print('inst_mean: '+str(inst_mean))
+        inst_median = calc_median_dist_subset(dm, subset)
 
         hist = calc_hist_distances(dm, subset, inst_nodes)
-
-        print('-------------')
-        print(hist)
-        print('-------------')
 
         pval = 0
 
@@ -60,14 +48,10 @@ def main(net):
           if i == 0:
             pval = hist['prob'][i]
           if i >= 1:
-            if inst_mean >= hist['bins'][i]:
+            if inst_median >= hist['bins'][i]:
               pval = pval + hist['prob'][i]
 
-        print('pval '+ str(pval)+'\n')
-
         net.dat['node_info'][inst_rc][pval_name][cat_name] = pval
-
-
 
 def dist_matrix_lattice(names):
   from scipy.spatial.distance import pdist, squareform
@@ -87,8 +71,8 @@ def dist_matrix_lattice(names):
   return df
 
 
-def calc_mean_dist_subset(dm, subset):
-  return np.mean(dm[subset].ix[subset].values)
+def calc_median_dist_subset(dm, subset):
+  return np.median(dm[subset].ix[subset].values)
 
 def calc_hist_distances(dm, subset, inst_nodes):
   np.random.seed(100)
@@ -96,17 +80,15 @@ def calc_hist_distances(dm, subset, inst_nodes):
   num_null = 1000
   num_points = len(subset)
 
-  mean_dist = []
+  median_dist = []
   for i in range(num_null):
     tmp = np.random.choice(inst_nodes, num_points, replace=False)
-    mean_dist.append( np.mean(dm[tmp].ix[tmp].values)  )
+    median_dist.append( np.median(dm[tmp].ix[tmp].values)  )
 
-  tmp_dist = sorted(deepcopy(mean_dist))
-  # print('lowest distances')
-  # print(tmp_dist[0:4])
+  tmp_dist = sorted(deepcopy(median_dist))
 
-  mean_dist = np.asarray(mean_dist)
-  s1 = pd.Series(mean_dist)
+  median_dist = np.asarray(median_dist)
+  s1 = pd.Series(median_dist)
   hist = np.histogram(s1, bins=30)
 
   H = {}
