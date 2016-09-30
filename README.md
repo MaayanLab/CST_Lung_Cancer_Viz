@@ -20,6 +20,8 @@ The script [process_latest_cst_data.py](process_latest_cst_data.py) was used to 
 ### Data Normalization and Filtering
 The script [make_cst_homepage_figures.py](make_cst_homepage_figures.py) was used to make Clustergrammer interactive visualizations for the website. Specifically, this script normalizes and processes the data and creates the [JSONs](json) for the front-end visualizations.
 
+The python notebook, [CST_PTM_Data_Overview.ipynb](CST_PTM_Data_Overview.ipynb), overviews the data and discusses the reasoning behind our method of normanlization and filtering.
+
 ## Webpage Source Code
 This repo contains the souce code for the site [CST_Lung_Cancer_Viz](http://maayanlab.net/CST_Lung_Cancer_Viz/). The page can also be seen through github.io [https://maayanlab.github.io/CST_Lung_Cancer_Viz/](https://maayanlab.github.io/CST_Lung_Cancer_Viz/) with some limited capabilities (due to github.io HTTPS requirements).
 
