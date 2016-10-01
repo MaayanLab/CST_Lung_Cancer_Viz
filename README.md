@@ -11,6 +11,12 @@ This repo contains
 ## Lung Cancer Data
 Our collaborators at Cell Signaling Technology ([CST](https://www.cellsignal.com/)) used SILAC mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous lung tissue (the primary data is [here](lung_cellline_3_1_16)). Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia ([(CCLE)](https://portals.broadinstitute.org/ccle/home)).
 
+### Overview of CST PTM Data
+The python notebook, [CST_PTM_Data_Overview.ipynb](CST_PTM_Data_Overview.ipynb), overviews the PTM data and discusses the reasoning behind our method of normanlization and filtering.
+
+### Overview of CCLE Gene Expression Data
+The python notebook, [CST_Gene_Expression_Data_Overview](CST_Gene_Expression_Data_Overview.ipynb), overviews the gene expression data and discusses some results from our analysis of this data.
+
 ## Data Processing Scripts
 All data was processed using Python scripts in two broad steps: 1) data was pre-processed (e.g. calculating ratios of cancer vs non-cancer levels) and combined into a simple tab-separated format and 2) data was normalized and filtered in order to make heatmap visualizations. Visualizations for the webpage were made using the [Clustergrammer](https://github.com/MaayanLab/clustergrammer) web-based visualization tool. The [clustergrammer](clustergrammer) python module was used to normalize/filter data and produce JSONs for [clustergramer.js](js/clustergrammer.js) .
 
@@ -20,7 +26,6 @@ The script [process_latest_cst_data.py](process_latest_cst_data.py) was used to 
 ### Data Normalization and Filtering
 The script [make_cst_homepage_figures.py](make_cst_homepage_figures.py) was used to make Clustergrammer interactive visualizations for the website. Specifically, this script normalizes and processes the data and creates the [JSONs](json) for the front-end visualizations.
 
-The python notebook, [CST_PTM_Data_Overview.ipynb](CST_PTM_Data_Overview.ipynb), overviews the data and discusses the reasoning behind our method of normanlization and filtering.
 
 ## Webpage Source Code
 This repo contains the souce code for the site [CST_Lung_Cancer_Viz](http://maayanlab.net/CST_Lung_Cancer_Viz/). The page can also be seen through github.io [https://maayanlab.github.io/CST_Lung_Cancer_Viz/](https://maayanlab.github.io/CST_Lung_Cancer_Viz/) with some limited capabilities (due to github.io HTTPS requirements).
