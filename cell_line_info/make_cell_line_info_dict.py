@@ -1,12 +1,23 @@
 def main():
-  filename = 'CST_cell_line_info.txt'
 
+  cl_info = add_hist_plex_gender_exp()
+
+  cl_info = add_mutations(cl_info)
+
+  save_dict_to_json(cl_info)
+
+def add_mutations(cl_info):
+  print('add mutations\n')
+  return cl_info
+
+def add_hist_plex_gender_exp():
+  print('add hist, plex, gender, and expression-groups\n')
+  filename = 'CST_cell_line_info.txt'
   f = open(filename, 'r')
   lines = f.readlines()
   f.close()
 
   cl_info = {}
-
   for i in range(len(lines)):
     inst_line = lines[i]
     inst_line = inst_line.strip().split('\t')
@@ -42,9 +53,10 @@ def main():
             group_num = cat_title.split('-')[2]
             cl_info[cl]['Exp-group'] = group_num
 
-  save_dict_to_json(cl_info)
+  return cl_info
 
 def save_dict_to_json(inst_dict):
+  print('save to cell_line_info_dict.json\n')
   from clustergrammer import Network
   net = Network()
 
