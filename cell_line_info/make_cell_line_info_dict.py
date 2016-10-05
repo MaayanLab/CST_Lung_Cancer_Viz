@@ -8,6 +8,34 @@ def main():
 
 def add_mutations(cl_info):
   print('add mutations\n')
+
+  from clustergrammer import Network
+  net = Network()
+  old_cl_info = net.load_json_to_dict('cell_line_muts.json')
+
+  cl_muts = old_cl_info['muts']
+
+  for inst_cl in cl_info:
+
+    # remove plex name if necessary
+    if '_plex_' in inst_cl:
+      simple_cl = inst_cl.split('_')[0]
+    else:
+      simple_cl = inst_cl
+
+    for inst_mut in cl_muts:
+      mutated_cls = cl_muts[inst_mut]
+
+      if simple_cl in mutated_cls:
+        has_mut = 'true'
+      else:
+        has_mut = 'false'
+
+      mutation_title = 'mut-'+inst_mut
+
+      # use the original long cell line name (with possible plex)
+      cl_info[inst_cl][mutation_title] = has_mut
+
   return cl_info
 
 def add_hist_plex_gender_exp():
