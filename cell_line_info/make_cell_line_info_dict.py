@@ -22,11 +22,27 @@ def main():
 
       # populate with cell line information from CST_cell_line_info.txt
       for j in range(len(inst_line)):
+        inst_cat = inst_line[j]
+
+        cat_title = inst_cat.split(': ')[0]
+        cat_state = inst_cat.split(': ')[1]
+
         cl = cell_lines[j]
-        cl_info[cl] = {}
+
+        # handle expression groups differently (combine into single cat)
+        if 'exp-group' not in cat_title:
+          if 'Plex-' in cat_state:
+            cat_state = cat_state.split('-')[1]
+          cl_info[cl][cat_title] = cat_state
+
+        else:
+
+          # combine into single category
+          if cat_state == 'true':
+            group_num = cat_title.split('-')[2]
+            cl_info[cl]['Exp-group'] = group_num
 
   save_dict_to_json(cl_info)
-
 
 def save_dict_to_json(inst_dict):
   from clustergrammer import Network

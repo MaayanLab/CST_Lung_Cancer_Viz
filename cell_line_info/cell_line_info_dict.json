@@ -1,47 +1,263 @@
 {
-  "H1650": {}, 
-  "H661": {}, 
-  "Calu-3": {}, 
-  "H2342": {}, 
-  "CAL-12T": {}, 
-  "H82": {}, 
-  "H209_plex_1": {}, 
-  "H209_plex_9": {}, 
-  "H1781": {}, 
-  "H1975": {}, 
-  "HCC15": {}, 
-  "H128": {}, 
-  "H2073_plex_9": {}, 
-  "H1355": {}, 
-  "HCC827": {}, 
-  "H2405": {}, 
-  "HCC78": {}, 
-  "H2073_plex_6": {}, 
-  "H1666": {}, 
-  "H358": {}, 
-  "H838": {}, 
-  "H1703": {}, 
-  "HCC44": {}, 
-  "H460": {}, 
-  "H3122": {}, 
-  "H23": {}, 
-  "DMS153": {}, 
-  "H1299": {}, 
-  "H1792": {}, 
-  "H446": {}, 
-  "H2106": {}, 
-  "H441": {}, 
-  "H1417": {}, 
-  "H1944": {}, 
-  "DMS79": {}, 
-  "H526": {}, 
-  "H524": {}, 
-  "H69": {}, 
-  "H1734": {}, 
-  "Lou-NH91": {}, 
-  "H1437_plex_8": {}, 
-  "H1437_plex_9": {}, 
-  "DMS53": {}, 
-  "H2228": {}, 
-  "A549": {}
+  "H1650": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "5"
+  },
+  "H661": {
+    "Gender": "M",
+    "Exp-group": "2",
+    "Histology": "NSCLC",
+    "Plex": "7"
+  },
+  "Calu-3": {
+    "Gender": "M",
+    "Histology": "NSCLC",
+    "Plex": "5"
+  },
+  "H2342": {
+    "Gender": "M",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "6"
+  },
+  "CAL-12T": {
+    "Gender": "M",
+    "Histology": "NSCLC",
+    "Plex": "8"
+  },
+  "H82": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "2"
+  },
+  "H209_plex_1": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "1"
+  },
+  "H209_plex_9": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "9"
+  },
+  "H1781": {
+    "Gender": "F",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "7"
+  },
+  "H1975": {
+    "Gender": "F",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "5"
+  },
+  "HCC15": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "6"
+  },
+  "H128": {
+    "Gender": "M",
+    "Histology": "SCLC",
+    "Plex": "1"
+  },
+  "H2073_plex_9": {
+    "Gender": "F",
+    "Histology": "NSCLC",
+    "Plex": "9"
+  },
+  "H1355": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "3"
+  },
+  "HCC827": {
+    "Gender": "F",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "5"
+  },
+  "H2405": {
+    "Gender": "M",
+    "Exp-group": "4",
+    "Histology": "NSCLC",
+    "Plex": "8"
+  },
+  "HCC78": {
+    "Gender": "M",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "7"
+  },
+  "H2073_plex_6": {
+    "Gender": "F",
+    "Histology": "NSCLC",
+    "Plex": "6"
+  },
+  "H1666": {
+    "Gender": "F",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "8"
+  },
+  "H358": {
+    "Gender": "M",
+    "Exp-group": "2",
+    "Histology": "NSCLC",
+    "Plex": "4"
+  },
+  "H838": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "9"
+  },
+  "H1703": {
+    "Gender": "M",
+    "Exp-group": "2",
+    "Histology": "NSCLC",
+    "Plex": "6"
+  },
+  "HCC44": {
+    "Gender": "F",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "8"
+  },
+  "H460": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "4"
+  },
+  "H3122": {
+    "Gender": "M",
+    "Histology": "NSCLC",
+    "Plex": "7"
+  },
+  "H23": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "3"
+  },
+  "DMS153": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "9"
+  },
+  "H1299": {
+    "Gender": "M",
+    "Exp-group": "2",
+    "Histology": "NSCLC",
+    "Plex": "4"
+  },
+  "H1792": {
+    "Gender": "M",
+    "Exp-group": "4",
+    "Histology": "NSCLC",
+    "Plex": "3"
+  },
+  "H446": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "2"
+  },
+  "H2106": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "NSCLC",
+    "Plex": "5"
+  },
+  "H441": {
+    "Gender": "M",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "3"
+  },
+  "H1417": {
+    "Gender": "F",
+    "Histology": "SCLC",
+    "Plex": "1"
+  },
+  "H1944": {
+    "Gender": "F",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "4"
+  },
+  "DMS79": {
+    "Gender": "N.A.",
+    "Histology": "SCLC",
+    "Plex": "1"
+  },
+  "H526": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "2"
+  },
+  "H524": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "1"
+  },
+  "H69": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "2"
+  },
+  "H1734": {
+    "Gender": "F",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "4"
+  },
+  "Lou-NH91": {
+    "Gender": "F",
+    "Histology": "NSCLC",
+    "Plex": "6"
+  },
+  "H1437_plex_8": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "8"
+  },
+  "H1437_plex_9": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "9"
+  },
+  "DMS53": {
+    "Gender": "M",
+    "Exp-group": "5",
+    "Histology": "SCLC",
+    "Plex": "2"
+  },
+  "H2228": {
+    "Gender": "F",
+    "Exp-group": "1",
+    "Histology": "NSCLC",
+    "Plex": "7"
+  },
+  "A549": {
+    "Gender": "M",
+    "Exp-group": "3",
+    "Histology": "NSCLC",
+    "Plex": "3"
+  }
 }
