@@ -30,7 +30,8 @@ def make_plex_cmap(cl_names):
     return plex_cmap
 
 def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
-                           skl_version=False, random_state=0):
+                           skl_version=False, random_state=0,
+                           learning_rate=40):
     from matplotlib import pyplot as plt
     from tsne import bh_sne
     import numpy as np
@@ -51,9 +52,10 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
         from sklearn import manifold
         # run tsne from sklearn
         ###########################
-        # tsne = manifold.TSNE(perplexity=30, n_iter=100000, learning_rate=1000, init='pca')
-        tsne = manifold.TSNE(perplexity=7, n_iter=100000, random_state=random_state, method='exact',
-                             metric='correlation', learning_rate=100, verbose=0, n_iter_without_progress=1000, init='random')
+        tsne = manifold.TSNE(perplexity=7, n_iter=100000,
+            random_state = random_state, method='exact', metric='correlation',
+            learning_rate=learning_rate, verbose=0, n_iter_without_progress=1000,
+            init='random', early_exaggeration=4)
 
         Y = tsne.fit_transform(x_data)
         vis_x = Y[:, 0]
@@ -77,7 +79,7 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
 
 def normalize_and_make_tsne(qn_col=False, zscore_row=False,
                             filter_missing=False, skl_version=False,
-                            random_state=0):
+                            random_state=0, learning_rate=40):
 
     filename = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
     'lung_cellline_TMT_phospho_combined_ratios.tsv'
@@ -108,7 +110,7 @@ def normalize_and_make_tsne(qn_col=False, zscore_row=False,
     hist_cmap, plex_cmap = get_cmaps(inst_df['mat'])
 
     make_cl_tsne_hist_plex(mat, cmap_left=hist_cmap, cmap_right=plex_cmap,
-                           skl_version=skl_version)
+                           skl_version=skl_version, learning_rate=learning_rate)
 
 def get_cmaps(inst_df):
     filename = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
