@@ -29,22 +29,35 @@ def make_plex_cmap(cl_names):
         plex_cmap.append(inst_plex)
     return plex_cmap
 
-def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None):
+def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
+                           skl_version=False, random_state=0):
     from matplotlib import pyplot as plt
     from tsne import bh_sne
     import numpy as np
+
     # the matrix needs to be transposed in order to cluster the numbers
     x_data = mat.transpose()
 
     # convert image data to float64 matrix. float64 is need for bh_sne
     x_data = np.asarray(x_data).astype('float64')
 
-    # perform t-SNE embedding, lowered perplexity
-    vis_data = bh_sne(x_data, perplexity=7)
+    if skl_version == False:
+        # perform t-SNE embedding, lowered perplexity
+        vis_data = bh_sne(x_data, perplexity=7)
+        vis_x = vis_data[:, 0]
+        vis_y = vis_data[:, 1]
 
-    # plot the result
-    vis_x = vis_data[:, 0]
-    vis_y = vis_data[:, 1]
+    else:
+        from sklearn import manifold
+        # run tsne from sklearn
+        ###########################
+        # tsne = manifold.TSNE(perplexity=30, n_iter=100000, learning_rate=1000, init='pca')
+        tsne = manifold.TSNE(perplexity=7, n_iter=100000, random_state=random_state, method='exact',
+                             metric='correlation', learning_rate=100, verbose=0, n_iter_without_progress=1000, init='random')
+
+        Y = tsne.fit_transform(x_data)
+        vis_x = Y[:, 0]
+        vis_y = Y[:, 1]
 
     fig, axarr = plt.subplots(ncols=2, figsize=(10,5))
 
@@ -63,7 +76,8 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None):
     plt.show()
 
 def normalize_and_make_tsne(qn_col=False, zscore_row=False,
-                            filter_missing=False):
+                            filter_missing=False, skl_version=False,
+                            random_state=0):
 
     filename = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
     'lung_cellline_TMT_phospho_combined_ratios.tsv'
@@ -93,7 +107,8 @@ def normalize_and_make_tsne(qn_col=False, zscore_row=False,
 
     hist_cmap, plex_cmap = get_cmaps(inst_df['mat'])
 
-    make_cl_tsne_hist_plex(mat, cmap_left=hist_cmap, cmap_right=plex_cmap)
+    make_cl_tsne_hist_plex(mat, cmap_left=hist_cmap, cmap_right=plex_cmap,
+                           skl_version=skl_version)
 
 def get_cmaps(inst_df):
     filename = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
