@@ -18,8 +18,6 @@ def make_simple_cl_names(tuple_cols):
 
 
 def make_hist_cmap(cl_names):
-
-    print(cl_names)
     hist_cmap = []
     for inst_cl in cl_names:
         inst_hist = cl_info[inst_cl]['Histology']
@@ -32,8 +30,18 @@ def make_hist_cmap(cl_names):
 def make_plex_cmap(cl_names):
     plex_cmap = []
     for inst_cl in cl_names:
-        inst_plex = cl_info[inst_cl]['Plex']
-        plex_cmap.append(inst_plex)
+        inst_plex = cl_info[inst_cl]['Exp-group']
+
+        inst_plex = int(inst_plex)
+
+        color_dict = {-1:'white', 1:'red', 2:'blue', 3:'brown',
+        4:'lime', 5:'yellow', 6:'navy', 7:'gold', 8:'cyan', 9:'pink'}
+
+        # if inst_plex == -1:
+        inst_color = color_dict[inst_plex]
+
+        plex_cmap.append(inst_color)
+
     return plex_cmap
 
 def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
@@ -121,9 +129,9 @@ def normalize_and_make_tsne(data_type= 'phospho', qn_col=False, zscore_row=False
 
     print(mat.shape)
 
-    hist_cmap, plex_cmap = get_cmaps(inst_df)
+    cmap = get_cmaps(inst_df)
 
-    make_cl_tsne_hist_plex(mat, cmap_left=hist_cmap, cmap_right=plex_cmap,
+    make_cl_tsne_hist_plex(mat, cmap_left=cmap['hist'], cmap_right=cmap['plex'],
                            skl_version=skl_version, random_state=random_state,
                            learning_rate=learning_rate)
 
@@ -133,7 +141,9 @@ def get_cmaps(inst_df):
     tuple_cols = inst_df['mat'].columns.tolist()
 
     cl_names  = make_simple_cl_names(tuple_cols)
-    hist_cmap = make_hist_cmap(cl_names)
-    plex_cmap = make_plex_cmap(cl_names)
 
-    return hist_cmap, plex_cmap
+    cmap = {}
+    cmap['hist'] = make_hist_cmap(cl_names)
+    cmap['plex'] = make_plex_cmap(cl_names)
+
+    return cmap
