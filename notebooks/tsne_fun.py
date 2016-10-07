@@ -30,7 +30,7 @@ def make_hist_cmap(cl_names):
 def make_plex_cmap(cl_names):
     plex_cmap = []
     for inst_cl in cl_names:
-        inst_plex = cl_info[inst_cl]['Exp-group']
+        inst_plex = cl_info[inst_cl]['Plex']
 
         inst_plex = int(inst_plex)
 
