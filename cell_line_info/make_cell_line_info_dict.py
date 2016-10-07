@@ -6,7 +6,51 @@ def main():
 
   cl_info = make_non_plex_cl_version(cl_info)
 
+  cl_info = add_corrected_expression_clusters(cl_info)
+
   save_dict_to_json(cl_info)
+
+def add_corrected_expression_clusters(cl_info):
+  '''
+  add the gene expression clusters that have the correct cell line aliases
+  (e.g. Calu-3 vs CALU3)
+  '''
+
+  # load gene expression clusters from gmteseque tsv file
+  f = open('expression_clusters.txt')
+  lines = f.readlines()
+  exp_groups = {}
+  for i in range(len(lines)):
+
+    group_num = i + 1
+    inst_line = lines[i]
+    exp_groups[group_num] = inst_line.strip().split('\t')
+  f.close()
+
+
+  for inst_cl in cl_info:
+
+    # initialize at -1 group
+    cl_group = -1
+
+    # remove plex name if necessary
+    if '_plex_' in inst_cl:
+      simple_cl = inst_cl.split('_')[0]
+    else:
+      simple_cl = inst_cl
+
+    # check all expression groups and add number
+    for inst_group in exp_groups:
+
+      # check with simple cl name but save using full name (may include plex)
+      if simple_cl in exp_groups[inst_group]:
+        cl_group = inst_group
+
+    # save group to cl_info
+    cl_info[inst_cl]['Exp-group'] = cl_group
+
+
+  return cl_info
 
 def make_non_plex_cl_version(cl_info):
   from copy import deepcopy
@@ -84,6 +128,7 @@ def add_hist_plex_gender_exp():
 
         cl = cell_lines[j]
 
+
         # handle expression groups differently (combine into single cat)
         if 'exp-group' not in cat_title:
           if 'Plex-' in cat_state:
@@ -91,6 +136,7 @@ def add_hist_plex_gender_exp():
           cl_info[cl][cat_title] = cat_state
 
         else:
+
 
           # combine into single category
           if cat_state == 'true':
