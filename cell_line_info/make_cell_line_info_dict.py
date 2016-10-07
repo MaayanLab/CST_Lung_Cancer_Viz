@@ -4,7 +4,23 @@ def main():
 
   cl_info = add_mutations(cl_info)
 
+  cl_info = make_non_plex_cl_version(cl_info)
+
   save_dict_to_json(cl_info)
+
+def make_non_plex_cl_version(cl_info):
+  from copy import deepcopy
+
+  for inst_cl in ['H209_plex_1', 'H2073_plex_9', 'H1437_plex_8']:
+
+    cl_name = inst_cl.split('_')[0]
+
+    # make a non-plex copy
+    cl_info[cl_name] = deepcopy(cl_info[inst_cl])
+    # set the plex to -1 since it is present in two plexes
+    cl_info[cl_name]['Plex'] =  -1
+
+  return cl_info
 
 def add_mutations(cl_info):
   print('add mutations\n')
