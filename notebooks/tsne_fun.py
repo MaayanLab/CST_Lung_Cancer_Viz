@@ -7,12 +7,19 @@ cl_info = net.load_json_to_dict('../cell_line_info/cell_line_info_dict.json')
 
 def make_simple_cl_names(tuple_cols):
     cl_names = []
-    for inst_tuple in tuple_cols:
-        cl_names.append(inst_tuple[0])
+
+    if type(tuple_cols[0]) is tuple:
+        for inst_tuple in tuple_cols:
+            cl_names.append(inst_tuple[0])
+    # else:
+    #     cl_names = tuple_cols
+
     return cl_names
 
 
 def make_hist_cmap(cl_names):
+
+    print(cl_names)
     hist_cmap = []
     for inst_cl in cl_names:
         inst_hist = cl_info[inst_cl]['Histology']
@@ -30,7 +37,7 @@ def make_plex_cmap(cl_names):
     return plex_cmap
 
 def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
-                           skl_version=False, random_state=0,
+                           skl_version=True, random_state=0,
                            learning_rate=40):
     from matplotlib import pyplot as plt
     from tsne import bh_sne
@@ -52,10 +59,11 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
         from sklearn import manifold
         # run tsne from sklearn
         ###########################
+        print(random_state)
         tsne = manifold.TSNE(perplexity=7, n_iter=100000,
             random_state = random_state, method='exact', metric='correlation',
-            learning_rate=learning_rate, verbose=0, n_iter_without_progress=1000,
-            init='random', early_exaggeration=4)
+            learning_rate=learning_rate, verbose=0,
+            n_iter_without_progress=1000, init='random', early_exaggeration=4)
 
         Y = tsne.fit_transform(x_data)
         vis_x = Y[:, 0]
@@ -68,21 +76,27 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
     if cmap_left == None:
         axarr[0].scatter(vis_x, vis_y, s=marker_size)
     else:
-        axarr[0].scatter(vis_x, vis_y, c=cmap_left, cmap=plt.cm.get_cmap('prism',len(cmap_left)), s=marker_size)
+        axarr[0].scatter(vis_x, vis_y, c=cmap_left, \
+            cmap=plt.cm.get_cmap('prism',len(cmap_left)), s=marker_size)
 
     if cmap_right == None:
         axarr[1].scatter(vis_x, vis_y, marker_size)
     else:
-        axarr[1].scatter(vis_x, vis_y, c=cmap_right, cmap=plt.cm.get_cmap('jet',len(cmap_right)), s=marker_size)
+        axarr[1].scatter(vis_x, vis_y, c=cmap_right, \
+            cmap=plt.cm.get_cmap('jet',len(cmap_right)), s=marker_size)
 
     plt.show()
 
-def normalize_and_make_tsne(qn_col=False, zscore_row=False,
-                            filter_missing=False, skl_version=False,
+def normalize_and_make_tsne(data_type= 'phospho', qn_col=False, zscore_row=False,
+                            filter_missing=False, skl_version=True,
                             random_state=0, learning_rate=40):
 
-    filename = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
-    'lung_cellline_TMT_phospho_combined_ratios.tsv'
+    paths = {}
+    paths['phospho'] = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
+        'lung_cellline_TMT_phospho_combined_ratios.tsv'
+    paths['exp'] = '../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt'
+
+    filename = paths[data_type]
 
     # get matrix of data for tsne
     net = deepcopy(Network())
@@ -107,20 +121,13 @@ def normalize_and_make_tsne(qn_col=False, zscore_row=False,
 
     print(mat.shape)
 
-    hist_cmap, plex_cmap = get_cmaps(inst_df['mat'])
+    hist_cmap, plex_cmap = get_cmaps(inst_df)
 
     make_cl_tsne_hist_plex(mat, cmap_left=hist_cmap, cmap_right=plex_cmap,
-                           skl_version=skl_version, learning_rate=learning_rate)
+                           skl_version=skl_version, random_state=random_state,
+                           learning_rate=learning_rate)
 
 def get_cmaps(inst_df):
-    filename = '../lung_cellline_3_1_16/lung_cellline_phospho/' + \
-        'lung_cellline_TMT_phospho_combined_ratios.tsv'
-
-    # get matrix of data for tsne
-    net = deepcopy(Network())
-    net.load_file(filename)
-    net.swap_nan_for_zero()
-    inst_df = net.dat_to_df()
 
     # make colormaps based on histology and plexes
     tuple_cols = inst_df['mat'].columns.tolist()
