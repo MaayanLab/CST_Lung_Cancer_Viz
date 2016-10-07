@@ -11,8 +11,8 @@ def make_simple_cl_names(tuple_cols):
     if type(tuple_cols[0]) is tuple:
         for inst_tuple in tuple_cols:
             cl_names.append(inst_tuple[0])
-    # else:
-    #     cl_names = tuple_cols
+    else:
+        cl_names = tuple_cols
 
     return cl_names
 
