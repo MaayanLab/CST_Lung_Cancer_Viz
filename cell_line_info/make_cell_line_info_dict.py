@@ -27,7 +27,6 @@ def add_corrected_expression_clusters(cl_info):
     exp_groups[group_num] = inst_line.strip().split('\t')
   f.close()
 
-
   for inst_cl in cl_info:
 
     # initialize at -1 group

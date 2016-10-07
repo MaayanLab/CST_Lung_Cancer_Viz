@@ -24,9 +24,9 @@ def make_hist_cmap(cl_names):
     for inst_cl in cl_names:
         inst_hist = cl_info[inst_cl]['Histology']
         if inst_hist == 'NSCLC':
-            hist_cmap.append(0)
+            hist_cmap.append('red')
         else:
-            hist_cmap.append(1)
+            hist_cmap.append('blue')
     return hist_cmap
 
 def make_plex_cmap(cl_names):
