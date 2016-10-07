@@ -33,7 +33,6 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
                            skl_version=False, random_state=0,
                            learning_rate=40):
     from matplotlib import pyplot as plt
-    from tsne import bh_sne
     import numpy as np
 
     # the matrix needs to be transposed in order to cluster the numbers
@@ -43,6 +42,7 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
     x_data = np.asarray(x_data).astype('float64')
 
     if skl_version == False:
+        from tsne import bh_sne
         # perform t-SNE embedding, lowered perplexity
         vis_data = bh_sne(x_data, perplexity=7)
         vis_x = vis_data[:, 0]
