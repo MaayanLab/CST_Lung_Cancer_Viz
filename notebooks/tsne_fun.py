@@ -16,33 +16,36 @@ def make_simple_cl_names(tuple_cols):
 
     return cl_names
 
+def make_cmap(cl_names, cmap_type):
+    inst_cmap = []
+    color_dict = make_color_dict()
 
-def make_hist_cmap(cl_names):
-    hist_cmap = []
-    for inst_cl in cl_names:
-        inst_hist = cl_info[inst_cl]['Histology']
-        if inst_hist == 'NSCLC':
-            hist_cmap.append('red')
-        else:
-            hist_cmap.append('blue')
-    return hist_cmap
+    if cmap_type == 'hist':
+        for inst_cl in cl_names:
+            inst_hist = cl_info[inst_cl]['Histology']
+            if inst_hist == 'NSCLC':
+                inst_cmap.append('red')
+            else:
+                inst_cmap.append('blue')
+        return inst_cmap
 
-def make_plex_cmap(cl_names):
-    plex_cmap = []
-    for inst_cl in cl_names:
-        inst_plex = cl_info[inst_cl]['Plex']
+    elif cmap_type == 'plex':
+        for inst_cl in cl_names:
+            inst_plex = cl_info[inst_cl]['Plex']
 
-        inst_plex = int(inst_plex)
+            inst_plex = int(inst_plex)
 
-        color_dict = {-1:'white', 1:'red', 2:'blue', 3:'brown',
-        4:'lime', 5:'yellow', 6:'navy', 7:'gold', 8:'cyan', 9:'pink'}
+            # if inst_plex == -1:
+            inst_color = color_dict[inst_plex]
 
-        # if inst_plex == -1:
-        inst_color = color_dict[inst_plex]
+            inst_cmap.append(inst_color)
 
-        plex_cmap.append(inst_color)
+    return inst_cmap
 
-    return plex_cmap
+def make_color_dict():
+    color_dict = {-1:'white', 1:'red', 2:'blue', 3:'brown',
+    4:'lime', 5:'yellow', 6:'navy', 7:'gold', 8:'cyan', 9:'pink'}
+    return color_dict
 
 def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
                            skl_version=True, random_state=0,
@@ -67,7 +70,6 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
         from sklearn import manifold
         # run tsne from sklearn
         ###########################
-        print(random_state)
         tsne = manifold.TSNE(perplexity=7, n_iter=100000,
             random_state = random_state, method='exact', metric='correlation',
             learning_rate=learning_rate, verbose=0,
@@ -143,7 +145,7 @@ def get_cmaps(inst_df):
     cl_names  = make_simple_cl_names(tuple_cols)
 
     cmap = {}
-    cmap['hist'] = make_hist_cmap(cl_names)
-    cmap['plex'] = make_plex_cmap(cl_names)
+    cmap['hist'] = make_cmap(cl_names, 'hist')
+    cmap['plex'] = make_cmap(cl_names, 'plex')
 
     return cmap
