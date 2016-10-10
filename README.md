@@ -13,13 +13,17 @@ Our collaborators at Cell Signaling Technology ([CST](https://www.cellsignal.com
 The PTM data from CST is overviewed in two stages: 1) overview of the data, 2) overview of the normalization procedure
 
 ## Overview of the Data and Missing Data
-The Python notebook, [CST_PTM_Data_Overview.ipynb](notebooks/CST_PTM_Data_Overview.ipynb), overviews the PTM data and discusses the reasoning behind our method of normanlization and filtering.
+The notebook, [CST_PTM_Data_Overview.ipynb](notebooks/CST_PTM_Data_Overview.ipynb), overviews the PTM data and discusses the reasoning behind our method of normanlization and filtering.
 
 ## Overview of Normalization
-The Python notebook, [CST_PTM_Normalization_Overiew.ipynb](notebooks/CST_PTM_Normalization_Overview.ipynb)
+The notebook, [CST_PTM_Normalization_Overiew.ipynb](notebooks/CST_PTM_Normalization_Overview.ipynb)
+
+The notebook, [t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb](t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb), uses the dimensionality reduction algorithm, t-SNE, to visualize cell line clustering based on phosphorylation data before and after normalization and filtering.
 
 # Overview of CCLE Gene Expression Data
 The python notebook, [CCLE_Gene_Expression_Data_Overview](notebooks/CCLE_Gene_Expression_Data_Overview.ipynb), overviews the gene expression data and discusses some results from our analysis of this data.
+
+The notebook, [t-SNE_Cell_Line_Clustering_Gene_Expression.ipynb](notebooks/t-SNE_Cell_Line_Clustering_Gene_Expression.ipynb), uses t-SNE to visualize cell line clustering based on gene expression data.
 
 # Data Processing Scripts
 All data was processed using Python scripts in two broad steps: 1) data was pre-processed (e.g. calculating ratios of cancer vs non-cancer levels) and combined into a simple tab-separated format and 2) data was normalized and filtered in order to make heatmap visualizations. Visualizations for the webpage were made using the [Clustergrammer](https://github.com/MaayanLab/clustergrammer) web-based visualization tool. The [clustergrammer](clustergrammer) python module was used to normalize/filter data and produce JSONs for [clustergramer.js](js/clustergrammer.js) .
