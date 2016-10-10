@@ -36,4 +36,3 @@ The script [make_cst_homepage_figures.py](make_cst_homepage_figures.py) was used
 
 # Webpage Source Code
 This repo contains the souce code for the site [CST_Lung_Cancer_Viz](http://maayanlab.net/CST_Lung_Cancer_Viz/). The page can also be seen through github.io [https://maayanlab.github.io/CST_Lung_Cancer_Viz/](https://maayanlab.github.io/CST_Lung_Cancer_Viz/) with some limited capabilities (due to github.io HTTPS requirements).
-
