@@ -11,6 +11,14 @@ def main():
 
   net = Network()
 
+  filename = '../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt'
 
+  net.load_file(filename)
+
+  tmp_df = net.dat_to_df()
+
+  df = tmp_df['mat']
+
+  print(df.shape)
 
 main()
