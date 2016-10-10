@@ -35,7 +35,16 @@ def make_cmap(cl_names, cmap_type):
 
             inst_plex = int(inst_plex)
 
-            # if inst_plex == -1:
+            inst_color = color_dict[inst_plex]
+
+            inst_cmap.append(inst_color)
+
+    elif cmap_type == 'exp-group':
+        for inst_cl in cl_names:
+            inst_plex = cl_info[inst_cl]['Exp-group']
+
+            inst_plex = int(inst_plex)
+
             inst_color = color_dict[inst_plex]
 
             inst_cmap.append(inst_color)
@@ -47,7 +56,7 @@ def make_color_dict():
     4:'lime', 5:'yellow', 6:'navy', 7:'gold', 8:'cyan', 9:'pink'}
     return color_dict
 
-def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
+def make_multiple_cl_tsne(mat, cmap_left=None, cmap_right=None,
                            skl_version=True, random_state=0,
                            learning_rate=40):
     from matplotlib import pyplot as plt
@@ -83,17 +92,12 @@ def make_cl_tsne_hist_plex(mat, cmap_left=None, cmap_right=None,
 
     marker_size = 150
 
-    if cmap_left == None:
-        axarr[0].scatter(vis_x, vis_y, s=marker_size)
-    else:
-        axarr[0].scatter(vis_x, vis_y, c=cmap_left, \
-            cmap=plt.cm.get_cmap('prism',len(cmap_left)), s=marker_size)
+    # always require cmap
+    axarr[0].scatter(vis_x, vis_y, c=cmap_left, \
+        cmap=plt.cm.get_cmap('prism',len(cmap_left)), s=marker_size)
 
-    if cmap_right == None:
-        axarr[1].scatter(vis_x, vis_y, marker_size)
-    else:
-        axarr[1].scatter(vis_x, vis_y, c=cmap_right, \
-            cmap=plt.cm.get_cmap('jet',len(cmap_right)), s=marker_size)
+    axarr[1].scatter(vis_x, vis_y, c=cmap_right, \
+        cmap=plt.cm.get_cmap('jet',len(cmap_right)), s=marker_size)
 
     plt.show()
 
@@ -129,11 +133,11 @@ def normalize_and_make_tsne(data_type= 'phospho', qn_col=False, zscore_row=False
     inst_df = net.dat_to_df()
     mat = inst_df['mat'].values
 
-    print(mat.shape)
+    print('matrix shape '+str(mat.shape))
 
     cmap = get_cmaps(inst_df)
 
-    make_cl_tsne_hist_plex(mat, cmap_left=cmap['hist'], cmap_right=cmap['plex'],
+    make_multiple_cl_tsne(mat, cmap_left=cmap['hist'], cmap_right=cmap['plex'],
                            skl_version=skl_version, random_state=random_state,
                            learning_rate=learning_rate)
 
@@ -147,5 +151,6 @@ def get_cmaps(inst_df):
     cmap = {}
     cmap['hist'] = make_cmap(cl_names, 'hist')
     cmap['plex'] = make_cmap(cl_names, 'plex')
+    cmap['exp-group'] = make_cmap(cl_names, 'exp-group')
 
     return cmap
