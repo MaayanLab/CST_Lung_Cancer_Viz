@@ -18,7 +18,7 @@ The notebook, [CST_PTM_Data_Overview.ipynb](notebooks/CST_PTM_Data_Overview.ipyn
 ## Overview of Normalization
 The notebook, [CST_PTM_Normalization_Overiew.ipynb](notebooks/CST_PTM_Normalization_Overview.ipynb)
 
-The notebook, [t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb](t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb), uses the dimensionality reduction algorithm, t-SNE, to visualize cell line clustering based on phosphorylation data before and after normalization and filtering.
+The notebook, [t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb](notebooks/t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb), uses the dimensionality reduction algorithm, t-SNE, to visualize cell line clustering based on phosphorylation data before and after normalization and filtering.
 
 # Overview of CCLE Gene Expression Data
 The python notebook, [CCLE_Gene_Expression_Data_Overview](notebooks/CCLE_Gene_Expression_Data_Overview.ipynb), overviews the gene expression data and discusses some results from our analysis of this data.
