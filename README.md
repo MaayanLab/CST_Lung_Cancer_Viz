@@ -9,18 +9,18 @@ This repo contains
 # Lung Cancer Data
 Our collaborators at Cell Signaling Technology ([CST](https://www.cellsignal.com/)) used SILAC mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous lung tissue (the primary data is [here](lung_cellline_3_1_16)). Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia ([(CCLE)](https://portals.broadinstitute.org/ccle/home)).
 
-# Overview of CST PTM Data
+# CST PTM Data Overview
 The PTM data from CST is overviewed in two stages: 1) overview of the data, 2) overview of the normalization procedure
 
-## Overview of the Data and Missing Data
+## Data and Missing-Data Overview
 The notebook, [CST_PTM_Data_Overview.ipynb](notebooks/CST_PTM_Data_Overview.ipynb), overviews the PTM data and discusses the reasoning behind our method of normanlization and filtering.
 
-## Overview of Normalization
+## Normalization Overview
 The notebook, [CST_PTM_Normalization_Overiew.ipynb](notebooks/CST_PTM_Normalization_Overview.ipynb)
 
 The notebook, [t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb](notebooks/t-SNE_Cell_Line_Clustering_Phosphorylation.ipynb), uses the dimensionality reduction algorithm, t-SNE, to visualize cell line clustering based on phosphorylation data before and after normalization and filtering.
 
-# Overview of CCLE Gene Expression Data
+# CCLE Gene Expression Data Overview
 The python notebook, [CCLE_Gene_Expression_Data_Overview](notebooks/CCLE_Gene_Expression_Data_Overview.ipynb), overviews the gene expression data and discusses some results from our analysis of this data.
 
 The notebook, [t-SNE_Cell_Line_Clustering_Gene_Expression.ipynb](notebooks/t-SNE_Cell_Line_Clustering_Gene_Expression.ipynb), uses t-SNE to visualize cell line clustering based on gene expression data.
