@@ -37,22 +37,92 @@ def save_gene_exp_compatible_ptm_data():
   from clustergrammer import Network
   from copy import deepcopy
 
-  net = deepcopy(Network())
 
   # # only need to run once
   # ############################
   # combine_and_save_ptm()
 
+  # only need to run once
+  average_plex_runs()
+
+  # # load all ptm ratios
+  # filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
+
+  # net_ptm = deepcopy(Network())
+  # net_ptm.load_file(filename_all_ptm)
+
+  # tmp_df = net_ptm.dat_to_df()
+  # df_ptm = tmp_df['mat']
+
+  # print('shape of all ptms')
+  # print(df_ptm.shape)
+
+  # # get gene-exp cell lines
+  # net_exp = deepcopy(Network())
+  # net_exp.load_file('../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt')
+
+  # tmp_df = net_exp.dat_to_df()
+  # df_exp = tmp_df['mat']
+
+  # print('shape of exp')
+  # print(df_exp.shape)
+
+
+
+  # # only keep gene expression cell lines
+  # #######################################
+
+  # cl_ptm = df_ptm.columns.tolist()
+  # cl_exp = df_exp.columns.tolist()
+
+  # cl_ptm = [i.split('_')[0] for i in cl_ptm]
+
+  # print(cl_ptm)
+
+  # cl_found = []
+  # for inst_cl in cl_exp:
+
+  #   if inst_cl in cl_ptm:
+  #     cl_found.append(inst_cl)
+
+
+  # print(len(cl_found))
+
+
+def average_plex_runs():
+  import pandas as pd
+  from clustergrammer import Network
+  from copy import deepcopy
+
+  print('averaging plex runs and saving to new tsv')
+
   # load all ptm ratios
   filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
 
-  net.load_file(filename_all_ptm)
+  net_ptm = deepcopy(Network())
+  net_ptm.load_file(filename_all_ptm)
 
-  tmp_df = net.dat_to_df()
-  df_all = tmp_df['mat']
+  tmp_df = net_ptm.dat_to_df()
+  df_ptm = tmp_df['mat']
+
+  ptm_cols = df_ptm.columns.tolist()
 
   print('shape of all ptms')
-  print(df_all.shape)
+  print(df_ptm.shape)
+
+  cl_with_duplicates = []
+
+  for inst_cl in ptm_cols:
+    if '_plex' in inst_cl:
+      print(inst_cl)
+
+      inst_cl = inst_cl.split('_plex')[0]
+      cl_with_duplicates.append(inst_cl)
+
+  cl_with_duplicates = list(set(cl_with_duplicates))
+  cl_with_duplicates.sort()
+
+  # merge data
 
 
 
