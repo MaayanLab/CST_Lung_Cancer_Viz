@@ -7,24 +7,24 @@ def main():
   gene-expression space
   '''
 
-  # pre-processing of PTM data to make comparable to gene-exp
-  ############################################################
-  # calculate similarity vector based on ptm data
-  save_gene_exp_compatible_ptm_data()
+  # # pre-processing of PTM data to make comparable to gene-exp
+  # ############################################################
+  # # calculate similarity vector based on ptm data
+  # save_gene_exp_compatible_ptm_data()
 
   # calculate similarities of cell lines
   ##########################################
   # # calculte similarity vector based on expression data
-  # sim_exp = calc_cl_sim(data_type='exp')
+  sim_exp = calc_cl_sim(data_type='exp')
 
-  # # calculate alternate similiarites
-  # # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
-  # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
+  # calculate ptm sim
+  # sim_ptm = calc_cl_sim(data_type='ptm')
+  sim_ptm = calc_cl_sim(data_type='ptm', col_qn=True, row_zscore=True)
 
-  # # compare similarity vectors based on expression and ptm data
-  # ###############################################################
-  # sim_data = compare_sim_vectors(sim_exp, sim_exp_filt)
-  # print(sim_data)
+  # compare similarity vectors based on expression and ptm data
+  ###############################################################
+  sim_data = compare_sim_vectors(sim_exp, sim_ptm)
+  print(sim_data)
 
 def save_gene_exp_compatible_ptm_data():
   '''
@@ -34,59 +34,55 @@ def save_gene_exp_compatible_ptm_data():
   into the same order as the gene expression data.
   '''
   import pandas as pd
-  from clustergrammer import Network
-  from copy import deepcopy
-
 
   # # only need to run once
-  # ############################
   # combine_and_save_ptm()
 
-  # only need to run once
-  average_plex_runs()
+  # # only need to run once
+  # average_plex_runs()
 
-  # # load all ptm ratios
-  # filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
+  # # only need to run once
+  # keep_only_CCLE_cl()
 
-  # net_ptm = deepcopy(Network())
-  # net_ptm.load_file(filename_all_ptm)
-
-  # tmp_df = net_ptm.dat_to_df()
-  # df_ptm = tmp_df['mat']
-
-  # print('shape of all ptms')
-  # print(df_ptm.shape)
-
-  # # get gene-exp cell lines
-  # net_exp = deepcopy(Network())
-  # net_exp.load_file('../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt')
-
-  # tmp_df = net_exp.dat_to_df()
-  # df_exp = tmp_df['mat']
-
-  # print('shape of exp')
-  # print(df_exp.shape)
+  pass
 
 
+def keep_only_CCLE_cl():
+  from clustergrammer import Network
+  from copy import deepcopy
+  # load all ptm ratios
+  filename_all_ptm = '../lung_cellline_3_1_16/'+\
+                     'lung_cellline_TMT_all_ptm_ratios_uni_cl.tsv'
 
-  # # only keep gene expression cell lines
-  # #######################################
+  net_ptm = deepcopy(Network())
+  net_ptm.load_file(filename_all_ptm)
 
-  # cl_ptm = df_ptm.columns.tolist()
-  # cl_exp = df_exp.columns.tolist()
+  tmp_df = net_ptm.dat_to_df()
+  df_ptm_all_cl = tmp_df['mat']
 
-  # cl_ptm = [i.split('_')[0] for i in cl_ptm]
+  print('shape of all ptms')
+  print(df_ptm_all_cl.shape)
 
-  # print(cl_ptm)
+  # get gene-exp cell lines
+  net_exp = deepcopy(Network())
+  net_exp.load_file('../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt')
 
-  # cl_found = []
-  # for inst_cl in cl_exp:
+  tmp_df = net_exp.dat_to_df()
+  df_exp = tmp_df['mat']
 
-  #   if inst_cl in cl_ptm:
-  #     cl_found.append(inst_cl)
+  print('shape of exp')
+  print(df_exp.shape)
 
+  # only keep gene expression cell lines
+  #######################################
+  cl_exp = df_exp.columns.tolist()
+  df_ptm = df_ptm_all_cl[cl_exp]
+  print(df_ptm.shape)
 
-  # print(len(cl_found))
+  filename_CCLE_cl = '../lung_cellline_3_1_16/'+\
+                     'lung_cellline_TMT_all_ptm_ratios_CCLE_cl.tsv'
+
+  df_ptm.to_csv(filename_CCLE_cl, sep='\t')
 
 
 def average_plex_runs():
@@ -97,7 +93,8 @@ def average_plex_runs():
   print('averaging plex runs and saving to new tsv')
 
   # load all ptm ratios
-  filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
+  filename_all_ptm = '../lung_cellline_3_1_16/'+ \
+                     'lung_cellline_TMT_all_ptm_ratios.tsv'
 
   net_ptm = deepcopy(Network())
   net_ptm.load_file(filename_all_ptm)
@@ -246,7 +243,8 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
   net = Network()
 
   all_data = {
-    'exp':'../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt'
+    'exp':'../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt',
+    'ptm':'../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios_CCLE_cl.tsv'
   }
 
   filename = all_data[data_type]
@@ -286,7 +284,7 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
     print('filter top ' + str(var_filter) + ' rows based on variance')
     net.filter_N_top('row', var_filter, rank_type='var')
 
-
+  net.swap_nan_for_zero()
 
   tmp_df = net.dat_to_df()
 
@@ -320,7 +318,6 @@ def compare_sim_vectors(sim_exp, sim_ptm):
 
   # I need to check whether a pairwise complete function exists
   # I will use clustergrammer to do normalization etc.
-
 
 
 main()
