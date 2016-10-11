@@ -7,19 +7,18 @@ def main():
   gene-expression space
   '''
 
-  # calculte similarity vector based on expression data
-  sim_exp = calc_cl_sim(data_type='exp')
+  # # calculte similarity vector based on expression data
+  # sim_exp = calc_cl_sim(data_type='exp')
 
+  # # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
   # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
-  sim_exp_filt = calc_cl_sim(data_type='exp', col_qn=True)
 
   # calculate similarity vector based on ptm data
   save_gene_exp_compatible_ptm_data()
 
-  # compare similarity vectors based on expression and ptm data
-  sim_data = compare_sim_vectors(sim_exp, sim_exp_filt)
-
-  print(sim_data)
+  # # compare similarity vectors based on expression and ptm data
+  # sim_data = compare_sim_vectors(sim_exp, sim_exp_filt)
+  # print(sim_data)
 
 def save_gene_exp_compatible_ptm_data():
   '''
@@ -29,12 +28,65 @@ def save_gene_exp_compatible_ptm_data():
   into the same order as the gene expression data.
   '''
 
+  combine_and_save_ptm()
+
+def combine_and_save_ptm():
+  # combine all ptm data into single dataframe
+  #################################################################
+  # use simple col names
+
+  from clustergrammer import Network
+  import pandas as pd
+  from copy import deepcopy
+
+  ptm_data = {
+  'phos': '../lung_cellline_3_1_16/lung_cellline_phospho/lung_cellline_TMT_phospho_combined_ratios.tsv',
+  'act': '../lung_cellline_3_1_16/lung_cellline_Ack/lung_cellline_TMT_Ack_combined_ratios.tsv'
+  }
+
+  df_all = pd.DataFrame()
+
+  for inst_type in ptm_data:
+
+    net = deepcopy(Network())
+    filename = ptm_data[inst_type]
+
+    net.load_file(filename)
+
+    tmp_df = net.dat_to_df()
+    inst_df = tmp_df['mat']
+
+    col_tuples = inst_df.columns.tolist()
+
+    col_names = []
+    for inst_tuple in col_tuples:
+      col_names.append(inst_tuple[0])
+
+    inst_df.columns = col_names
+
+    print(inst_df.shape)
+
+    df_all = pd.concat([df_all, inst_df], axis=0)
+
+  filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
+
+  print(df_all.shape)
+
+  df_all.to_csv(filename_all_ptm, sep='\t')
+
+  all_rows = df_all.index.tolist()
+  print(len(all_rows))
+  all_rows = list(set(all_rows))
+  print(len(all_rows))
+
+
+
+
   # sort names in place
   # col_names.sort()
 
   # check that the cell lines are in the same order in both exp and PTM data
 
-  pass
 
 def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
                     row_zscore=False, col_qn=False, col_zscore=False):
@@ -56,6 +108,9 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
 
   net.load_file(filename)
 
+  # col normalization
+  ######################
+
   # run col qn before anything
   if col_qn != False:
     print('column qn')
@@ -66,12 +121,18 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
     print('zscore the cols')
     net.normalize(axis='col', norm_type='zscore')
 
+  # row normalization
+  ######################
+
   # run row zscore after col qn
   if row_zscore != False:
     print('zscore the rows')
     net.normalize(axis='row', norm_type='zscore')
 
-  # filter rows/cols after normalization
+  # row filtering
+  ######################
+
+  # filter rows after normalization
   if sum_filter != None:
     print('filter top ' + str(sum_filter) + ' rows based on sum')
     net.filter_N_top('row', sum_filter, rank_type='sum')
