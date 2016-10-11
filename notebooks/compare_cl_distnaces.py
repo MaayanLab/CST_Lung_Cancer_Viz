@@ -110,19 +110,27 @@ def average_plex_runs():
   print('shape of all ptms')
   print(df_ptm.shape)
 
-  cl_with_duplicates = []
+  cl_with_duplicates = {}
 
-  for inst_cl in ptm_cols:
-    if '_plex' in inst_cl:
-      print(inst_cl)
+  for inst_plex in ptm_cols:
+    if '_plex' in inst_plex:
 
-      inst_cl = inst_cl.split('_plex')[0]
-      cl_with_duplicates.append(inst_cl)
+      inst_cl = inst_plex.split('_plex')[0]
 
-  cl_with_duplicates = list(set(cl_with_duplicates))
-  cl_with_duplicates.sort()
+      if inst_cl not in cl_with_duplicates:
+        cl_with_duplicates[inst_cl] = []
+
+      cl_with_duplicates[inst_cl].append(inst_plex)
+
+  # print(cl_with_duplicates)
 
   # merge data
+  for dup_cl in cl_with_duplicates:
+    print(dup_cl)
+    inst_plexes = cl_with_duplicates[dup_cl]
+
+    print(inst_plexes)
+
 
 
 
