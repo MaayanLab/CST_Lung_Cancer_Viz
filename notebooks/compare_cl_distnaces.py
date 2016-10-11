@@ -8,9 +8,36 @@ def main():
 
   '''
 
-  from clustergrammer import Network
+  # calculte similarity vector based on expression data
+  sim_exp = calc_cl_exp_sim()
+
+  # calculate similarity vector based on ptm data
+  save_gene_exp_compatible_ptm_data()
+
+  # compare similarity vectors based on expression and ptm data
+  sim_data = compare_sim_vectors(sim_exp, sim_exp)
+
+  print(sim_data)
+
+def save_gene_exp_compatible_ptm_data():
+  '''
+  This will make a PTM matrix that is compatible with (e.g. easily comparable)
+  with the gene expression matrix: 1) average duplicate cell line measurements,
+  2) only include the 37 cell lines that are found in CCLE, 3) put cell lines
+  into the same order as the gene expression data.
+  '''
+
+  # sort names in place
+  # col_names.sort()
+
+  # check that the cell lines are in the same order in both exp and PTM data
+
+  pass
+
+def calc_cl_exp_sim():
+
   from scipy.spatial.distance import pdist, squareform
-  import numpy as np
+  from clustergrammer import Network
 
   net = Network()
 
@@ -22,50 +49,34 @@ def main():
 
   df = tmp_df['mat']
 
-  print(df.shape)
-
   col_names = df.columns.tolist()
 
-  print(col_names)
+
 
   # transpose to calc distance matrix of columns
   df = df.transpose()
 
   # calculate the similarity of cell line data based on gene expression
-  dm = 1 - pdist(df, metric='cosine')
+  sim = 1 - pdist(df, metric='cosine')
 
-  print(dm.shape)
+  return sim
 
-  tmp = np.vstack((dm, dm))
+def compare_sim_vectors(sim_exp, sim_ptm):
+  from scipy.spatial.distance import pdist, squareform
+  import numpy as np
 
-  print(tmp.shape)
-  print(tmp)
+  # combine similarity vectors into matrix
+  inst_mat = np.vstack((sim_exp, sim_ptm))
 
-  # dm_mat = squareform(dm)
+  sim_data = 1 - pdist(inst_mat, metric='cosine')
 
-  compare_dist = 1 - pdist(tmp, metric='cosine')
-
-  print(compare_dist)
-
-  # convert to squareform matrix to check distance matrix size
-
-  # calculate gene-exp sim mat of cell lines
-  ###############################################
-  # I am using similarity rather than distance because I am more interested in
-  # optimizing cell-line similarity than distances
-
-  # sanity check
-  # make matrix of two gene-exp sim mat reduced matrices
-  # calculate similarity
+  return sim_data
 
   # calculate PTM sim mat of cell lines
   ########################################
 
-  # construct PTM matrix with
-  # 1) averaged duplicate cell lines run in multiple plexes
-  # 2) the same ordering for the cell lines in the columns (alpha) as gene-exp
-
-
+  # I need to check whether a pairwise complete function exists
+  # I will use clustergrammer to do normalization etc.
 
 
 
