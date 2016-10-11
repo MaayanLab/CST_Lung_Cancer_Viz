@@ -5,14 +5,13 @@ def main():
   then check how different PTM data processing methods (normalization/filtering)
   affect the distances (and/or similarities) between all cell line pairs in
   gene-expression space
-
   '''
 
   # calculte similarity vector based on expression data
   sim_exp = calc_cl_sim(data_type='exp')
 
   # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
-  sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=500, row_zscore=True)
+  sim_exp_filt = calc_cl_sim(data_type='exp', col_qn=True)
 
   # calculate similarity vector based on ptm data
   save_gene_exp_compatible_ptm_data()
@@ -38,7 +37,7 @@ def save_gene_exp_compatible_ptm_data():
   pass
 
 def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
-                    row_zscore=False):
+                    row_zscore=False, col_qn=False, col_zscore=False):
   '''
   calculate cell line similarity based on data_type (e.g. expression) with
   optional filtering and normalization
@@ -57,6 +56,22 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
 
   net.load_file(filename)
 
+  # run col qn before anything
+  if col_qn != False:
+    print('column qn')
+    net.normalize(axis='col', norm_type='qn')
+
+  # run col zscore before anything
+  if col_zscore != False:
+    print('zscore the cols')
+    net.normalize(axis='col', norm_type='zscore')
+
+  # run row zscore after col qn
+  if row_zscore != False:
+    print('zscore the rows')
+    net.normalize(axis='row', norm_type='zscore')
+
+  # filter rows/cols after normalization
   if sum_filter != None:
     print('filter top ' + str(sum_filter) + ' rows based on sum')
     net.filter_N_top('row', sum_filter, rank_type='sum')
@@ -65,9 +80,6 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
     print('filter top ' + str(var_filter) + ' rows based on variance')
     net.filter_N_top('row', var_filter, rank_type='var')
 
-  if row_zscore != None:
-    print('zscore the rows')
-    net.normalize(axis='row', norm_type='zscore')
 
 
   tmp_df = net.dat_to_df()
