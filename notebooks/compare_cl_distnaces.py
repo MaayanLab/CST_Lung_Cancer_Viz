@@ -9,13 +9,16 @@ def main():
   '''
 
   # calculte similarity vector based on expression data
-  sim_exp = calc_cl_exp_sim()
+  sim_exp = calc_cl_sim(data_type='exp')
+
+  # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
+  sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=500, row_zscore=True)
 
   # calculate similarity vector based on ptm data
   save_gene_exp_compatible_ptm_data()
 
   # compare similarity vectors based on expression and ptm data
-  sim_data = compare_sim_vectors(sim_exp, sim_exp)
+  sim_data = compare_sim_vectors(sim_exp, sim_exp_filt)
 
   print(sim_data)
 
@@ -34,16 +37,38 @@ def save_gene_exp_compatible_ptm_data():
 
   pass
 
-def calc_cl_exp_sim():
+def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
+                    row_zscore=False):
+  '''
+  calculate cell line similarity based on data_type (e.g. expression) with
+  optional filtering and normalization
+  '''
 
   from scipy.spatial.distance import pdist, squareform
   from clustergrammer import Network
 
   net = Network()
 
-  filename = '../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt'
+  all_data = {
+    'exp':'../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt'
+  }
+
+  filename = all_data[data_type]
 
   net.load_file(filename)
+
+  if sum_filter != None:
+    print('filter top ' + str(sum_filter) + ' rows based on sum')
+    net.filter_N_top('row', sum_filter, rank_type='sum')
+
+  if var_filter != None:
+    print('filter top ' + str(var_filter) + ' rows based on variance')
+    net.filter_N_top('row', var_filter, rank_type='var')
+
+  if row_zscore != None:
+    print('zscore the rows')
+    net.normalize(axis='row', norm_type='zscore')
+
 
   tmp_df = net.dat_to_df()
 
@@ -51,7 +76,7 @@ def calc_cl_exp_sim():
 
   col_names = df.columns.tolist()
 
-
+  print(df.shape)
 
   # transpose to calc distance matrix of columns
   df = df.transpose()
