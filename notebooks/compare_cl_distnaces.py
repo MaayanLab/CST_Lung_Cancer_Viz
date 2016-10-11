@@ -109,6 +109,7 @@ def average_plex_runs():
 
   print('shape of all ptms')
   print(df_ptm.shape)
+  print('\n')
 
   cl_with_duplicates = {}
 
@@ -124,14 +125,46 @@ def average_plex_runs():
 
   # print(cl_with_duplicates)
 
+  df_add = deepcopy(df_ptm)
+
   # merge data
   for dup_cl in cl_with_duplicates:
     print(dup_cl)
     inst_plexes = cl_with_duplicates[dup_cl]
 
-    print(inst_plexes)
+    df_dup = deepcopy(df_ptm[inst_plexes])
 
+    print(df_dup.shape)
 
+    # calc mean of col vectors
+    df_mean = df_dup.mean(axis=1)
+
+    print(df_mean.shape)
+
+    # add series to df
+    df_add[dup_cl] = df_mean
+
+  print(df_add.shape)
+
+  cl_add = df_add.columns.tolist()
+  print(cl_add)
+
+  cl_keep = []
+  for inst_cl in cl_add:
+    if 'plex' not in inst_cl:
+      cl_keep.append(inst_cl)
+
+  print('---------')
+  print('remove duplicate plex cell lines from unique_cl version')
+  cl_keep.sort()
+
+  print(cl_keep)
+
+  df_uni_cl = deepcopy(df_add[cl_keep])
+
+  filename_unique_cl = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios_uni_cl.tsv'
+
+  df_uni_cl.to_csv(filename_unique_cl, sep='\t')
 
 
 def combine_and_save_ptm():
