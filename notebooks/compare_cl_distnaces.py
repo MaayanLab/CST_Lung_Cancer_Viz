@@ -7,16 +7,22 @@ def main():
   gene-expression space
   '''
 
-  # # calculte similarity vector based on expression data
-  # sim_exp = calc_cl_sim(data_type='exp')
-
-  # # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
-  # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
-
+  # pre-processing of PTM data to make comparable to gene-exp
+  ############################################################
   # calculate similarity vector based on ptm data
   save_gene_exp_compatible_ptm_data()
 
+  # calculate similarities of cell lines
+  ##########################################
+  # # calculte similarity vector based on expression data
+  # sim_exp = calc_cl_sim(data_type='exp')
+
+  # # calculate alternate similiarites
+  # # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
+  # sim_exp_filt = calc_cl_sim(data_type='exp', var_filter=1000)
+
   # # compare similarity vectors based on expression and ptm data
+  # ###############################################################
   # sim_data = compare_sim_vectors(sim_exp, sim_exp_filt)
   # print(sim_data)
 
@@ -27,8 +33,28 @@ def save_gene_exp_compatible_ptm_data():
   2) only include the 37 cell lines that are found in CCLE, 3) put cell lines
   into the same order as the gene expression data.
   '''
+  import pandas as pd
+  from clustergrammer import Network
+  from copy import deepcopy
 
-  combine_and_save_ptm()
+  net = deepcopy(Network())
+
+  # # only need to run once
+  # ############################
+  # combine_and_save_ptm()
+
+  # load all ptm ratios
+  filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
+
+  net.load_file(filename_all_ptm)
+
+  tmp_df = net.dat_to_df()
+  df_all = tmp_df['mat']
+
+  print('shape of all ptms')
+  print(df_all.shape)
+
+
 
 def combine_and_save_ptm():
   # combine all ptm data into single dataframe
