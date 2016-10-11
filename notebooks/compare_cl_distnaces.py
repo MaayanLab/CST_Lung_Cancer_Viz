@@ -41,7 +41,9 @@ def combine_and_save_ptm():
 
   ptm_data = {
   'phos': '../lung_cellline_3_1_16/lung_cellline_phospho/lung_cellline_TMT_phospho_combined_ratios.tsv',
-  'act': '../lung_cellline_3_1_16/lung_cellline_Ack/lung_cellline_TMT_Ack_combined_ratios.tsv'
+  'act': '../lung_cellline_3_1_16/lung_cellline_Ack/lung_cellline_TMT_Ack_combined_ratios.tsv',
+  'met_arg': '../lung_cellline_3_1_16/lung_cellline_Rme1/lung_cellline_TMT_Rme1_combined_ratios.tsv',
+  'met_lys': '../lung_cellline_3_1_16/lung_cellline_Kme1/lung_cellline_TMT_Kme1_combined_ratios.tsv'
   }
 
   df_all = pd.DataFrame()
@@ -64,20 +66,26 @@ def combine_and_save_ptm():
 
     inst_df.columns = col_names
 
+    print('\ninst_type ' + inst_type)
     print(inst_df.shape)
 
     df_all = pd.concat([df_all, inst_df], axis=0)
 
   filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
 
+  print('\nshape of mat')
   print(df_all.shape)
 
   df_all.to_csv(filename_all_ptm, sep='\t')
 
+  print('\ncheck if rows are unique')
   all_rows = df_all.index.tolist()
   print(len(all_rows))
   all_rows = list(set(all_rows))
   print(len(all_rows))
+
+  print('\nnumber of cell lines ')
+  print(len(df_all.columns.tolist()))
 
 
 
