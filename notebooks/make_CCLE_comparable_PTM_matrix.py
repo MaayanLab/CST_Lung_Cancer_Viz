@@ -7,16 +7,11 @@ def main():
   '''
   import pandas as pd
 
-  # only need to run once
-  combine_and_save_ptm()
+  # combine_and_save_ptm()
 
-  # # only need to run once
-  # average_plex_runs()
+  average_plex_runs()
 
-  # # only need to run once
-  # keep_only_CCLE_cl()
-
-  # pass
+  keep_only_CCLE_cl()
 
 def combine_and_save_ptm():
   # combine all ptm data into single dataframe
@@ -74,5 +69,87 @@ def combine_and_save_ptm():
 
   print('\nnumber of cell lines ')
   print(len(df_all.columns.tolist()))
+
+  # I am manually removing trailing tabs need to improve this
+  ################################################################
+
+
+def average_plex_runs():
+  import pandas as pd
+  from clustergrammer import Network
+  from copy import deepcopy
+
+  print('averaging plex runs and saving to new tsv')
+
+  # load all ptm ratios
+  filename_all_ptm = '../lung_cellline_3_1_16/'+ \
+                     'lung_cellline_TMT_all_ptm_ratios.tsv'
+
+  net_ptm = deepcopy(Network())
+  net_ptm.load_file(filename_all_ptm)
+
+  tmp_df = net_ptm.dat_to_df()
+  df_ptm = tmp_df['mat']
+
+  ptm_cols = df_ptm.columns.tolist()
+
+  print('shape of all ptms')
+  print(df_ptm.shape)
+  print('\n')
+
+  cl_with_duplicates = {}
+
+  for inst_plex in ptm_cols:
+    if '_plex' in inst_plex:
+
+      inst_cl = inst_plex.split('_plex')[0]
+
+      if inst_cl not in cl_with_duplicates:
+        cl_with_duplicates[inst_cl] = []
+
+      cl_with_duplicates[inst_cl].append(inst_plex)
+
+  # print(cl_with_duplicates)
+
+  df_add = deepcopy(df_ptm)
+
+  # merge data
+  for dup_cl in cl_with_duplicates:
+    print(dup_cl)
+    inst_plexes = cl_with_duplicates[dup_cl]
+
+    df_dup = deepcopy(df_ptm[inst_plexes])
+
+    print(df_dup.shape)
+
+    # calc mean of col vectors
+    df_mean = df_dup.mean(axis=1)
+
+    print(df_mean.shape)
+
+    # add series to df
+    df_add[dup_cl] = df_mean
+
+  print(df_add.shape)
+
+  cl_add = df_add.columns.tolist()
+  print(cl_add)
+
+  cl_keep = []
+  for inst_cl in cl_add:
+    if 'plex' not in inst_cl:
+      cl_keep.append(inst_cl)
+
+  print('---------')
+  print('remove duplicate plex cell lines from unique_cl version')
+  cl_keep.sort()
+
+  print(cl_keep)
+
+  df_uni_cl = deepcopy(df_add[cl_keep])
+
+  filename_unique_cl = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios_uni_cl.tsv'
+
+  df_uni_cl.to_csv(filename_unique_cl, sep='\t')
 
 main()
