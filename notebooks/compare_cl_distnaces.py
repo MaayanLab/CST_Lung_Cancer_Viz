@@ -7,27 +7,45 @@ def main():
   gene-expression space
   '''
 
-  # calculate similarities of cell lines
-  ##########################################
-  # # calculte similarity vector based on expression data
-  sim_exp = calc_cl_sim(data_type='exp_none')
+  # compare similarity matrices of cell lines based on different processed
+  # versions of exp and ptm data
 
-  # calculate ptm sim
-  sim_ptm = calc_cl_sim(data_type='ptm_none')
-  sim_ptm_norm = calc_cl_sim(data_type='ptm_col-qn_row-zscore')
-  sim_ptm_filt = calc_cl_sim(data_type='ptm_filter_none')
+  # no normalizations
+  #######################
+  results = mantel_test('exp_none', 'ptm_none')
 
-  print('here')
+  print('--- one process \n---------------------')
+  results = mantel_test('exp_none', 'ptm_row-zscore')
+  results = mantel_test('exp_none', 'ptm_col-qn')
+  results = mantel_test('exp_none', 'ptm_filter_none')
+  results = mantel_test('exp_none', 'ptm_col-zscore')
+
+  print('--- two processes \n---------------------')
+  results = mantel_test('exp_none', 'ptm_col-qn_row-zscore')
+  results = mantel_test('exp_none', 'ptm_col-zscore_row-zscore')
+
+  print('--- three processes \n---------------------')
+  results = mantel_test('exp_none', 'ptm_filter_col-qn_row-zscore')
+  results = mantel_test('exp_none', 'ptm_filter_col-zscore_row-zscore')
+  results = mantel_test('exp_none', 'ptm_col-qn_row-zscore_filter')
+  results = mantel_test('exp_none', 'ptm_col-zscore_row-zscore_filter')
+
+def mantel_test(data_1, data_2, perms=10000, tail='upper'):
+
   import Mantel
 
-  results = Mantel.test(sim_exp, sim_ptm, perms=10000, tail='upper')
-  print(results)
+  print('compare ' + data_1 + ' to ' + data_2)
 
-  results = Mantel.test(sim_exp, sim_ptm_norm, perms=10000, tail='upper')
-  print(results)
+  # calculate similarity matrices of both matrices
+  sim_1 = calc_cl_sim(data_type=data_1)
+  sim_2 = calc_cl_sim(data_type=data_2)
 
-  results = Mantel.test(sim_exp, sim_ptm_filt, perms=10000, tail='upper')
+  results = Mantel.test(sim_1, sim_2, perms=perms, tail='upper')
+
   print(results)
+  print('\n')
+
+  return results
 
 def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
   '''
@@ -40,7 +58,6 @@ def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
   from copy import deepcopy
 
   net = deepcopy(Network())
-
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
              data_type + '.txt'
 
@@ -51,7 +68,7 @@ def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
 
   df = tmp_df['mat']
 
-  print(df.shape)
+  print('shape'+ str(df.shape))
 
   # transpose to calc distance matrix of columns
   df = df.transpose()
