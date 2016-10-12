@@ -7,11 +7,11 @@ def main():
   '''
   import pandas as pd
 
-  # combine_and_save_ptm()
+  combine_and_save_ptm()
 
-  average_plex_runs()
+  # average_plex_runs()
 
-  keep_only_CCLE_cl()
+  # keep_only_CCLE_cl()
 
 def combine_and_save_ptm():
   # combine all ptm data into single dataframe
@@ -41,13 +41,16 @@ def combine_and_save_ptm():
     tmp_df = net.dat_to_df()
     inst_df = tmp_df['mat']
 
-    col_tuples = inst_df.columns.tolist()
+    col_names = inst_df.columns.tolist()
 
-    col_names = []
-    for inst_tuple in col_tuples:
-      col_names.append(inst_tuple[0])
+    # # col names are not tuples
+    # ################
+    # col_tuples = inst_df.columns.tolist()
+    # col_names = []
+    # for inst_tuple in col_tuples:
+    #   col_names.append(inst_tuple[0])
 
-    inst_df.columns = col_names
+    # inst_df.columns = col_names
 
     print('\ninst_type ' + inst_type)
     print(inst_df.shape)
@@ -59,7 +62,7 @@ def combine_and_save_ptm():
   print('\nshape of mat')
   print(df_all.shape)
 
-  df_all.to_csv(filename_all_ptm, sep='\t')
+  df_all.to_csv(filename_all_ptm, sep='\t', na_rep='nan')
 
   print('\ncheck if rows are unique')
   all_rows = df_all.index.tolist()
