@@ -20,5 +20,3 @@ proc_cst.combine_ratios('phospho')
 proc_cst.combine_ratios('Ack')
 proc_cst.combine_ratios('Kme1')
 proc_cst.combine_ratios('Rme1')
-
-
