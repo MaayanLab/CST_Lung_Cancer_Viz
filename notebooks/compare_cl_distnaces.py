@@ -9,18 +9,21 @@ def main():
   # compare similarity matrices of cell lines based on different processed
   # versions of exp and ptm data
 
-
-  all_metrics = ['euclidean','cosine']
+  multiple_dist_metrics = ['euclidean','cosine']
 
   # I will try out various version of expression data
   # 1) all expression data
   # 2) normalized and filtered
   # 3) plex-data cell line (dimensions are plexes)
   exp_type = 'exp_none'
-  for inst_metric in all_metrics:
-    compare_exp_to_various_ptm_versions(exp_type, inst_metric)
+  mantel_method = 'pearson'
 
-def compare_exp_to_various_ptm_versions(exp_type='exp_none', dist_metric='euclidean'):
+  for inst_metric in multiple_dist_metrics:
+    compare_exp_to_various_ptm_versions(exp_type=exp_type,
+       dist_metric=inst_metric, mantel_method=mantel_method)
+
+def compare_exp_to_various_ptm_versions(exp_type='exp_none',
+      dist_metric='euclidean', mantel_method='pearson'):
   import numpy as np
   import pandas as pd
   from copy import deepcopy
@@ -48,7 +51,8 @@ def compare_exp_to_various_ptm_versions(exp_type='exp_none', dist_metric='euclid
 
     ptm_proc = all_proc[i]
 
-    results = mantel_test(exp_type, ptm_proc, dist_metric=dist_metric)
+    results = mantel_test(exp_type, ptm_proc, dist_metric=dist_metric,
+                          mantel_method=mantel_method)
 
     mat[i, 0] = results[0]
     mat[i, 1] = results[1]
@@ -63,7 +67,8 @@ def compare_exp_to_various_ptm_versions(exp_type='exp_none', dist_metric='euclid
              'cl_'+exp_name+'_vs_ptm_'+dist_metric+'.txt'
   df.to_csv(filename, sep='\t')
 
-def mantel_test(data_1, data_2, perms=10000, tail='upper', dist_metric='euclidean'):
+def mantel_test(data_1, data_2, perms=10000, tail='upper',
+                dist_metric='euclidean', mantel_method='pearson'):
 
   import Mantel
 
@@ -74,7 +79,7 @@ def mantel_test(data_1, data_2, perms=10000, tail='upper', dist_metric='euclidea
   sim_2 = calc_cl_sim(data_type=data_2, dist_metric=dist_metric)
 
   # pearson or spearman
-  results = Mantel.test(sim_1, sim_2, perms=perms, tail='upper', method='pearson')
+  results = Mantel.test(sim_1, sim_2, perms=perms, tail='upper', method=mantel_method)
 
   print(results)
   print('\n')

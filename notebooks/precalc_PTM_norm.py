@@ -1,4 +1,13 @@
 def main():
+
+  # # only run once (need to add pairwise-complete versions)
+  # make_processed_versions()
+
+  # generate plex matrix (rows are plexes and columns are cell lines)
+  # some cell lines have two plexes
+  make_plex_matrix()
+
+def make_processed_versions():
   '''
   This will pre-calculate different normalizations/filterings of the CCLE
   comparable PTM data and CCLE gene-expression data.
@@ -29,7 +38,7 @@ def precalc_processed_versions(inst_type):
   if inst_type == 'ptm':
     filter_before = ['filter_'+i for i in norms]
     filter_after = [i+'_filter' for i in norms]
-    all_proc = norms + filter_before + filter_after
+    all_proc = norms + filter_before + filter_af
   else:
     all_proc = norms
 
@@ -82,5 +91,54 @@ def process_net(net, inst_proc):
     net.filter_threshold('row', threshold=0, num_occur=37)
 
   return net
+
+def make_plex_matrix():
+  '''
+  Make a cell line matrix with plex rows and cell line columns.
+  This will be used as a negative control that should show worsening correlation
+  as data is normalized/filtered.
+  '''
+  import numpy as np
+  import pandas as pd
+  from clustergrammer import Network
+
+  # load cl_info
+  net = Network()
+  cl_info = net.load_json_to_dict('../cell_line_info/cell_line_info_dict.json')
+
+  # load cell line expression
+  net.load_file('../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt')
+  tmp_df = net.dat_to_df()
+  df = tmp_df['mat']
+
+  cols = df.columns.tolist()
+
+  rows = range(9)
+  rows = [i+1 for i in rows]
+  print(rows)
+
+  mat = np.zeros((len(rows), len(cols)))
+
+  for inst_col in cols:
+
+    for inst_cl in cl_info:
+
+      if inst_col in inst_cl:
+        inst_plex = int(cl_info[inst_cl]['Plex'])
+
+        if inst_plex != -1:
+          # print(inst_col + ' in ' + inst_cl + ': ' + str(inst_plex))
+
+          row_index = rows.index(inst_plex)
+          col_index = cols.index(inst_col)
+
+          mat[row_index, col_index] = 1
+
+
+  df_plex = pd.DataFrame(data=mat, columns=cols, index=rows)
+
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+            'exp-plex.txt'
+  df_plex.to_csv(filename, sep='\t')
 
 main()
