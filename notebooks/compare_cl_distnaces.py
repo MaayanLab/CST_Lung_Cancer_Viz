@@ -18,13 +18,22 @@ def main():
   sim_exp = calc_cl_sim(data_type='exp')
 
   # calculate ptm sim
-  # sim_ptm = calc_cl_sim(data_type='ptm')
-  sim_ptm = calc_cl_sim(data_type='ptm', col_qn=True, row_zscore=True)
+  sim_ptm = calc_cl_sim(data_type='ptm')
+  sim_ptm_norm = calc_cl_sim(data_type='ptm', col_qn=True, row_zscore=True)
 
-  # compare similarity vectors based on expression and ptm data
-  ###############################################################
-  sim_data = compare_sim_vectors(sim_exp, sim_ptm)
-  print(sim_data)
+  # # compare similarity vectors based on expression and ptm data
+  # ###############################################################
+  # sim_data = compare_sim_vectors(sim_exp, sim_ptm)
+  # print(sim_data)
+
+  print('here')
+  import Mantel
+
+  results = Mantel.test(sim_exp, sim_ptm)
+  print(results)
+
+  results = Mantel.test(sim_exp, sim_ptm_norm)
+  print(results)
 
 def save_gene_exp_compatible_ptm_data():
   '''
