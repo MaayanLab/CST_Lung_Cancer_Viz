@@ -29,10 +29,10 @@ def main():
   print('here')
   import Mantel
 
-  results = Mantel.test(sim_exp, sim_ptm)
+  results = Mantel.test(sim_exp, sim_ptm, perms=10000, tail='upper')
   print(results)
 
-  results = Mantel.test(sim_exp, sim_ptm_norm)
+  results = Mantel.test(sim_exp, sim_ptm_norm, perms=10000, tail='upper')
   print(results)
 
 def save_gene_exp_compatible_ptm_data():
@@ -240,7 +240,8 @@ def combine_and_save_ptm():
 
 
 def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
-                    row_zscore=False, col_qn=False, col_zscore=False):
+                    row_zscore=False, col_qn=False, col_zscore=False.
+                    dist_metric='euclidean'):
   '''
   calculate cell line similarity based on data_type (e.g. expression) with
   optional filtering and normalization
@@ -307,7 +308,7 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
   df = df.transpose()
 
   # calculate the similarity of cell line data based on gene expression
-  sim = 1 - pdist(df, metric='cosine')
+  sim = 1 - pdist(df, metric=dist_metric)
 
   return sim
 
