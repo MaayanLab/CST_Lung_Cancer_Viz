@@ -6,41 +6,75 @@ def main():
   affect the distances (and/or similarities) between all cell line pairs in
   gene-expression space
   '''
-
   # compare similarity matrices of cell lines based on different processed
   # versions of exp and ptm data
 
-  # no normalizations
-  #######################
-  results = mantel_test('exp_none', 'ptm_none')
 
-  print('--- one process \n---------------------')
-  results = mantel_test('exp_none', 'ptm_row-zscore')
-  results = mantel_test('exp_none', 'ptm_col-qn')
-  results = mantel_test('exp_none', 'ptm_filter_none')
-  results = mantel_test('exp_none', 'ptm_col-zscore')
+  all_metrics = ['euclidean','cosine']
 
-  print('--- two processes \n---------------------')
-  results = mantel_test('exp_none', 'ptm_col-qn_row-zscore')
-  results = mantel_test('exp_none', 'ptm_col-zscore_row-zscore')
+  # I will try out various version of expression data
+  # 1) all expression data
+  # 2) normalized and filtered
+  # 3) plex-data cell line (dimensions are plexes)
+  exp_type = 'exp_none'
+  for inst_metric in all_metrics:
+    compare_exp_to_various_ptm_versions(exp_type, inst_metric)
 
-  print('--- three processes \n---------------------')
-  results = mantel_test('exp_none', 'ptm_filter_col-qn_row-zscore')
-  results = mantel_test('exp_none', 'ptm_filter_col-zscore_row-zscore')
-  results = mantel_test('exp_none', 'ptm_col-qn_row-zscore_filter')
-  results = mantel_test('exp_none', 'ptm_col-zscore_row-zscore_filter')
+def compare_exp_to_various_ptm_versions(exp_type='exp_none', dist_metric='euclidean'):
+  import numpy as np
+  import pandas as pd
+  from copy import deepcopy
 
-def mantel_test(data_1, data_2, perms=10000, tail='upper'):
+  ptm_norms = [
+  'none', 'row-zscore', 'col-qn', 'col-zscore',
+  'col-qn_row-zscore', 'col-zscore_row-zscore'
+  ]
+
+  # only add filter for PTM data
+  filter_before = ['filter_'+i for i in ptm_norms]
+  filter_after = [i+'_filter' for i in ptm_norms]
+  all_proc = ptm_norms + filter_before + filter_after
+  all_proc = ['ptm_'+i for i in all_proc]
+
+  cols = ['cor', 'pval', 'zscore']
+  rows = deepcopy(all_proc)
+  rows = [i.replace('ptm_','').replace('_',' ') for i in rows]
+
+  mat = np.zeros((len(rows), len(cols)))
+
+  # run mantel tests
+  #####################################
+  for i in range(len(all_proc)):
+
+    ptm_proc = all_proc[i]
+
+    results = mantel_test(exp_type, ptm_proc, dist_metric=dist_metric)
+
+    mat[i, 0] = results[0]
+    mat[i, 1] = results[1]
+    mat[i, 2] = results[2]
+
+  # save as tsv
+  df = pd.DataFrame(data=mat, columns=cols, index=rows)
+
+  # use dash to encode expression data type
+  exp_name = exp_type.replace('_none','').replace('_','-')
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/compare_cl_dist/'+\
+             'cl_'+exp_name+'_vs_ptm_'+dist_metric+'.txt'
+  df.to_csv(filename, sep='\t')
+
+def mantel_test(data_1, data_2, perms=10000, tail='upper', dist_metric='euclidean'):
 
   import Mantel
 
   print('compare ' + data_1 + ' to ' + data_2)
 
   # calculate similarity matrices of both matrices
-  sim_1 = calc_cl_sim(data_type=data_1)
-  sim_2 = calc_cl_sim(data_type=data_2)
+  sim_1 = calc_cl_sim(data_type=data_1, dist_metric=dist_metric)
+  sim_2 = calc_cl_sim(data_type=data_2, dist_metric=dist_metric)
 
-  results = Mantel.test(sim_1, sim_2, perms=perms, tail='upper')
+  # pearson or spearman
+  results = Mantel.test(sim_1, sim_2, perms=perms, tail='upper', method='pearson')
 
   print(results)
   print('\n')
