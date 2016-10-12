@@ -11,7 +11,7 @@ def main():
 
   average_plex_runs()
 
-  # keep_only_CCLE_cl()
+  keep_only_CCLE_cl()
 
 def combine_and_save_ptm():
   # combine all ptm data into single dataframe
@@ -145,5 +145,42 @@ def average_plex_runs():
                       'all_ptm_ratios_uni_cl.tsv'
 
   df_uni_cl.to_csv(filename_unique_cl, sep='\t')
+
+def keep_only_CCLE_cl():
+  from clustergrammer import Network
+  from copy import deepcopy
+  # load all ptm ratios
+  filename_all_ptm = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
+                     'all_ptm_ratios_uni_cl.tsv'
+
+  net_ptm = deepcopy(Network())
+  net_ptm.load_file(filename_all_ptm)
+
+  tmp_df = net_ptm.dat_to_df()
+  df_ptm_all_cl = tmp_df['mat']
+
+  print('shape of all ptms')
+  print(df_ptm_all_cl.shape)
+
+  # get gene-exp cell lines
+  net_exp = deepcopy(Network())
+  net_exp.load_file('../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt')
+
+  tmp_df = net_exp.dat_to_df()
+  df_exp = tmp_df['mat']
+
+  print('shape of exp')
+  print(df_exp.shape)
+
+  # only keep gene expression cell lines
+  #######################################
+  cl_exp = df_exp.columns.tolist()
+  df_ptm = df_ptm_all_cl[cl_exp]
+  print(df_ptm.shape)
+
+  filename_CCLE_cl = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
+                     'all_ptm_ratios_CCLE_cl.tsv'
+
+  df_ptm.to_csv(filename_CCLE_cl, sep='\t')
 
 main()
