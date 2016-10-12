@@ -31,7 +31,7 @@ def main():
   print(results)
 
 def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
-                    row_zscore=False, col_qn=False, col_zscore=False.
+                    row_zscore=False, col_qn=False, col_zscore=False,
                     dist_metric='euclidean'):
   '''
   calculate cell line similarity based on data_type (e.g. expression) with
@@ -45,7 +45,7 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
 
   all_data = {
     'exp':'../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt',
-    'ptm':'../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios_CCLE_cl.tsv'
+    'ptm':'../lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios_CCLE_cl.tsv'
   }
 
   filename = all_data[data_type]
