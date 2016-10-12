@@ -9,7 +9,7 @@ def main():
 
   combine_and_save_ptm()
 
-  # average_plex_runs()
+  average_plex_runs()
 
   # keep_only_CCLE_cl()
 
@@ -43,21 +43,12 @@ def combine_and_save_ptm():
 
     col_names = inst_df.columns.tolist()
 
-    # # col names are not tuples
-    # ################
-    # col_tuples = inst_df.columns.tolist()
-    # col_names = []
-    # for inst_tuple in col_tuples:
-    #   col_names.append(inst_tuple[0])
-
-    # inst_df.columns = col_names
-
     print('\ninst_type ' + inst_type)
     print(inst_df.shape)
 
     df_all = pd.concat([df_all, inst_df], axis=0)
 
-  filename_all_ptm = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios.tsv'
+  filename_all_ptm = '../lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios.tsv'
 
   print('\nshape of mat')
   print(df_all.shape)
@@ -76,7 +67,6 @@ def combine_and_save_ptm():
   # I am manually removing trailing tabs need to improve this
   ################################################################
 
-
 def average_plex_runs():
   import pandas as pd
   from clustergrammer import Network
@@ -86,7 +76,7 @@ def average_plex_runs():
 
   # load all ptm ratios
   filename_all_ptm = '../lung_cellline_3_1_16/'+ \
-                     'lung_cellline_TMT_all_ptm_ratios.tsv'
+                     'lung_cl_all_ptm/all_ptm_ratios.tsv'
 
   net_ptm = deepcopy(Network())
   net_ptm.load_file(filename_all_ptm)
@@ -151,7 +141,8 @@ def average_plex_runs():
 
   df_uni_cl = deepcopy(df_add[cl_keep])
 
-  filename_unique_cl = '../lung_cellline_3_1_16/lung_cellline_TMT_all_ptm_ratios_uni_cl.tsv'
+  filename_unique_cl = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
+                      'all_ptm_ratios_uni_cl.tsv'
 
   df_uni_cl.to_csv(filename_unique_cl, sep='\t')
 
