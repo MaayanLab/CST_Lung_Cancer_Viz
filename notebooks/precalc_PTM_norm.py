@@ -27,8 +27,9 @@ def precalc_processed_versions(inst_type):
 
   # only add filter for PTM data
   if inst_type == 'ptm':
-    filters = ['filter_'+i for i in norms]
-    all_proc = norms + filters
+    filter_before = ['filter_'+i for i in norms]
+    filter_after = [i+'_filter' for i in norms]
+    all_proc = norms + filter_before + filter_after
   else:
     all_proc = norms
 
@@ -38,7 +39,7 @@ def precalc_processed_versions(inst_type):
     print('----------------------------')
 
     # load data into network so that norm/filtering can be easily done
-    ######################################################################
+    ####################################################################
     net = deepcopy(Network())
     net.load_file(filename)
 
@@ -53,9 +54,8 @@ def precalc_processed_versions(inst_type):
 
       net = process_net(net, inst_proc)
 
-    # export dataframe
-    ######################
-    net.swap_nan_for_zero()
+    # export dataframe (keep nans)
+    ###############################
     tmp_df = net.dat_to_df()
     df = tmp_df['mat']
 
