@@ -31,7 +31,8 @@ def precalc_processed_versions(inst_type):
 
   for inst_filt in all_proc:
 
-    print('process: ' + inst_filt)
+    print('\n\n-- all processes: ' + inst_filt)
+    print('------------------------\n')
 
     # load data into network so that norm/filtering can be easily done
     ######################################################################
@@ -42,12 +43,12 @@ def precalc_processed_versions(inst_type):
     #######################################
     run_proc = inst_filt.split('_')
 
-    print('\n-------------')
     for i in range(len(run_proc)):
       inst_proc = run_proc[i]
       proc_num = i + 1
       print( str(proc_num) + ': ' + inst_proc)
 
+      net = process_net(net, inst_proc)
 
     # export dataframe
     ######################
@@ -59,5 +60,24 @@ def precalc_processed_versions(inst_type):
 
     # write to file
     #################
+    inst_filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
+                    'precalc_processed/' + inst_type + '_' + inst_filt + '.txt'
+    df.to_csv(inst_filename, sep='\t', na_rep='nan')
+
+def process_net(net, inst_proc):
+
+  print('processing network: ' + inst_proc + '\n********************')
+
+  if inst_proc == 'row-zscore':
+    net.normalize(axis='row', norm_type='zscore')
+  elif inst_proc == 'col-qn':
+    net.normalize(axis='col', norm_type='qn')
+  elif inst_proc == 'col-zscore':
+    net.normalize(axis='col', norm_type='zscore')
+  elif inst_proc == 'filter':
+    # this removes ptms with missing data
+    net.filter_threshold('row', threshold=0, num_occur=37)
+
+  return net
 
 main()
