@@ -10,16 +10,12 @@ def main():
   # calculate similarities of cell lines
   ##########################################
   # # calculte similarity vector based on expression data
-  sim_exp = calc_cl_sim(data_type='exp')
+  sim_exp = calc_cl_sim(data_type='exp_none')
 
   # calculate ptm sim
-  sim_ptm = calc_cl_sim(data_type='ptm')
-  sim_ptm_norm = calc_cl_sim(data_type='ptm', col_qn=True, row_zscore=True)
-
-  # # compare similarity vectors based on expression and ptm data
-  # ###############################################################
-  # sim_data = compare_sim_vectors(sim_exp, sim_ptm)
-  # print(sim_data)
+  sim_ptm = calc_cl_sim(data_type='ptm_none')
+  sim_ptm_norm = calc_cl_sim(data_type='ptm_col-qn_row-zscore')
+  sim_ptm_filt = calc_cl_sim(data_type='ptm_filter_none')
 
   print('here')
   import Mantel
@@ -30,9 +26,10 @@ def main():
   results = Mantel.test(sim_exp, sim_ptm_norm, perms=10000, tail='upper')
   print(results)
 
-def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
-                    row_zscore=False, col_qn=False, col_zscore=False,
-                    dist_metric='euclidean'):
+  results = Mantel.test(sim_exp, sim_ptm_filt, perms=10000, tail='upper')
+  print(results)
+
+def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
   '''
   calculate cell line similarity based on data_type (e.g. expression) with
   optional filtering and normalization
@@ -40,58 +37,19 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
 
   from scipy.spatial.distance import pdist, squareform
   from clustergrammer import Network
+  from copy import deepcopy
 
-  net = Network()
+  net = deepcopy(Network())
 
-  all_data = {
-    'exp':'../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt',
-    'ptm':'../lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios_CCLE_cl.tsv'
-  }
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+             data_type + '.txt'
 
-  filename = all_data[data_type]
-
+  # load file and export dataframe
   net.load_file(filename)
-
-  # col normalization
-  ######################
-
-  # run col qn before anything
-  if col_qn != False:
-    print('column qn')
-    net.normalize(axis='col', norm_type='qn')
-
-  # run col zscore before anything
-  if col_zscore != False:
-    print('zscore the cols')
-    net.normalize(axis='col', norm_type='zscore')
-
-  # row normalization
-  ######################
-
-  # run row zscore after col qn
-  if row_zscore != False:
-    print('zscore the rows')
-    net.normalize(axis='row', norm_type='zscore')
-
-  # row filtering
-  ######################
-
-  # filter rows after normalization
-  if sum_filter != None:
-    print('filter top ' + str(sum_filter) + ' rows based on sum')
-    net.filter_N_top('row', sum_filter, rank_type='sum')
-
-  if var_filter != None:
-    print('filter top ' + str(var_filter) + ' rows based on variance')
-    net.filter_N_top('row', var_filter, rank_type='var')
-
   net.swap_nan_for_zero()
-
   tmp_df = net.dat_to_df()
 
   df = tmp_df['mat']
-
-  col_names = df.columns.tolist()
 
   print(df.shape)
 
@@ -102,23 +60,5 @@ def calc_cl_sim(data_type='exp', sum_filter=None, var_filter=None,
   sim = 1 - pdist(df, metric=dist_metric)
 
   return sim
-
-def compare_sim_vectors(sim_exp, sim_ptm):
-  from scipy.spatial.distance import pdist, squareform
-  import numpy as np
-
-  # combine similarity vectors into matrix
-  inst_mat = np.vstack((sim_exp, sim_ptm))
-
-  sim_data = 1 - pdist(inst_mat, metric='cosine')
-
-  return sim_data
-
-  # calculate PTM sim mat of cell lines
-  ########################################
-
-  # I need to check whether a pairwise complete function exists
-  # I will use clustergrammer to do normalization etc.
-
 
 main()
