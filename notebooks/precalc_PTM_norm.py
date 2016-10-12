@@ -7,7 +7,7 @@ def main():
   data_types = ['exp', 'ptm']
 
   for inst_type in data_types:
-    print(inst_type)
+    precalc_processed_versions(inst_type)
 
 def precalc_processed_versions(inst_type):
   from copy import deepcopy
@@ -33,17 +33,31 @@ def precalc_processed_versions(inst_type):
 
     print('process: ' + inst_filt)
 
+    # load data into network so that norm/filtering can be easily done
+    ######################################################################
     net = deepcopy(Network())
-
     net.load_file(filename)
 
-    # export dataframe
-    net.swap_nan_for_zero()
+    # perform normalizations and filters
+    #######################################
+    run_proc = inst_filt.split('_')
 
+    print('\n-------------')
+    for i in range(len(run_proc)):
+      inst_proc = run_proc[i]
+      proc_num = i + 1
+      print( str(proc_num) + ': ' + inst_proc)
+
+
+    # export dataframe
+    ######################
+    net.swap_nan_for_zero()
     tmp_df = net.dat_to_df()
     df = tmp_df['mat']
 
     print(df.shape)
 
+    # write to file
+    #################
 
 main()
