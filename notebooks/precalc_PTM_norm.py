@@ -25,14 +25,17 @@ def precalc_processed_versions(inst_type):
   'col-qn_row-zscore', 'col-zscore_row-zscore'
   ]
 
-  filters = ['filter_'+i for i in norms]
-
-  all_proc = norms + filters
+  # only add filter for PTM data
+  if inst_type == 'ptm':
+    filters = ['filter_'+i for i in norms]
+    all_proc = norms + filters
+  else:
+    all_proc = norms
 
   for inst_filt in all_proc:
 
-    print('\n\n-- all processes: ' + inst_filt)
-    print('------------------------\n')
+    print('\n\n-- '+ inst_type +': all processes: ' + inst_filt)
+    print('----------------------------')
 
     # load data into network so that norm/filtering can be easily done
     ######################################################################
