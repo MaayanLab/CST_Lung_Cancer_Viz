@@ -3,7 +3,7 @@ def main():
   This script will make cell-line by cell-line distnace vectors and using the
   gene expression data (with and withouth gene-zscoring) and PTM data. I'll
   then check how different PTM data processing methods (normalization/filtering)
-  affect the distances (and/or similarities) between all cell line pairs in
+  affect the distances between all cell line pairs in
   gene-expression space
   '''
 
@@ -13,7 +13,7 @@ def main():
 
 def compare_cl_data_to_ptm(exp_type='exp_none', mantel_method='pearson'):
 
-  # compare similarity matrices of cell lines based on different processed
+  # compare distance matrices of cell lines based on different processed
   # versions of exp and ptm data
   #########################################################
   multiple_dist_metrics = ['euclidean','cosine']
@@ -77,7 +77,7 @@ def mantel_test(data_1, data_2, perms=10000, tail='upper',
 
   print('compare ' + data_1 + ' to ' + data_2)
 
-  # calculate similarity matrices of both matrices
+  # calculate distance matrices of both matrices
   dist_metric_1 = dist_metric
   dist_metric_2 = dist_metric
   if data_1 == 'exp-plex':
@@ -85,20 +85,20 @@ def mantel_test(data_1, data_2, perms=10000, tail='upper',
   if data_2 == 'exp-plex':
     dist_metric_2 = 'jaccard'
 
-  sim_1 = calc_cl_sim(data_type=data_1, dist_metric=dist_metric_1)
-  sim_2 = calc_cl_sim(data_type=data_2, dist_metric=dist_metric_2)
+  dist_mat_1 = calc_cl_dist(data_type=data_1, dist_metric=dist_metric_1)
+  dist_mat_2 = calc_cl_dist(data_type=data_2, dist_metric=dist_metric_2)
 
   # pearson or spearman
-  results = Mantel.test(sim_1, sim_2, perms=perms, tail='upper', method=mantel_method)
+  results = Mantel.test(dist_mat_1, dist_mat_2, perms=perms, tail='upper', method=mantel_method)
 
   print(results)
   print('\n')
 
   return results
 
-def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
+def calc_cl_dist(data_type='exp_none', dist_metric='euclidean'):
   '''
-  calculate cell line similarity based on data_type (e.g. expression) with
+  calculate cell line distance based on data_type (e.g. expression) with
   optional filtering and normalization
   '''
   from scipy.spatial.distance import pdist, squareform
@@ -121,8 +121,8 @@ def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
   # transpose to calc distance matrix of columns
   df = df.transpose()
 
-  sim = 1 - pdist(df, metric=dist_metric)
+  dist_mat = pdist(df, metric=dist_metric)
 
-  return sim
+  return dist_mat
 
 main()
