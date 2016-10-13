@@ -7,9 +7,47 @@ def main():
   gene-expression space
   '''
 
-  compare_cl_data_to_ptm(exp_type='exp_none', pairwise=False)
+  # compare_cl_data_to_ptm(exp_type='exp_none', pairwise=False)
+  # compare_cl_data_to_ptm(exp_type='exp_none', pairwise=True)
 
   # compare_cl_data_to_ptm(exp_type='exp-plex')
+
+  reproduce_Mark_correlation_matrix()
+
+def reproduce_Mark_correlation_matrix():
+  import pandas as pd
+  from scipy.spatial.distance import squareform
+  from clustergrammer import Network
+  from copy import deepcopy
+
+  dist_vect = calc_custom_dist(data_type='ptm_none', dist_metric='correlation',
+                              pairwise='True')
+
+
+  dist_mat = squareform(dist_vect)
+
+  net = Network()
+
+  data_type = 'ptm_none'
+
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+             data_type + '.txt'
+
+  # load file and export dataframe
+  net = deepcopy(Network())
+  net.load_file(filename)
+  net.swap_nan_for_zero()
+  tmp_df = net.dat_to_df()
+  df = tmp_df['mat']
+
+  cols = df.columns.tolist()
+  rows = cols
+
+  mark_df = pd.DataFrame(data=dist_mat, columns=cols, index=rows)
+
+  save_filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' \
+             + 'Mark_corr_sim_mat' + '.txt'
+  mark_df.to_csv(save_filename, sep='\t')
 
 def compare_cl_data_to_ptm(exp_type='exp_none', mantel_method='pearson',
                            pairwise=False):
@@ -17,9 +55,10 @@ def compare_cl_data_to_ptm(exp_type='exp_none', mantel_method='pearson',
   # compare distance matrices of cell lines based on different processed
   # versions of exp and ptm data
   #########################################################
-  multiple_dist_metrics = ['euclidean','cosine']
+  multiple_dist_metrics = ['correlation', 'euclidean','cosine']
 
   for inst_metric in multiple_dist_metrics:
+    print('inst_metric: ' + str(inst_metric) + '\n============================')
     compare_exp_to_various_ptm_versions(exp_type=exp_type,
        dist_metric=inst_metric, mantel_method=mantel_method, pairwise=pairwise)
 
@@ -68,7 +107,7 @@ def compare_exp_to_various_ptm_versions(exp_type='exp_none',
   # use dash to encode expression data type
   exp_name = exp_type.replace('_none','').replace('_','-')
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/compare_cl_dist/'+\
-             'cl_'+exp_name+'_vs_ptm_'+dist_metric+'.txt'
+             'cl_'+exp_name+'_vs_ptm_'+dist_metric+'_' + 'pairwise-' + str(pairwise) + '.txt'
   df.to_csv(filename, sep='\t')
 
 def mantel_test(data_1, data_2, perms=10000, tail='upper',
@@ -102,13 +141,17 @@ def mantel_test(data_1, data_2, perms=10000, tail='upper',
 
 def calc_cl_dist(data_type='exp_none', dist_metric='euclidean', pairwise=False):
 
-  # calculate normal distances
-  if pairwise == False:
-    print('using normal comparisons')
-    dist_mat = normal_pdist_calc(data_type=data_type, dist_metric=dist_metric)
-  elif pairwise == True:
-    print('using pairwise complete comparisons')
-    dist_mat = calc_custom_dist(data_type=data_type, dist_metric=dist_metric)
+  # # calculate normal distances
+  # if pairwise == False:
+  #   print('using normal comparisons')
+  #   dist_mat = normal_pdist_calc(data_type=data_type, dist_metric=dist_metric)
+  # elif pairwise == True:
+  #   print('using pairwise complete comparisons')
+  #   dist_mat = calc_custom_dist(data_type=data_type, dist_metric=dist_metric)
+
+  # using custom distance always
+  dist_mat = calc_custom_dist(data_type=data_type, dist_metric=dist_metric,
+                              pairwise=pairwise)
 
   return dist_mat
 
@@ -140,7 +183,7 @@ def normal_pdist_calc(data_type='exp_none', dist_metric='euclidean'):
 
   return dist_mat
 
-def calc_custom_dist(data_type, dist_metric):
+def calc_custom_dist(data_type, dist_metric, pairwise):
 
   import numpy as np
   import pandas as pd
@@ -160,6 +203,12 @@ def calc_custom_dist(data_type, dist_metric):
   # do not swap nans for zeros
   # #############################
   # net.swap_nan_for_zero()
+
+  if pairwise == False:
+    print('using normal comparisons')
+    net.swap_nan_for_zero()
+  elif pairwise == True:
+    print('using pairwise complete comparisons')
 
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
