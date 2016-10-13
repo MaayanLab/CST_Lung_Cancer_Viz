@@ -121,7 +121,6 @@ def calc_cl_sim(data_type='exp_none', dist_metric='euclidean'):
   # transpose to calc distance matrix of columns
   df = df.transpose()
 
-  # calculate the similarity of cell line data based on gene expression
   sim = 1 - pdist(df, metric=dist_metric)
 
   return sim
