@@ -1,54 +1,39 @@
 def main():
   print('I will set up a pairwise-compete matrix')
 
-  data_type = 'ptm_none'
-  dist_metric = 'euclidean'
-  compare_pdist_to_custom_dist_mat(data_type=data_type, dist_metric=dist_metric)
+  compare_pairwise_complete()
 
-  # ###########################################
-  # from scipy.spatial.distance import pdist, squareform
-  # import scipy.spatial.distance as dist_fun
-
+  # # test that distances calculated using custom and pdist functions are the same
+  # # - they are
+  # data_type = 'ptm_none'
   # dist_metric = 'euclidean'
+  # compare_pdist_to_custom_dist_mat(data_type=data_type, dist_metric=dist_metric)
 
-  # import numpy as np
-  # import pandas as pd
-  # vect_1 = np.zeros(10,)
-  # vect_2 = np.zeros(10,) + 1
+def compare_pairwise_complete(data_type='ptm_none',
+   dist_metric='euclidean', swap_nan=True):
+  '''
+  compare distance matrix based on pairwise complete calculation and normal
+  interpolate with zeros calculation
+  '''
 
-  # vect_1[1] = np.NaN
-  # vect_2[9] = np.NaN
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+             data_type + '.txt'
 
-  # print(vect_1)
-  # print(vect_2)
+  # interpolate missing values with zeros
+  dist_norm = calc_custom_dist(filename, data_type, dist_metric,
+                                 swap_nan=True)
 
-  # mat = np.vstack((vect_1, vect_2)).transpose()
+  # run pairwise complete comparisons
+  dist_pairwise = calc_custom_dist(filename, data_type, dist_metric,
+                                 swap_nan=False)
 
-  # print(mat)
+  difference = dist_norm - dist_pairwise
 
-  # df = pd.DataFrame(mat)
-
-  # df = df.dropna(axis=0)
-
-  # print('\nshape after dropping NaNs')
-  # print(df.shape)
-
-  # df_mean = df.mean(axis=1)
-
-  # print(df_mean)
-
-  # df = df.transpose()
-  # dist_pdist = pdist(df, metric=dist_metric)
-
-  # print('\npdist Distance of two vectors')
-  # print(dist_pdist)
-
-  # df = df.transpose()
-
-  # inst_dist = dist_fun.euclidean(df[0], df[1])
-  # print('\ncustom distance ')
-  # print(inst_dist)
-
+  print('\nthere is a difference between normal and pairwise complete')
+  print('--------------------------------------------------------------------')
+  print(dist_norm[:5])
+  print(dist_pairwise[:5])
+  print(sum(difference))
 
 def compare_pdist_to_custom_dist_mat(data_type='ptm_none',
    dist_metric='euclidean', swap_nan=True):
@@ -68,8 +53,8 @@ def compare_pdist_to_custom_dist_mat(data_type='ptm_none',
 
   print('\nno difference between custom calculation and pdist calculation')
   print('--------------------------------------------------------------------')
-  print(dist_pdist[:10])
-  print(dist_custom[:10])
+  print(dist_pdist[:5])
+  print(dist_custom[:5])
   print(sum(difference))
 
 def calc_custom_dist(filename, data_type, dist_metric, swap_nan=True):
