@@ -1,8 +1,9 @@
 def main():
   print('I will set up a pairwise-compete matrix')
 
-  inst_data_type = 'ptm_none'
-  compare_pdist_to_custom_sim_mat(inst_data_type)
+  data_type = 'ptm_none'
+  dist_metric = 'euclidean'
+  compare_pdist_to_custom_sim_mat(data_type=data_type, dist_metric=dist_metric)
 
 def compare_pdist_to_custom_sim_mat(data_type='ptm_none', dist_metric='euclidean'):
   '''
@@ -17,12 +18,9 @@ def compare_pdist_to_custom_sim_mat(data_type='ptm_none', dist_metric='euclidean
 
   sim_custom = calc_custom_sim(filename, data_type, dist_metric)
 
-  print(type(sim_pdist))
-  print(sim_pdist.shape)
-
-
 def calc_custom_sim(filename, data_type, dist_metric):
   import numpy as np
+  import scipy.spatial.distance as dist_fun
 
   df = get_df(filename)
 
@@ -31,12 +29,19 @@ def calc_custom_sim(filename, data_type, dist_metric):
 
   dist_vector = np.zeros(666,)
 
-  print(type(dist_vector))
-  print(dist_vector.shape)
-
   # write for-loop to calculate custom distance matrix and compare result
   # to pdist
-  # for
+  for col_1 in cols:
+
+    vect_1 = df[col_1]
+    vect_2 = vect_1
+
+    if dist_metric == 'euclidean':
+      inst_dist = dist_fun.euclidean(vect_1, vect_2)
+    elif dist_metric == 'cosine':
+      inst_dist = dist_fun.cosine(vect_1, vect_2)
+
+    print(inst_dist)
 
   # return sim_
 
@@ -64,7 +69,6 @@ def get_df(filename):
 
   df = tmp_df['mat']
 
-  print(df.shape)
   return df
 
 main()
