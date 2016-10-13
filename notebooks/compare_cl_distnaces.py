@@ -26,6 +26,9 @@ def reproduce_Mark_correlation_matrix():
 
   dist_mat = squareform(dist_vect)
 
+  # make similarity matrix
+  dist_mat = 1 - dist_mat
+
   net = Network()
 
   data_type = 'ptm_none'
