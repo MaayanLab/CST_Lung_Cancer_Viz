@@ -7,12 +7,12 @@ def main():
   gene-expression space
   '''
 
-  # compare_cl_data_to_ptm(exp_type='exp_none', pairwise=False)
+  compare_cl_data_to_ptm(exp_type='exp_none', pairwise=False)
   # compare_cl_data_to_ptm(exp_type='exp_none', pairwise=True)
 
   # compare_cl_data_to_ptm(exp_type='exp-plex')
 
-  reproduce_Mark_correlation_matrix()
+  # reproduce_Mark_correlation_matrix()
 
 def reproduce_Mark_correlation_matrix():
   import pandas as pd
@@ -118,6 +118,7 @@ def mantel_test(data_1, data_2, perms=10000, tail='upper',
                 pairwise=False):
 
   import Mantel
+  from scipy.stats import pearsonr
 
   print('compare ' + data_1 + ' to ' + data_2)
 
@@ -133,6 +134,12 @@ def mantel_test(data_1, data_2, perms=10000, tail='upper',
                            pairwise=pairwise)
   dist_mat_2 = calc_cl_dist(data_type=data_2, dist_metric=dist_metric_2,
                             pairwise=pairwise)
+
+
+  pr_results = pearsonr(dist_mat_1, dist_mat_2)
+
+  print('checking that mantel corr is equal to pearsonr')
+  print([pr_results])
 
   # pearson or spearman
   results = Mantel.test(dist_mat_1, dist_mat_2, perms=perms, tail='upper', method=mantel_method)
