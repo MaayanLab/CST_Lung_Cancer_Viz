@@ -8,3 +8,10 @@ The filename describes the sequential processing steps taken on the data. For in
 
 ## PTM Datasets
 As noted above PTM files are in two formats: 1) `ptm` which includes 37 cell lines found in both the PTM and CCLE data, and 2) `ptm45` which includes all 45 non-unique cell lines found in the CST data.
+
+## QN Normalization
+I performed column quantile normalization using the normal quantile normalization [procedure](https://en.wikipedia.org/wiki/Quantile_normalization), with one modification to deal with missing data. First I made a 'mask' that held the positions of all missing data in the PTM dataset. Second, I swapped in zeros for missing data. Third, I ran quantile normalization. Fourth, I swapped back in NaNs using the 'mask' from earlier.
+
+## Python Scripts
+I used the following [script](https://github.com/MaayanLab/CST_Lung_Cancer_Viz/blob/master/notebooks/precalc_PTM_norm.py) to calculate these different versions of the PTM data:
+
