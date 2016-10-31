@@ -1,7 +1,7 @@
 def main():
 
-  # # only run once (need to add pairwise-complete versions)
-  # make_processed_versions()
+  # only run once (need to add pairwise-complete versions)
+  make_processed_versions()
 
   # generate plex matrix (rows are plexes and columns are cell lines)
   # some cell lines have two plexes
@@ -13,7 +13,7 @@ def make_processed_versions():
   comparable PTM data and CCLE gene-expression data.
   '''
 
-  data_types = ['exp', 'ptm']
+  data_types = ['exp', 'ptm', 'ptm45']
 
   for inst_type in data_types:
     precalc_processed_versions(inst_type)
@@ -24,7 +24,8 @@ def precalc_processed_versions(inst_type):
 
   data_file_names = {
     'exp':'../CCLE_gene_expression/CCLE_NSCLC_all_genes.txt',
-    'ptm':'../lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios_CCLE_cl.tsv'
+    'ptm':'../lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios_CCLE_cl.tsv',
+    'ptm45':'../lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios.tsv',
   }
 
   filename = data_file_names[inst_type]
@@ -35,10 +36,10 @@ def precalc_processed_versions(inst_type):
   ]
 
   # only add filter for PTM data
-  if inst_type == 'ptm':
+  if inst_type == 'ptm' or inst_type == 'ptm45':
     filter_before = ['filter_'+i for i in norms]
     filter_after = [i+'_filter' for i in norms]
-    all_proc = norms + filter_before + filter_af
+    all_proc = norms + filter_before + filter_after
   else:
     all_proc = norms
 
