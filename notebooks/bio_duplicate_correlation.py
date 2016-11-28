@@ -2,6 +2,11 @@ import numpy as np
 import pandas as pd
 from scipy.stats import pearsonr
 
+import matplotlib.pyplot as plt
+# %matplotlib inline
+import matplotlib
+matplotlib.style.use('ggplot')
+
 def main():
   data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
 
@@ -27,7 +32,13 @@ def main():
   print(bar_names)
   print(bar_values)
 
+  fig_data = pd.Series(data=bar_values, index=bar_names)
 
+  # fig = data.plot(kind='bar', figsize=(10,5))
+  # full_title = 'Correlation of Cell-Line PTM and Exp Dist-Mats: '
+  # fig.set_title(full_title)
+
+  return fig_data
 
 
 def compare_duplicates_to_other(data_type):
@@ -139,4 +150,4 @@ def calc_pdist(df):
 
   exp_df.to_csv('tmp_cl_dist_mat.txt', sep='\t')
 
-main()
+# main()
