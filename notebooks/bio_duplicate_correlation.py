@@ -82,9 +82,11 @@ def calc_corr(df):
   print('compare correlations')
   print(np.mean(other_corr))
   print(np.mean(other_pval))
+  print(len(other_pval))
   print('\n')
   print(np.mean(rep_corr))
   print(np.mean(rep_pval))
+  print(len(rep_pval))
 
 def calc_pdist(df):
   df = df.transpose()
