@@ -5,13 +5,30 @@ from scipy.stats import pearsonr
 def main():
   data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
 
+  bar_names = []
+  bar_values = []
+
   for inst_type in data_type:
     inst_results = compare_duplicates_to_other(inst_type)
 
     print(inst_results)
 
     for inst_repeat in inst_results:
-      print(inst_repeat)
+
+      full_name = inst_type + '-' + inst_repeat
+
+      # make list of bar names
+      bar_names.append(full_name.replace('ptm45_',''))
+
+      # make a list of bar values (correlations)
+      bar_values.append(inst_results[inst_repeat][0])
+
+  print('\n-----------------')
+  print(bar_names)
+  print(bar_values)
+
+
+
 
 def compare_duplicates_to_other(data_type):
   '''
@@ -90,12 +107,18 @@ def calc_corr(df):
   mean_rep_pval = np.mean(rep_pval)
   mean_other_pval = np.mean(other_pval)
 
-  mean_rep_pval = np.round(mean_rep_pval, 2)
-  mean_other_pval = np.round(mean_other_pval, 2)
+  mean_rep_pval = int(mean_rep_pval*1000)/1000.0
+  mean_other_pval = int(mean_other_pval*1000)/1000.0
+
+  mean_rep_corr = np.mean(rep_corr)
+  mean_other_corr = np.mean(other_corr)
+
+  mean_rep_corr = int(mean_rep_corr*100)/100.0
+  mean_other_corr = int(mean_other_corr*100)/100.0
 
   results = {}
-  results['bio_repeat'] = [np.mean(rep_corr), mean_rep_pval]
-  results['not_repeat'] = [np.mean(other_corr), mean_other_pval]
+  results['bio_repeat'] = [mean_rep_corr, mean_rep_pval]
+  results['not_repeat'] = [mean_other_corr, mean_other_pval]
 
   return results
 
