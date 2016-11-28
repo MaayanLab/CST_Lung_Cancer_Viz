@@ -1,16 +1,19 @@
+from scipy.spatial.distance import pdist, squareform
+from clustergrammer import Network
+from copy import deepcopy
+import pandas as pd
+import itertools
+
 def main():
 
-  load_ppi()
+  # load_ppi()
 
-  inst_type = 'ptm45'
+  inst_type = 'ptm45_filter_none'
 
   calc_top_corr(inst_type)
 
 def calc_top_corr(data_type):
   ''' calc top correlations '''
-  from scipy.spatial.distance import pdist, squareform
-  from clustergrammer import Network
-  from copy import deepcopy
 
 
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
@@ -25,6 +28,25 @@ def calc_top_corr(data_type):
   net.swap_nan_for_zero()
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
+
+  print(df.shape)
+
+  dist_mat = pdist(df, metric='correlation')
+
+  print(len(dist_mat))
+  print(type(dist_mat))
+
+  dist_series = pd.Series(data=dist_mat)
+
+  dist_series.sort_values(inplace=True)
+
+  print(dist_series[0:10])
+
+  # generate name combinations
+  combo_index = list(itertools.combinations(range(865),2))
+
+  print('num of combo names')
+  print(len(combo_index))
 
 
 def load_ppi():

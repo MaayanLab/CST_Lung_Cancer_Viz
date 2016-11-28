@@ -64,8 +64,6 @@ def compare_duplicates_to_other(data_type):
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
 
-  # print(df.shape)
-
   # get cell line names
   cols = df.columns.tolist()
 
