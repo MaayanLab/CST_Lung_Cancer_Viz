@@ -13,7 +13,8 @@ def make_processed_versions():
   comparable PTM data and CCLE gene-expression data.
   '''
 
-  data_types = ['exp', 'ptm', 'ptm45']
+  # data_types = ['exp', 'ptm', 'ptm45']
+  data_types = ['ptm45']
 
   for inst_type in data_types:
     precalc_processed_versions(inst_type)
@@ -62,7 +63,11 @@ def precalc_processed_versions(inst_type):
       proc_num = i + 1
       print( str(proc_num) + ': ' + inst_proc)
 
-      net = process_net(net, inst_proc)
+      print('**********')
+      print(inst_type)
+      print('**********')
+
+      net = process_net(net, inst_proc, inst_type)
 
     # export dataframe (keep nans)
     ###############################
@@ -77,9 +82,10 @@ def precalc_processed_versions(inst_type):
                     'precalc_processed/' + inst_type + '_' + inst_filt + '.txt'
     df.to_csv(inst_filename, sep='\t', na_rep='nan')
 
-def process_net(net, inst_proc):
+def process_net(net, inst_proc, inst_type):
 
-  print('processing network: ' + inst_proc + '\n********************')
+
+  print('processing network: ' + inst_proc  + ' ' + inst_type + '\n********************')
 
   if inst_proc == 'row-zscore':
     net.normalize(axis='row', norm_type='zscore')
@@ -88,8 +94,12 @@ def process_net(net, inst_proc):
   elif inst_proc == 'col-zscore':
     net.normalize(axis='col', norm_type='zscore')
   elif inst_proc == 'filter':
-    # this removes ptms with missing data
-    net.filter_threshold('row', threshold=0, num_occur=37)
+    if inst_type == 'ptm':
+      # this removes ptms with missing data
+      net.filter_threshold('row', threshold=0, num_occur=37)
+    else:
+      # this removes ptms with missing data
+      net.filter_threshold('row', threshold=0, num_occur=45 )
 
   return net
 

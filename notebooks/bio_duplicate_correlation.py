@@ -3,7 +3,7 @@ import pandas as pd
 from scipy.stats import pearsonr
 
 def main():
-  data_type = ['ptm45_none', 'ptm45_col-qn_row-zscore']
+  data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
 
   for inst_type in data_type:
     compare_duplicates_to_other(inst_type)
@@ -30,6 +30,9 @@ def compare_duplicates_to_other(data_type):
   net.swap_nan_for_zero()
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
+
+  print('-----------------')
+  print(df.shape)
 
   # get cell line names
   cols = df.columns.tolist()
