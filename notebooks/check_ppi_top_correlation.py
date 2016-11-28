@@ -29,18 +29,15 @@ def calc_top_corr(data_type):
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
 
-  print(df.shape)
+
+  ptm_names = df.index.tolist()
 
   dist_mat = pdist(df, metric='correlation')
 
-  print(len(dist_mat))
-  print(type(dist_mat))
-
   dist_series = pd.Series(data=dist_mat)
 
+  # sort values
   dist_series.sort_values(inplace=True)
-
-  print(dist_series[0:10])
 
   # generate name combinations
   combo_index = list(itertools.combinations(range(865),2))
@@ -48,6 +45,16 @@ def calc_top_corr(data_type):
   print('num of combo names')
   print(len(combo_index))
 
+  combo_names = []
+
+  for inst_index in combo_index:
+    inst_source = ptm_names[inst_index[0]]
+    inst_target = ptm_names[inst_index[1]]
+    inst_tuple = (inst_source, inst_target)
+    combo_names.append(inst_tuple)
+
+  print(dist_series[0:10])
+  print(combo_names[0:10])
 
 def load_ppi():
   ''' load PPI network '''
