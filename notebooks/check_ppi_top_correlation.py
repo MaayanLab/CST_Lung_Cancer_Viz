@@ -6,11 +6,17 @@ import itertools
 
 def main():
 
-  # load_ppi()
+  ppi_combos = load_ppi()
 
   inst_type = 'ptm45_filter_none'
 
-  calc_top_corr(inst_type)
+  top_sorted = calc_top_corr(inst_type)
+
+  calc_num_matches(ppi_combos, top_sorted)
+
+
+def calc_num_matches(ppi_combos, top_sorted):
+  pass
 
 def calc_top_corr(data_type):
   ''' calc top correlations '''
@@ -54,7 +60,12 @@ def calc_top_corr(data_type):
   sorted_names = dist_series.index.tolist()
   sorted_corrs = dist_series.data
 
-  print(dist_series[0:10])
+  # print(dist_series[0:10])
+  # print(sorted_names[0:10])
+
+  top_sorted = sorted_names[0:500]
+
+  return top_sorted
 
 def load_ppi():
   ''' load PPI network '''
@@ -66,7 +77,9 @@ def load_ppi():
 
   print(len(lines))
 
-  for i in range(10):
+  ppi_combos = []
+
+  for i in range(len(lines)):
 
     if i > 0:
       inst_line = lines[i]
@@ -74,14 +87,18 @@ def load_ppi():
       inst_line = inst_line.strip().split()
 
       source = inst_line[0]
-
       target = inst_line[5]
 
+      inst_tuple = ( source, target )
 
-      print('\n')
-      print(inst_line)
-      print(source)
-      print(target)
+      # print('\n')
+      # print(inst_line)
+      # print(source)
+      # print(target)
+
+      ppi_combos.append(inst_tuple)
+
+  return ppi_combos
 
 
 main()
