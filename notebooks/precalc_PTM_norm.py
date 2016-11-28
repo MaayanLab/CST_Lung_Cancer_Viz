@@ -13,8 +13,7 @@ def make_processed_versions():
   comparable PTM data and CCLE gene-expression data.
   '''
 
-  # data_types = ['exp', 'ptm', 'ptm45']
-  data_types = ['ptm45']
+  data_types = ['exp', 'ptm', 'ptm45']
 
   for inst_type in data_types:
     precalc_processed_versions(inst_type)

@@ -6,7 +6,12 @@ def main():
   data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
 
   for inst_type in data_type:
-    compare_duplicates_to_other(inst_type)
+    inst_results = compare_duplicates_to_other(inst_type)
+
+    print(inst_results)
+
+    for inst_repeat in inst_results:
+      print(inst_repeat)
 
 def compare_duplicates_to_other(data_type):
   '''
@@ -31,7 +36,6 @@ def compare_duplicates_to_other(data_type):
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
 
-  print('-----------------')
   print(df.shape)
 
   # get cell line names
@@ -39,7 +43,9 @@ def compare_duplicates_to_other(data_type):
 
   # transpose to calculte cell line distance matrix
 
-  calc_corr(df)
+  inst_results = calc_corr(df)
+
+  return inst_results
 
 def calc_corr(df):
 
@@ -80,16 +86,18 @@ def calc_corr(df):
 
   exp_df = pd.DataFrame(data=dist_mat, index=cols, columns=cols)
 
-  exp_df.to_csv('tmp_cl_dist_mat.txt', sep='\t')
 
-  print('compare correlations')
-  print(np.mean(other_corr))
-  print(np.mean(other_pval))
-  print(len(other_pval))
-  print('\n')
-  print(np.mean(rep_corr))
-  print(np.mean(rep_pval))
-  print(len(rep_pval))
+  mean_rep_pval = np.mean(rep_pval)
+  mean_other_pval = np.mean(other_pval)
+
+  mean_rep_pval = np.round(mean_rep_pval, 2)
+  mean_other_pval = np.round(mean_other_pval, 2)
+
+  results = {}
+  results['bio_repeat'] = [np.mean(rep_corr), mean_rep_pval]
+  results['not_repeat'] = [np.mean(other_corr), mean_other_pval]
+
+  return results
 
 def calc_pdist(df):
   df = df.transpose()
@@ -97,7 +105,6 @@ def calc_pdist(df):
   dist_mat = pdist(df, metric='correlation')
 
   print(len(dist_mat))
-
   print(max(dist_mat))
   print(min(dist_mat))
 
