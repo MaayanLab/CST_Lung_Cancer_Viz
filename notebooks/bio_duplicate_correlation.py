@@ -16,7 +16,7 @@ def main():
   for inst_type in data_type:
     inst_results = compare_duplicates_to_other(inst_type)
 
-    print(inst_results)
+    # print(inst_results)
 
     for inst_repeat in inst_results:
 
@@ -28,9 +28,9 @@ def main():
       # make a list of bar values (correlations)
       bar_values.append(inst_results[inst_repeat][0])
 
-  print('\n-----------------')
-  print(bar_names)
-  print(bar_values)
+  # print('\n-----------------')
+  # print(bar_names)
+  # print(bar_values)
 
   fig_data = pd.Series(data=bar_values, index=bar_names)
 
@@ -54,9 +54,9 @@ def compare_duplicates_to_other(data_type):
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
              data_type + '.txt'
 
-  print('\n')
-  print(data_type)
-  print('-----------------')
+  # print('\n')
+  # print(data_type)
+  # print('-----------------')
   # load file and export dataframe
   net = deepcopy(Network())
   net.load_file(filename)
@@ -64,7 +64,7 @@ def compare_duplicates_to_other(data_type):
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
 
-  print(df.shape)
+  # print(df.shape)
 
   # get cell line names
   cols = df.columns.tolist()
@@ -114,6 +114,8 @@ def calc_corr(df):
 
   exp_df = pd.DataFrame(data=dist_mat, index=cols, columns=cols)
 
+  print(len(rep_pval))
+  print(len(other_pval))
 
   mean_rep_pval = np.mean(rep_pval)
   mean_other_pval = np.mean(other_pval)
@@ -150,4 +152,4 @@ def calc_pdist(df):
 
   exp_df.to_csv('tmp_cl_dist_mat.txt', sep='\t')
 
-# main()
+main()
