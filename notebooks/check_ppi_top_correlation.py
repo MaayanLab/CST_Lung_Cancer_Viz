@@ -34,27 +34,27 @@ def calc_top_corr(data_type):
 
   dist_mat = pdist(df, metric='correlation')
 
-  dist_series = pd.Series(data=dist_mat)
-
-  # sort values
-  dist_series.sort_values(inplace=True)
-
   # generate name combinations
   combo_index = list(itertools.combinations(range(865),2))
-
-  print('num of combo names')
-  print(len(combo_index))
-
   combo_names = []
-
   for inst_index in combo_index:
     inst_source = ptm_names[inst_index[0]]
     inst_target = ptm_names[inst_index[1]]
     inst_tuple = (inst_source, inst_target)
     combo_names.append(inst_tuple)
 
+  print('num of combo names')
+  print(len(combo_index))
+
+  dist_series = pd.Series(data=dist_mat, index=combo_names)
+
+  # sort values
+  dist_series.sort_values(inplace=True)
+
+  sorted_names = dist_series.index.tolist()
+  sorted_corrs = dist_series.data
+
   print(dist_series[0:10])
-  print(combo_names[0:10])
 
 def load_ppi():
   ''' load PPI network '''
