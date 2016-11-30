@@ -87,7 +87,7 @@ def iqn_df(df, axis='row', keep_orig=False):
     list_indexes = []
 
     # gather sorted indexes and values
-
+    print('gather sorted indexes and values')
     # i is the original sorted index of the data
     for i in range(inst_series_len):
 
@@ -121,5 +121,16 @@ def iqn_df(df, axis='row', keep_orig=False):
 
       # add this value to the series
       map_series[inst_col][map_i] = inst_value
+
+  # add map series to dataframe com_dist
+  for inst_col in all_col:
+    com_dist[inst_col] = map_series[inst_col]
+
+  # average the columns, axis = 1
+  com_dist      = com_dist.mean(axis=1)
+  com_dist_dict = com_dist.to_dict()
+
+  print(com_dist)
+  print(type(com_dist))
 
 main()
