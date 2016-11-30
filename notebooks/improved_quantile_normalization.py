@@ -12,7 +12,7 @@ def main():
 
   print(inst_df.shape)
 
-  # iqn_df()
+  iqn_df(inst_df)
 
 def load_data_as_df(data_type):
 
@@ -23,7 +23,7 @@ def load_data_as_df(data_type):
   # load file and export dataframe
   net = deepcopy(Network())
   net.load_file(filename)
-  net.swap_nan_for_zero()
+  # net.swap_nan_for_zero()
   tmp_df = net.dat_to_df()
   df = tmp_df['mat']
 
@@ -39,6 +39,15 @@ def iqn_df(df, axis='row', keep_orig=False):
 
   # initialize dataframe for common data
   com_dist = pd.DataFrame()
+
+  df_meas = deepcopy(df)
+  df_meas[np.isnan(df_meas)==False] = 1
+  df_meas[np.isnan(df_meas)] = 0
+
+  # get the length of the common distribution for common data
+  com_dist_len = min(df_meas.sum())
+
+  print(com_dist_len)
 
 
 main()
