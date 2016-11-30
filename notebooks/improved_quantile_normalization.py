@@ -45,7 +45,7 @@ def iqn_df(df, axis='row', keep_orig=False):
   df_meas[np.isnan(df_meas)] = 0
 
   # get the length of the common distribution for common data
-  com_dist_len = min(df_meas.sum())
+  com_dist_len = int(min(df_meas.sum()))
 
   print('\nthe minimum number of measured PTMs in any cell line')
   print(com_dist_len)
@@ -71,6 +71,55 @@ def iqn_df(df, axis='row', keep_orig=False):
   map_series = {}
 
   for inst_col in all_col:
-    pass
+
+    # get series
+    inst_series = meas_col[inst_col]
+
+    # loop through series and add to temporary series with duplicate indexes
+    # in general
+    inst_series_len = len(inst_series)
+
+    # initialize series
+    map_series[inst_col] = pd.Series()
+
+    # make two lists to cnostruct series, list_values and list_indexes
+    list_values = []
+    list_indexes = []
+
+    # gather sorted indexes and values
+
+    # i is the original sorted index of the data
+    for i in range(inst_series_len):
+
+      # save values
+      inst_value = inst_series[i]
+      list_values.append(inst_value)
+
+      # map i is the mapped sorted index - mapped so taht the current index
+      # fits into the common index series
+      map_i = int( round( (i/float(inst_series_len))*com_dist_len ) )
+
+      # save indexes as strings
+      # the 'names' are their mapped index
+      list_indexes.append(str(map_i))
+
+    # save values and indexes to series
+    map_series_tmp[inst_col] = pd.Series(list_values, index=list_indexes)
+
+    # average repeat values
+    for i in range(com_dist_len):
+
+      # define the current map index
+      map_i = str(i)
+
+      # grab the value(s) with this mapped index map_i
+      inst_value = map_series_tmp[inst_col][map_i]
+
+      # average over repeated values if necessary
+      if type(inst_value) is pd.core.series.Series:
+        inst_value = inst_value.mean()
+
+      # add this value to the series
+      map_series[inst_col][map_i] = inst_value
 
 main()
