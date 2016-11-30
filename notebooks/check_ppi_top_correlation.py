@@ -16,7 +16,35 @@ def main():
 
 
 def calc_num_matches(ppi_combos, top_sorted):
-  pass
+
+  print('ppi_combos')
+  print(len(ppi_combos))
+
+  print('\n')
+  print(set(ppi_combos[0]))
+
+  print('top_sorted')
+  print(len(top_sorted))
+
+
+  for ptm_pair in top_sorted:
+
+    ptm_1 = ptm_pair[0].split('_')[0]
+    ptm_2 = ptm_pair[0].split('_')[1]
+
+    gene_pair = set([ptm_1, ptm_2])
+    # print( 'checking gene pair ' + str(gene_pair))
+
+    for inst_interaction in ppi_combos:
+
+      inst_interaction = set(inst_interaction)
+
+      if gene_pair == inst_interaction:
+        print('found')
+        print(gene_pair)
+        print('\n\n')
+
+
 
 def calc_top_corr(data_type):
   ''' calc top correlations '''
@@ -63,7 +91,8 @@ def calc_top_corr(data_type):
   # print(dist_series[0:10])
   # print(sorted_names[0:10])
 
-  top_sorted = sorted_names[0:500]
+  # top_sorted = sorted_names[0:1000]
+  top_sorted = sorted_names
 
   return top_sorted
 

@@ -8,6 +8,42 @@ import matplotlib
 matplotlib.style.use('ggplot')
 
 def main():
+  view_scatter()
+
+def view_scatter():
+  import numpy as np
+  import matplotlib.pyplot as plt
+  # %matplotlib inline
+  import matplotlib
+  matplotlib.style.use('ggplot')
+  from clustergrammer import Network
+  from copy import deepcopy
+
+  data_type = 'ptm45_filter_col-qn'
+
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+             data_type + '.txt'
+
+  # load file and export dataframe
+  net = deepcopy(Network())
+  net.load_file(filename)
+  net.swap_nan_for_zero()
+  tmp_df = net.dat_to_df()
+  df = tmp_df['mat']
+
+  print(df.shape)
+
+  cols = df.columns.tolist()
+
+  # df = df[cols[0:2]]
+
+  print(df.shape)
+
+  # fig = df.plot(kind='bar', figsize=(10,5))
+  return df
+
+
+def compare_duplicate_non_duplicate_correlation():
   data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
 
   bar_names = []
@@ -28,23 +64,13 @@ def main():
       # make a list of bar values (correlations)
       bar_values.append(inst_results[inst_repeat][0])
 
-  # print('\n-----------------')
-  # print(bar_names)
-  # print(bar_values)
-
   fig_data = pd.Series(data=bar_values, index=bar_names)
-
-  # fig = data.plot(kind='bar', figsize=(10,5))
-  # full_title = 'Correlation of Cell-Line PTM and Exp Dist-Mats: '
-  # fig.set_title(full_title)
 
   return fig_data
 
-
 def compare_duplicates_to_other(data_type):
   '''
-  calculate cell line distance based on data_type (e.g. expression) with
-  optional filtering and normalization
+  Compare duplicate and non-duplicate cell-line correlations
   '''
   from scipy.spatial.distance import pdist, squareform
   from clustergrammer import Network
@@ -54,9 +80,6 @@ def compare_duplicates_to_other(data_type):
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
              data_type + '.txt'
 
-  # print('\n')
-  # print(data_type)
-  # print('-----------------')
   # load file and export dataframe
   net = deepcopy(Network())
   net.load_file(filename)
@@ -112,8 +135,8 @@ def calc_corr(df):
 
   exp_df = pd.DataFrame(data=dist_mat, index=cols, columns=cols)
 
-  print(len(rep_pval))
-  print(len(other_pval))
+  # print(len(rep_pval))
+  # print(len(other_pval))
 
   mean_rep_pval = np.mean(rep_pval)
   mean_other_pval = np.mean(other_pval)
@@ -150,4 +173,4 @@ def calc_pdist(df):
 
   exp_df.to_csv('tmp_cl_dist_mat.txt', sep='\t')
 
-main()
+# main()
