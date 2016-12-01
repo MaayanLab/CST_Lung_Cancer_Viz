@@ -8,39 +8,7 @@ import matplotlib
 matplotlib.style.use('ggplot')
 
 def main():
-  view_scatter()
-
-def view_scatter():
-  import numpy as np
-  import matplotlib.pyplot as plt
-  # %matplotlib inline
-  import matplotlib
-  matplotlib.style.use('ggplot')
-  from clustergrammer import Network
-  from copy import deepcopy
-
-  data_type = 'ptm45_col-iqn'
-
-  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
-             data_type + '.txt'
-
-  # load file and export dataframe
-  net = deepcopy(Network())
-  net.load_file(filename)
-  net.swap_nan_for_zero()
-  tmp_df = net.dat_to_df()
-  df = tmp_df['mat']
-
-  print(df.shape)
-
-  cols = df.columns.tolist()
-
-  # df = df[cols[0:2]]
-
-  print(df.shape)
-
-  # fig = df.plot(kind='bar', figsize=(10,5))
-  return df
+  pass
 
 
 def compare_duplicate_non_duplicate_correlation():
