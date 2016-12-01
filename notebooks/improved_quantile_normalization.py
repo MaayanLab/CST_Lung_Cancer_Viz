@@ -15,17 +15,23 @@ def iqn_df(df, axis='row', keep_orig=False):
 
   # com_dist = calc_common_dist(df)
 
-  filename = 'intermediate_data/ptm45_common_distribution.txt'
+  com_dist_filename = 'intermediate_data/ptm45_common_distribution.txt'
 
   # read to dataframe, no header and row index
-  tmp_com_dist = pd.read_table(filename, header=None, index_col=0)
+  tmp_com_dist = pd.read_table(com_dist_filename, header=None, index_col=0)
 
   # save to pandas series
   inst_data = tmp_com_dist.values.flatten()
   inst_index = tmp_com_dist.index.tolist()
   com_dist = pd.Series(data=inst_data, index=inst_index)
 
-  remap_data_using_common_dist(df, com_dist)
+  qn_df = remap_data_using_common_dist(df, com_dist)
+
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+             'ptm45_iqn-col' + '.txt'
+
+  qn_df.to_csv(filename, sep='\t', na_rep='nan')
+
 
 def remap_data_using_common_dist(df, com_dist):
   '''
@@ -45,9 +51,57 @@ def remap_data_using_common_dist(df, com_dist):
 
   com_dist_len = len(com_dist)
 
+  # ptm_adj: hold adjusted ptm values
+  ptm_adj = {}
 
+  for inst_col in all_col:
 
-  print('the lengt of the common distribution ' + str(com_dist_len))
+    # get the measured data from a cell line in a series
+    inst_series = df[inst_col].dropna()
+    inst_series.sort_values(inplace=True)
+
+    # list sorted ptms
+    all_ptms = inst_series.index.tolist()
+    inst_series_len = len(all_ptms)
+
+    # initialize the cell line dictionary
+    ptm_adj[inst_col] = {}
+
+    for i in range(len(all_ptms)):
+
+      # ptm name
+      inst_ptm = all_ptms[i]
+
+      # transform i to adj_rank
+      adj_rank = int( round( (i/float(inst_series_len))*com_dist_len ) )
+
+      # get the adjusted value using the adjusted rank
+      adj_value = com_dist[adj_rank]
+
+      # save the adjusted value in the dictionary
+      ptm_adj[inst_col][inst_ptm] = adj_value
+
+  print('transfering from dictionary to dataframe')
+
+  # add the adjusted values back to the adjusted dataframe
+  for inst_col in all_col:
+
+    all_ptms = ptm_adj[inst_col].keys()
+
+    print('-> '+ inst_col)
+
+    # loop through the ptms in each cell line
+    for inst_ptm in all_ptms:
+
+      inst_adj_value = ptm_adj[inst_col][inst_ptm]
+
+      # save to qn_df: quantile normalized dataframe
+      qn_df[inst_col][inst_ptm] = inst_adj_value
+
+  # print(qn_df.shape)
+  # qn_df.to_csv('intermediate_data/qn_df.txt', sep='\t', na_rep='nan')
+
+  return qn_df
 
 def calc_common_dist(df):
   '''
