@@ -1,5 +1,4 @@
 from clustergrammer import Network
-
 import pandas as pd
 import numpy as np
 from copy import deepcopy
@@ -10,24 +9,7 @@ def main():
 
   inst_df = load_data_as_df(inst_data_type)
 
-  print(inst_df.shape)
-
   iqn_df(inst_df)
-
-def load_data_as_df(data_type):
-
-
-  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
-             data_type + '.txt'
-
-  # load file and export dataframe
-  net = deepcopy(Network())
-  net.load_file(filename)
-  # net.swap_nan_for_zero()
-  tmp_df = net.dat_to_df()
-  df = tmp_df['mat']
-
-  return df
 
 def iqn_df(df, axis='row', keep_orig=False):
 
@@ -43,7 +25,29 @@ def iqn_df(df, axis='row', keep_orig=False):
   inst_index = tmp_com_dist.index.tolist()
   com_dist = pd.Series(data=inst_data, index=inst_index)
 
+  remap_data_using_common_dist(df, com_dist)
 
+def remap_data_using_common_dist(df, com_dist):
+  '''
+  Use the common distribution, loop through all measurements in a cell line and
+  swap the values from the common distribution. Start by sorting the ptm
+  measurements from a cell line, calculated the adjusted ranks for the ptm, then
+  swap in the adjusted value
+  '''
+
+  # get the column names
+  all_col = df.columns.tolist()
+
+  # initialize qn dataframe
+  qn_df = deepcopy(df)
+
+  # the length of the common distribution
+
+  com_dist_len = len(com_dist)
+
+
+
+  print('the lengt of the common distribution ' + str(com_dist_len))
 
 def calc_common_dist(df):
   '''
@@ -160,5 +164,19 @@ def calc_common_dist(df):
 
   # return the common distribution
   return com_dist
+
+def load_data_as_df(data_type):
+
+  filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
+             data_type + '.txt'
+
+  # load file and export dataframe
+  net = deepcopy(Network())
+  net.load_file(filename)
+  # net.swap_nan_for_zero()
+  tmp_df = net.dat_to_df()
+  df = tmp_df['mat']
+
+  return df
 
 main()
