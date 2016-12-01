@@ -31,9 +31,19 @@ def load_data_as_df(data_type):
 
 def iqn_df(df, axis='row', keep_orig=False):
 
-  com_dist = calc_common_dist(df)
+  # com_dist = calc_common_dist(df)
 
-  print(com_dist.shape)
+  filename = 'intermediate_data/ptm45_common_distribution.txt'
+
+  # read to dataframe, no header and row index
+  tmp_com_dist = pd.read_table(filename, header=None, index_col=0)
+
+  # save to pandas series
+  inst_data = tmp_com_dist.values.flatten()
+  inst_index = tmp_com_dist.index.tolist()
+  com_dist = pd.Series(data=inst_data, index=inst_index)
+
+
 
 def calc_common_dist(df):
   '''
