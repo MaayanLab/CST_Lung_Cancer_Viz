@@ -28,7 +28,7 @@ def iqn_df(df, axis='row', keep_orig=False):
   qn_df = remap_data_using_common_dist(df, com_dist)
 
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
-             'ptm45_iqn-col' + '.txt'
+             'ptm45_col-iqn' + '.txt'
 
   qn_df.to_csv(filename, sep='\t', na_rep='nan')
 

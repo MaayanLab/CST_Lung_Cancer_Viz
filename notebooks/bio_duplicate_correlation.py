@@ -19,7 +19,7 @@ def view_scatter():
   from clustergrammer import Network
   from copy import deepcopy
 
-  data_type = 'ptm45_filter_col-qn'
+  data_type = 'ptm45_col-iqn'
 
   filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' + \
              data_type + '.txt'
@@ -44,7 +44,10 @@ def view_scatter():
 
 
 def compare_duplicate_non_duplicate_correlation():
-  data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
+
+  print('calculating cell-line correlations')
+
+  data_type = ['ptm45_none', 'ptm45_col-qn', 'ptm45_col-iqn', 'ptm45_col-qn_row-zscore','ptm45_filter_none', 'ptm45_filter_col-qn', 'ptm45_filter_col-qn_row-zscore']
 
   bar_names = []
   bar_values = []
