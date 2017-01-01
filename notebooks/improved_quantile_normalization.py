@@ -9,6 +9,7 @@ def main():
 
   inst_df = load_data_as_df(inst_data_type)
 
+  # perform 'improved' quantile normalization on inst_df
   iqn_df(inst_df)
 
 def iqn_df(df, axis='row', keep_orig=False):
