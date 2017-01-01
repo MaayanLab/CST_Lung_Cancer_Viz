@@ -44,7 +44,7 @@ def save_lung_data_to_tsv(ptm_type):
       if i > 0:
         inst_gene = inst_line[1]
         inst_residue = inst_line[2]
-        inst_ptm = inst_gene + '_' + inst_residue
+        inst_ptm = inst_gene + '_' + ptm_type + '_' + inst_residue
 
         tmp_data = inst_line[col_start:]
 
