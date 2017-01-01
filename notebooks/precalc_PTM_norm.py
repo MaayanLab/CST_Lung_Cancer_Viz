@@ -1,10 +1,13 @@
 def main():
 
-  # only run once (need to add pairwise-complete versions)
+  # only run once
   make_processed_versions()
 
-  # generate plex matrix (rows are plexes and columns are cell lines)
+  # generate plex matrix: rows are plexes and columns are cell lines
   # some cell lines have two plexes
+  #
+  # This will be used to asses clustering quality, where low correlation with
+  # plex indicate high clustering quality
   make_plex_matrix()
 
 def make_processed_versions():
