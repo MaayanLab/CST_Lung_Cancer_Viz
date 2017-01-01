@@ -142,6 +142,6 @@ def calc_pdist(df):
 
   exp_df = pd.DataFrame(data=dist_mat, index=cols, columns=cols)
 
-  exp_df.to_csv('tmp_cl_dist_mat.txt', sep='\t')
+  exp_df.to_csv('tmp_cl_dist_mat.txt', sep='\t', na_rep='nan')
 
 # main()

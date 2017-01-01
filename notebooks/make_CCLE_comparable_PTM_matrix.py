@@ -7,13 +7,9 @@ def main():
   '''
   import pandas as pd
 
-  # combine_and_save_ptm()
-
   average_plex_runs()
 
   keep_only_CCLE_cl()
-
-
 
 def average_plex_runs():
   import pandas as pd
@@ -92,7 +88,7 @@ def average_plex_runs():
   filename_unique_cl = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
                       'all_ptm_ratios_uni_cl.tsv'
 
-  df_uni_cl.to_csv(filename_unique_cl, sep='\t')
+  df_uni_cl.to_csv(filename_unique_cl, sep='\t', na_rep='nan')
 
 def keep_only_CCLE_cl():
   from clustergrammer import Network
@@ -129,6 +125,6 @@ def keep_only_CCLE_cl():
   filename_CCLE_cl = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
                      'all_ptm_ratios_CCLE_cl.tsv'
 
-  df_ptm.to_csv(filename_CCLE_cl, sep='\t')
+  df_ptm.to_csv(filename_CCLE_cl, sep='\t', na_rep='nan')
 
 main()

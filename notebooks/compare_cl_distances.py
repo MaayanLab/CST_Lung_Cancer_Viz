@@ -50,7 +50,7 @@ def reproduce_Mark_correlation_matrix():
 
   save_filename = '../lung_cellline_3_1_16/lung_cl_all_ptm/precalc_processed/' \
              + 'Mark_corr_sim_mat' + '.txt'
-  mark_df.to_csv(save_filename, sep='\t')
+  mark_df.to_csv(save_filename, sep='\t', na_rep='nan')
 
 def compare_cl_data_to_ptm(exp_type='exp_none', mantel_method='pearson',
                            pairwise=False):
