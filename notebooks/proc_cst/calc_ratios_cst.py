@@ -6,14 +6,14 @@ def main(ptm_type):
   import numpy as np
   for file_num in [1,2,3,4,5,6,7,8,9]:
 
-    inst_filename = 'lung_cellline_3_1_16/lung_cellline_'+ ptm_type +'/'+\
+    inst_filename = '../lung_cellline_3_1_16/lung_cellline_'+ ptm_type +'/'+\
       'lung_cellline_TMT' + str(file_num) + '_'+ ptm_type +'_proc.tsv'
 
     f = open(inst_filename,'r')
     lines = f.readlines()
     f.close()
 
-    new_filename = 'lung_cellline_3_1_16/lung_cellline_'+ ptm_type +'/'+\
+    new_filename = '../lung_cellline_3_1_16/lung_cellline_'+ ptm_type +'/'+\
       'lung_cellline_TMT' + str(file_num)+'_'+ ptm_type +'_ratios.tsv'
 
     fw = open(new_filename, 'w')
@@ -64,14 +64,32 @@ def main(ptm_type):
 
           data_point = float(inst_data[j])
 
+          # non-zero control value (denominator)
           if control_val !=0:
             inst_ratio = data_point/control_val
 
+            # calculate ratio
             if inst_ratio !='nan' and inst_ratio !=0:
               inst_ratio = np.log2(inst_ratio)
 
+            # lowest allowed ratio
+            #######################
+
+            # data point is zero
+            if data_point == 0:
+              inst_ratio = -100
+
+            # log ratio is very low
+            if inst_ratio < -100:
+              inst_ratio = -100
+
+            # highest allowed ratio
+            #######################
+            # log ratio is very high
             if inst_ratio > 100:
               inst_ratio = 100
+
+          # divide by zero
           else:
             inst_ratio = 'nan'
 

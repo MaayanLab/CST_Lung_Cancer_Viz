@@ -3,7 +3,7 @@ def save_lung_data_to_tsv(ptm_type):
 
   for file_num in [1,2,3,4,5,6,7,8,9]:
     print( 'initial processing of file ' + str(file_num))
-    inst_filename = 'lung_cellline_3_1_16/lung_cellline_'+ ptm_type +'/lung_cellline_TMT'+\
+    inst_filename = '../lung_cellline_3_1_16/lung_cellline_'+ ptm_type +'/lung_cellline_TMT'+\
       str(file_num)+'_'+ ptm_type +'.txt'
 
     f = open(inst_filename,'r')
