@@ -20,3 +20,7 @@ proc_cst.combine_ratios('phospho')
 proc_cst.combine_ratios('Ack')
 proc_cst.combine_ratios('Kme1')
 proc_cst.combine_ratios('Rme1')
+
+# combine all ptm types and save as
+# /lung_cellline_3_1_16/lung_cl_all_ptm/all_ptm_ratios.tsv
+proc_cst.combine_ptm_types()
