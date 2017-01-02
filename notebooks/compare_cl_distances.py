@@ -1,18 +1,14 @@
 def main():
   '''
-  This script will make cell-line by cell-line distnace vectors and using the
+  This script will make cell-line by cell-line distance vectors and using the
   gene expression data (with and withouth gene-zscoring) and PTM data. I'll
   then check how different PTM data processing methods (normalization/filtering)
-  affect the distances between all cell line pairs in
-  gene-expression space
+  affect the distances between all cell line pairs in gene-expression space
   '''
 
   compare_cl_data_to_ptm(exp_type='exp_none', pairwise=False)
-  # compare_cl_data_to_ptm(exp_type='exp_none', pairwise=True)
 
-  # compare_cl_data_to_ptm(exp_type='exp-plex')
-
-  # reproduce_Mark_correlation_matrix()
+  reproduce_Mark_correlation_matrix()
 
 def reproduce_Mark_correlation_matrix():
   import pandas as pd
