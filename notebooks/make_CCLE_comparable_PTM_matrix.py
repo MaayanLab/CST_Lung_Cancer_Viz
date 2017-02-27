@@ -7,11 +7,12 @@ def main():
   '''
   import pandas as pd
 
-  average_plex_runs()
+  starting_data = 'all_ptm_ratios'
+  average_plex_runs(starting_data)
 
-  keep_only_CCLE_cl()
+  keep_only_CCLE_cl(starting_data)
 
-def average_plex_runs():
+def average_plex_runs(starting_data):
   import pandas as pd
   from clustergrammer import Network
   from copy import deepcopy
@@ -20,7 +21,7 @@ def average_plex_runs():
 
   # load all ptm ratios
   filename_all_ptm = '../lung_cellline_3_1_16/'+ \
-                     'lung_cl_all_ptm/all_ptm_ratios.tsv'
+                     'lung_cl_all_ptm/'+starting_data+'.tsv'
 
   net_ptm = deepcopy(Network())
   net_ptm.load_file(filename_all_ptm)
@@ -86,16 +87,16 @@ def average_plex_runs():
   df_uni_cl = deepcopy(df_add[cl_keep])
 
   filename_unique_cl = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
-                      'all_ptm_ratios_uni_cl.tsv'
+                      starting_data +'_uni_cl.tsv'
 
   df_uni_cl.to_csv(filename_unique_cl, sep='\t', na_rep='nan')
 
-def keep_only_CCLE_cl():
+def keep_only_CCLE_cl(starting_data):
   from clustergrammer import Network
   from copy import deepcopy
   # load all ptm ratios
   filename_all_ptm = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
-                     'all_ptm_ratios_uni_cl.tsv'
+                     starting_data +'_uni_cl.tsv'
 
   net_ptm = deepcopy(Network())
   net_ptm.load_file(filename_all_ptm)
@@ -123,7 +124,7 @@ def keep_only_CCLE_cl():
   print(df_ptm.shape)
 
   filename_CCLE_cl = '../lung_cellline_3_1_16/lung_cl_all_ptm/'+\
-                     'all_ptm_ratios_CCLE_cl.tsv'
+                     starting_data +'_CCLE_cl.tsv'
 
   df_ptm.to_csv(filename_CCLE_cl, sep='\t', na_rep='nan')
 
