@@ -215,7 +215,7 @@ def calc_common_dist(df):
   com_dist      = com_dist.mean(axis=1)
   com_dist_dict = com_dist.to_dict()
 
-  com_dist.to_csv('intermediate_data/ptm45_common_distribution.txt', sep='\t', , na_rep='nan')
+  com_dist.to_csv('intermediate_data/ptm45_common_distribution.txt', sep='\t', na_rep='nan')
 
   # return the common distribution
   return com_dist
