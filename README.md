@@ -7,7 +7,7 @@ This repo contains
 * the source code for the page [CST_Lung_Cancer_Viz](http://maayanlab.net/CST_Lung_Cancer_Viz/)
 
 # Lung Cancer Data
-Our collaborators at Cell Signaling Technology ([CST](https://www.cellsignal.com/)) used SILAC mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous lung tissue (the primary data is [here](lung_cellline_3_1_16)). Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia [(CCLE)](https://portals.broadinstitute.org/ccle/home).
+Our collaborators at Cell Signaling Technology ([CST](https://www.cellsignal.com/)) used TMT mass spectrometry to measure differential phosphorylation, acetylation, and methylation in a panel of 42 lung cancer cell lines compared to non-cancerous lung tissue (the primary data is [here](lung_cellline_3_1_16)). Gene expression data from 37 of these lung cancer cell lines was obtained from the publically available Cancer Cell Line Encyclopedia [(CCLE)](https://portals.broadinstitute.org/ccle/home).
 
 # CST PTM Data Overview
 The PTM data from CST is overviewed in two stages: 1) overview of the data, 2) overview of the normalization procedure
