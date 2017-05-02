@@ -11,6 +11,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"bronchioloalveolar_adenocarcinoma",
     "mut-EGFR": "true",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -27,6 +28,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"large_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "true"
@@ -43,6 +45,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -59,6 +62,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -75,6 +79,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "true",
     "mut-SMARCA4": "false"
@@ -91,6 +96,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -107,6 +113,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -123,6 +130,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -139,6 +147,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -155,6 +164,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"bronchioloalveolar_adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -171,6 +181,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -187,6 +198,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "true",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -203,6 +215,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"squamous_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -219,6 +232,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -235,6 +249,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -251,6 +266,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -267,6 +283,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "true",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -283,6 +300,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "true",
     "mut-SMARCA4": "false"
@@ -299,6 +317,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -315,6 +334,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -331,6 +351,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"bronchioloalveolar_adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "true",
     "mut-SMARCA4": "false"
@@ -347,6 +368,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"bronchioloalveolar_adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -363,6 +385,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -379,6 +402,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -395,6 +419,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -411,6 +436,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"large_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -427,6 +453,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -444,6 +471,7 @@
     "mut-KRAS": "true",
     "Histology": "NSCLC",
     "mut-EGFR": "false",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
   },
@@ -459,6 +487,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -475,6 +504,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -491,6 +521,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -507,6 +538,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -523,6 +555,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -539,6 +572,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -555,6 +589,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -571,6 +606,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -587,6 +623,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -603,6 +640,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -619,6 +657,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -635,6 +674,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -651,6 +691,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -667,6 +708,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -683,6 +725,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"squamous_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -699,6 +742,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -715,6 +759,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -731,6 +776,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "SCLC",
+    "Sub-Histology":"small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -747,6 +793,7 @@
     "mut-TP53": "true",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
+    "Sub-Histology":"adenocarcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -763,6 +810,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "true"
