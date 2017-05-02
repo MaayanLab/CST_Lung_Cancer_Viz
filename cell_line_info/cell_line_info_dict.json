@@ -504,7 +504,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "false",
     "Histology": "NSCLC",
-    "Sub-Histology":"",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
@@ -606,7 +606,7 @@
     "mut-TP53": "false",
     "mut-KRAS": "true",
     "Histology": "NSCLC",
-    "Sub-Histology":"",
+    "Sub-Histology":"non_small_cell_carcinoma",
     "mut-EGFR": "false",
     "mut-BRAF": "false",
     "mut-SMARCA4": "false"
